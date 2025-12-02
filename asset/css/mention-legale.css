@@ -1,0 +1,19 @@
+.mention-legale-h2{
+    padding-top:10rem ;
+    text-align: center;
+}
+.mention-legale{
+    padding: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    div{
+        max-width: 350px;
+        text-align: justify;
+        ul {
+            padding: 1rem;
+            padding-left:2rem;
+        }
+    }
+}

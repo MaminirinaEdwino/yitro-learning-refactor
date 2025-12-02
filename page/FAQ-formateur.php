@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yitro Learning</title>
+    <link rel="stylesheet" href="../asset/css/styles.css">
+    <link rel="icon" href="asset/images/Yitro_consulting.png" type="image/png">
+    <!-- Font Awesome pour les icônes -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../asset/css/FAQ.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<style>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+header {
+    background: linear-gradient(109deg, #132F3F, #01ae8f);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 40px;
+    border-radius: 50%;
+}
+
+.logo-text {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li {
+    position: relative;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: #cbcbcb;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s ease;
+}
+
+.nav-list a:hover {
+    color: #9b8227;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown > a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown > a i {
+    font-size: 12px;
+    color: #cbcbcb;
+    transition: color 0.2s ease;
+}
+
+.dropdown:hover > a i {
+    color: #9b8227;
+}
+
+.dropdown > a i.fa-chevron-down {
+    transition: transform 0.2s ease;
+}
+
+.dropdown:hover > a i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #132F3F;
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+    min-width: 160px;
+    z-index: 1001;
+}
+
+.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    padding: 6px 15px;
+    position: relative;
+}
+
+.dropdown-menu a {
+    color: #cbcbcb;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown-menu a:hover {
+    color: #9b8227;
+}
+
+.dropdown-menu .dropdown > a i.fa-chevron-right {
+    font-size: 10px;
+}
+
+.dropdown-menu .dropdown:hover > .dropdown-menu {
+    display: block;
+    top: 0;
+    left: 100%;
+}
+
+.auth-links .nav-list {
+    gap: 12px;
+}
+
+.auth-links .btn-primary {
+    background-color: #9b8227;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.auth-links .btn-primary:hover {
+    background-color: #e68c32;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-nav {
+        flex-wrap: wrap;
+        padding: 10px 15px;
+    }
+
+    .nav-list {
+        gap: 15px;
+    }
+
+    .auth-links .nav-list {
+        gap: 10px;
+    }
+
+    .dropdown-menu .dropdown:hover > .dropdown-menu {
+        left: 0;
+        top: 100%;
+    }
+}
+</style>
+<body>
+<?php require_once '../components/header.php'?>
+
+    <!-- Section FAQ -->
+    <main class="faq-section">
+        <div class="container">
+            <h1>Foire Aux Questions (FAQ)</h1>
+            
+
+            <!-- faq-formateur -->
+            <div class="faq-formateur">
+                <h2>FAQ pour les Formateurs</h2>
+                <div class="All-question-reponse">
+                    <div class="faq-quest-rep">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>Comment devenir formateur sur Yitro Learning ?</h3>
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="faq-reponse">
+                            <p>Pour devenir formateur, rendez-vous sur la page "Devenir formateur", soumettez votre candidature avec vos qualifications et une proposition de cours. Notre équipe examinera votre dossier.</p>
+                        </div>
+                    </div>
+                    <div class="faq-quest-rep">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>Quels types de cours puis-je proposer ?</h3>
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="faq-reponse">
+                            <p>Vous pouvez proposer des cours dans n'importe quel domaine où vous avez une expertise, comme la technologie, les affaires, les langues, ou les compétences créatives. Assurez-vous que le contenu est structuré et engageant.</p>
+                        </div>
+                    </div>
+                    <div class="faq-quest-rep">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>Comment interagir avec les apprenants ?</h3>
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="faq-reponse">
+                            <p>Vous pouvez interagir avec les apprenants via des forums de discussion, des sessions de questions-réponses en direct, ou des commentaires sur les cours.</p>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+ 
+    <!-- ==================== FOOTER ==================== -->
+    <?php require_once '../components/footer.php'?>
+
+    <script src="../asset/js/FAQ.js"></script>
+    <script>
+  // JavaScript pour gérer l'animation et la visibilité de la barre de navigation
+  const topNav = document.getElementById('top-nav');
+  let lastScrollTop = 0;
+  let isAnimating = false;
+  let scrollTimeout = null;
+
+  // Fonction de debouncing pour limiter les appels pendant le défilement
+  function handleScroll() {
+    if (isAnimating) return; // Évite les interférences pendant l'animation
+
+    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (currentScroll > 100) {
+      // Défilement vers le bas ou loin du haut
+      if (!topNav.classList.contains('hidden')) {
+        isAnimating = true;
+        topNav.classList.add('hidden');
+        // Attendre la fin de l'animation (500ms) avant d'appliquer display: none
+        setTimeout(() => {
+          topNav.classList.add('invisible');
+          isAnimating = false;
+        }, 500);
+      }
+    } else {
+      // Près du haut de la page
+      if (topNav.classList.contains('hidden') || topNav.classList.contains('invisible')) {
+        isAnimating = true;
+        topNav.classList.remove('invisible'); // Rétablit display: flex
+        // Forcer un reflow pour que l'animation de réapparition fonctionne
+        topNav.offsetHeight; // Trigger reflow
+        topNav.classList.remove('hidden');
+        setTimeout(() => {
+          isAnimating = false;
+        }, 500);
+      }
+    }
+
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+  }
+
+  // Écouteur d'événement avec debouncing
+  window.addEventListener('scroll', () => {
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout);
+    }
+    scrollTimeout = setTimeout(handleScroll, 100); // Délai de 100ms pour le debouncing
+  });
+</script>
+    
+</body>
+</html>
