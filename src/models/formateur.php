@@ -22,7 +22,7 @@ class Formateur{
     private string $valeur;
     private string $profil_public;
     private string $statut = 'en attente'|'verifie'|'premium'|'partenaire';
-    private ?datetime $created_at ;
+    private ?DateTime $created_at ;
     private ?string $code_entree = null;
     private ?string $password = null; 
 
@@ -70,5 +70,152 @@ class Formateur{
     }
     public function getIntituleMetier(): string{
         return $this->intitule_metier;
+    }
+    public function setIntituleMetier(string $metier){
+        $this->intitule_metier = $metier;
+    }
+    public function getExperienceFormation(): string {
+        return $this->experience_formation;
+    }
+    public function setExperienceFormation(string $experience_formation) {
+        $this->experience_formation = $experience_formation;
+    }
+
+    public function getDetailExperience(): string{
+        return $this->detail_experience;
+    }
+
+    public function setDetailExperience(string $detail_experience){
+        $this->detail_experience = $detail_experience;
+    }
+
+    public function getCv(): string{
+        return $this->cv;
+    }
+
+    public function setCv(string $cv){
+        $this->cv = $cv;
+    }
+
+    public function getAutreDomain(): string{
+        return $this->autre_domaine;
+    }
+
+    public function setAutreDomain(string $autre_domaine){
+        $this->autre_domaine = $autre_domaine;
+    }
+
+    public function getTitreCours(): string{
+        return $this->titre_cours;
+    }
+
+    public function setTitreCours(string $titre_cours){
+        $this->titre_cours = $titre_cours;
+    }
+
+    public function getObjectif(): string{
+        return $this->objectif;
+    }
+
+    public function setObjectif(string $objectif){
+        $this->objectif = $objectif;
+    }
+
+    public function getDetailComplementaire(): string{
+        return $this->detail_complementaire;
+    }
+
+    public function setDetailsComplementaire(string $detail_complementaire){
+        $this->detail_complementaire = $detail_complementaire;
+    }
+
+    public function getFormats():string{
+        return $this->formats;
+    }
+
+    public function setFormats(string $formats){
+        $this->formats = $formats;
+    }
+
+    public function getFormatAutres(): string{
+        return $this->format_autre;
+    }
+
+    public function setFormatAutres(string $format_autre){
+        $this->format_autre = $format_autre;
+    }
+
+    public function getDureeEstime(): string{
+        return $this->duree_estimee;
+    }
+
+    public function setDureeEstime(string $duree_estimee) {
+        $this->duree_estimee = $duree_estimee;
+    }
+
+    public function getTypeFormation(): string{
+        return $this->type_formation;
+    }
+
+    public function setTypeFormation(string $type_formation){
+        $this->type_formation = $type_formation;
+    }
+
+    public function getMotivation(): string{
+        return $this->motivation;
+    }
+
+    public function setMotivation(string $motivation){
+        $this->motivation = $motivation;
+    }
+
+    public function getValeur(): string{
+        return $this->valeur;
+    }
+
+    public function setValeur(string $valeur){
+        $this->valeur = $valeur;
+    }
+
+    public function getProfilPublic(): string{
+        return $this->profil_public;
+    }
+
+    public function setProfilPublic(string $profil_public){
+        $this->profil_public = $profil_public;
+    }
+
+    public function getStatut(): string{
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut){
+        if (in_array($statut, ['en attente','verifie', 'premium', 'partenaire'])) {
+            $this->statut = $statut;
+        }
+    }
+
+    public function getCreatedAt(): DateTime {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(DateTime $created_at){
+        $this->created_at = $created_at;
+    }
+
+    public function getCodeEntree(): string{
+        return $this->code_entree;
+    }
+
+    public function setCodeEntree(?string $code_entree){
+        $this->code_entree = $code_entree;
+    }
+
+    public function getPassword(): string{
+        return $this->password;
+    }
+
+    public function setPassword(string $password){
+        $this->password = $password;
     }
 }
