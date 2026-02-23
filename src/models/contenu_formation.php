@@ -17,5 +17,12 @@ class ContenuFormation {
     public function setIdFormation(int $idFormation){
         $this->id_formation = $idFormation;
     }
-    
+
+    public function getSousFormation(): string {
+        return $this->sous_formation;
+    }
+
+    public function setSousFormation(string $sous_formation){
+        $this->sous_formation = $sous_formation;
+    }
 }
