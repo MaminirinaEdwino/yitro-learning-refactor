@@ -52,6 +52,4 @@ class Contact{
     public function getCreatedAt(): DateTime {
         return $this->created_at;
     }
-
-
 }
