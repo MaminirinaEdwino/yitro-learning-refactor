@@ -1,8 +1,6 @@
 <?php
 
 class Database{
-    private $conn;
-
     private string $host = "localhost";
     private string $name = "yitrolearning";
     private string $user = "root";

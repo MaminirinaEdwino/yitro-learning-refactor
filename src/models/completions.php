@@ -1,12 +1,25 @@
 <?php
 
-class completions {
+class Completions {
     private int $id;
     private int $utilisateur_id;
     private int $module_id;
     private int $cours_id;
     private DateTime $date_completion;
 
+    public function __construct(
+        int $utilisateur_id,
+        int $module_id,
+        int $cours_id
+    )
+    {
+        $this->utilisateur_id = $utilisateur_id;
+        $this->module_id = $module_id;
+        $this->cours_id = $cours_id;
+    }
+    public function setId(int $id){
+        $this->id = $id;
+    }
     public function getId(): int {
         return $this->id;
     }
