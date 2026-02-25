@@ -22,7 +22,6 @@ class Utilisateur{
     private bool $actif;
     private DateTime $createdAt;
 
-
     public function getCreatedAt(): DateTime {
         return $this->createdAt;
     }
@@ -65,7 +64,6 @@ class Utilisateur{
     public function setPays(string $pays) {
         $this->pays = $pays;
     }
-
     public function getActif(): bool {
         return $this->actif;
     }
@@ -84,57 +82,48 @@ class Utilisateur{
     public function setCharte(bool $charte) {
         $this->charte = $charte;
     }
-
-
     public function getRgpd(): bool {
         return $this->rgpd;
     }
     public function setRgpd(bool $rgpd){
         $this->rgpd = $rgpd;
     }
-
     public function getAccessibilite(): string {
         return $this->accessibilite;
     }
     public function setAccessibilite(string $accessibilite) {
         $this->accessibilite = $accessibilite;
     }
-
     public function getAppareil(): string {
         return $this->appareil;
     }
     public function setAppareil(string $appareil){
         $this->appareil = $appareil;
     }
-
     public function getAccesInternet(): string {
         return $this->accesInternet;
     }
     public function setAccesInternet(string $accesInternet) {
         $this->accesInternet = $accesInternet;
     }
-
     public function getNiveauEtude(): string {
         return $this->niveauEtude;
     }
     public function setNiveauEtude(string $niveauEtude){
         $this->niveauEtude = $niveauEtude;
     }
-
     public function getNiveauFormation(): string {
         return $this->niveauFormation;
     }
     public function setNiveauFormation(string $niveauFormation){
         $this->niveauFormation = $niveauFormation;
     }
-
     public function setTypeCours(string $typeCours) {
         $this->typeCours = $typeCours;
     }
     public function getTypeCours(): string {
         return $this->typeCours;
     }
-
     public function getObjectif(): string {
         return $this->objectif;
     }
