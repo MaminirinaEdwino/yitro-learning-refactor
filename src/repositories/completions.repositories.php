@@ -1,7 +1,5 @@
 <?php
 
-use LDAP\Result;
-
 require_once "./src/models/completions.php";
 require_once "./src/config/database.php";
 
@@ -32,13 +30,14 @@ class CompletionsRepositories extends Completions {
         ));
     }
 
-    public function GetAll(){
+    public function GetAll(): array{
         $result = [];
         $query = "SELECT * FROM completions";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $this->PushResult($stmt, $result);
+        return $result;
     }
 
     public function GetByUtilisateur(int $utilisateurId): array {
