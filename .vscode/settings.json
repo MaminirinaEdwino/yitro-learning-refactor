@@ -19,6 +19,8 @@
         "Activite",
         "Cours",
         "Coursid",
+        "fichier",
+        "lecon",
         "Payement",
         "Statut",
         "utilisateur"
