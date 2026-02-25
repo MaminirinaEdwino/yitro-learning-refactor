@@ -24,7 +24,9 @@ class Contact{
     public function getId(): int{
         return $this->id;
     }
-
+    public function setId(int $id) {
+        $this->id = $id;
+    }
     public function getNom(): string {
         return $this->nom;
     }
@@ -59,5 +61,8 @@ class Contact{
 
     public function getCreatedAt(): DateTime {
         return $this->created_at;
+    }
+    public function setCreatedAt(DateTime $created_at) {
+        $this->created_at = $created_at;
     }
 }
