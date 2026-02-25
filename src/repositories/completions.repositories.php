@@ -71,4 +71,15 @@ class CompletionsRepositories extends Completions {
         $this->PushResult($stmt, $result);
         return $result;
     }
+    public function GetById(int $id): array {
+        $query = "SELECT * FROM completions WHERE id = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(array(
+            "id"=>$id
+        ));
+        $result = [];
+        $this->PushResult($stmt, $result);
+        return $result;
+    }
 }
