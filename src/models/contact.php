@@ -8,9 +8,17 @@ class Contact{
     private string $message;
     private DateTime $created_at;
 
-    public function __construct()
+    public function __construct(
+        string $nom,
+        string $email,
+        string $message,
+        string $sujet
+    )
     {
-        
+        $this->nom = $nom;
+        $this->email = $email;
+        $this->message = $message;
+        $this->sujet = $sujet;
     }
 
     public function getId(): int{

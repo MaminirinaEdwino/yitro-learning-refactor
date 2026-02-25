@@ -33,9 +33,12 @@ class CompletionsRepositories extends Completions {
     }
 
     public function GetAll(){
+        $result = [];
         $query = "SELECT * FROM completions";
         $conn = $this->database->getConnection();
-        $conn->exec($query);
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushResult($stmt, $result);
     }
 
     public function GetByUtilisateur(int $utilisateurId): array {

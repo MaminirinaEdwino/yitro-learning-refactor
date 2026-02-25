@@ -17,6 +17,9 @@ class Completions {
         $this->module_id = $module_id;
         $this->cours_id = $cours_id;
     }
+
+    
+
     public function setId(int $id){
         $this->id = $id;
     }
