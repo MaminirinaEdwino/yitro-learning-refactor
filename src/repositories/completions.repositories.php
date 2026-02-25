@@ -7,7 +7,14 @@ require_once "./src/config/database.php";
 
 class CompletionsRepositories extends Completions {
     private Database $database;
-
+    private function PushResult($stmt, $result){
+        while ($donne = $stmt->fetch()){
+            $completion = new Completions($donne['utilisateur_id'], $donne['module_id'], $donne['cours_id']);
+            $completion->setDateCompletion($donne['date_completion']);
+            $completion->setId($donne["id"]);
+            array_push($result, $completion);
+        }
+    }
     public function __construct()
     {
         $this->database = new Database;
@@ -39,12 +46,7 @@ class CompletionsRepositories extends Completions {
             "id"=>$utilisateurId
         ));
         $result = [];
-        while ($donne = $stmt->fetch()){
-            $completion = new Completions($donne['utilisateur_id'], $donne['module_id'], $donne['cours_id']);
-            $completion->setDateCompletion($donne['date_completion']);
-            $completion->setId($donne["id"]);
-            array_push($result, $completion);
-        }
+        $this->PushResult($stmt, $result);
         return $result;
     }
     public function GetByModuleId(int $module_id): array {
@@ -55,12 +57,7 @@ class CompletionsRepositories extends Completions {
             "id"=>$module_id
         ));
         $result = [];
-        while ($donne = $stmt->fetch()){
-            $completion = new Completions($donne['utilisateur_id'], $donne['module_id'], $donne['cours_id']);
-            $completion->setDateCompletion($donne['date_completion']);
-            $completion->setId($donne["id"]);
-            array_push($result, $completion);
-        }
+        $this->PushResult($stmt, $result);
         return $result;
     }
     public function GetByCoursId(int $cours_id): array {
@@ -71,12 +68,7 @@ class CompletionsRepositories extends Completions {
             "id"=>$cours_id
         ));
         $result = [];
-        while ($donne = $stmt->fetch()){
-            $completion = new Completions($donne['utilisateur_id'], $donne['module_id'], $donne['cours_id']);
-            $completion->setDateCompletion($donne['date_completion']);
-            $completion->setId($donne["id"]);
-            array_push($result, $completion);
-        }
+        $this->PushResult($stmt, $result);
         return $result;
     }
 }
