@@ -61,5 +61,13 @@ class ContenueFormationRepositories {
         ]);
     }
 
+    public function Delete(ContenuFormation $contenuFormation) {
+        $query = "DELETE FROM contenu_formations WHERE id =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id"=>$contenuFormation->getIdContenuFormation()
+        ]);
+    }
 
 }
