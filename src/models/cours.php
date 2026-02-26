@@ -68,4 +68,10 @@ class Cours {
     public function setPrix(float $prix){
         $this->prix = $prix;
     }
+    public function getPhoto(): string {
+        return $this->photo ;
+    }
+    public function setPhoto(string $photo) {
+        $this->photo = $photo;
+    }
 }
