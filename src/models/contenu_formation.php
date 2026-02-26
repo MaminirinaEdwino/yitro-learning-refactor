@@ -14,6 +14,10 @@ class ContenuFormation {
         $this->sous_formation = $sous_formation;   
     }
 
+    public function setIdContenuFormation(int $id){
+        $this->id_contenu_formation = $id;
+    }
+    
     public function getIdContenuFormation(): int {
         return $this->id_contenu_formation;
     }

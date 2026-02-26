@@ -8,8 +8,8 @@ class ContenueFormationRepositories {
     private function PushArray($stmt, $result) {
          while ($donne = $stmt->fetch()){
             $completion = new ContenuFormation($donne['formation_id'], $donne['sous_formation']);
-            $completion->($donne['created_at']);
-            $completion->setId($donne["id_contenu"]);
+            $completion->setCreatedAt($donne['created_at']);
+            $completion->set($donne["id_contenu"]);
             array_push($result, $completion);
         }
     }
