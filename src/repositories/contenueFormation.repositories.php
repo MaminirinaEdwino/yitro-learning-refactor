@@ -34,4 +34,13 @@ class ContenueFormationRepositories {
         return $result;
     }
 
+    public function Update(ContenuFormation $contenuFormation){
+        $query = "UPDATE contenu_formations SET formation_id = :formation_id, sous_formation =:sous_formation";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "formation_id"=>$contenuFormation->getIdFormation(),
+            "sous_formation"=>$contenuFormation->getSousFormation()
+        ]);
+    }
 }

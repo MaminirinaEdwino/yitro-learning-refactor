@@ -49,7 +49,7 @@ class ContactRepositories{
         );
         return $result;
     }
-    public function UpdateContact(Contact $contact){
+    public function Update(Contact $contact){
         $query = "UPDATE contact SET nom = :nom, email= :email, sujet = :sujet, message = :message";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
