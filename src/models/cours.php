@@ -27,6 +27,13 @@ class Cours {
         $this->photo = $photo;
     }
 
+    public function getId(): int {
+        return $this->id_cours;
+    }
+    public function setId(int $id){
+        $this->id_cours = $id;
+    }
+    
     
     
     
