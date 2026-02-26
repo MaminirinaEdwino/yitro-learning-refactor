@@ -3,7 +3,7 @@
 require_once "./src/models/completions.php";
 require_once "./src/config/database.php";
 
-class CompletionsRepositories extends Completions {
+class CompletionsRepositories {
     private Database $database;
     private function PushResult($stmt, $result){
         while ($donne = $stmt->fetch()){
