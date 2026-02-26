@@ -34,6 +34,23 @@ class ContenueFormationRepositories {
         return $result;
     }
 
+    public function GetById(int $id): ContenuFormation {
+        $query = "SELECT * FROM contenu_formations WHERE id_contenu = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id"=>$id
+        ]);
+        $donne = $stmt->fetch();
+        $result = new ContenuFormation(
+            $donne["formation_id"],
+            $donne["sous_formation"]
+        );
+        $result->setCreatedAt($donne["created_at"]);
+        $result->setIdContenuFormation($id);
+        return $result;
+    }
+
     public function Update(ContenuFormation $contenuFormation){
         $query = "UPDATE contenu_formations SET formation_id = :formation_id, sous_formation =:sous_formation";
         $conn = $this->database->getConnection();
@@ -43,4 +60,6 @@ class ContenueFormationRepositories {
             "sous_formation"=>$contenuFormation->getSousFormation()
         ]);
     }
+
+
 }
