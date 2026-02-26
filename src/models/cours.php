@@ -54,5 +54,13 @@ class Cours {
     public function setIdContenuFormation(int $id_contenu_formation){
         $this->id_contenu_formation = $id_contenu_formation;
     }
+
+    public function getTitre(): string {
+        return $this->titre;
+    }
+    public function setTitre(string $titre)  {
+        $this->titre = $titre;
+    }
     
+
 }
