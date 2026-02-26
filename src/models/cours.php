@@ -61,6 +61,11 @@ class Cours {
     public function setTitre(string $titre)  {
         $this->titre = $titre;
     }
-    
 
+    public function getPrix(): float {
+        return $this->prix;
+    }
+    public function setPrix(float $prix){
+        $this->prix = $prix;
+    }
 }
