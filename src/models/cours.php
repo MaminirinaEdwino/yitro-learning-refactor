@@ -33,8 +33,13 @@ class Cours {
     public function setId(int $id){
         $this->id_cours = $id;
     }
-    
-    
-    
+
+    public function getIdFormateur(): int {
+        return $this->id_formateur;
+    }
+    public function setIdFormateur(int $id_formateur){
+        $this->id_formateur = $id_formateur;
+    }
+
     
 }
