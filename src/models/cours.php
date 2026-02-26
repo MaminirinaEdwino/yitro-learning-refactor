@@ -74,4 +74,10 @@ class Cours {
     public function setPhoto(string $photo) {
         $this->photo = $photo;
     }
+    public function getCreatedAt(): DateTime {
+        return $this->created_at;
+    }
+    public function setCreatedAt(DateTime $created_at) {
+        $this->created_at = $created_at;
+    }
 }
