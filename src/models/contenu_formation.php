@@ -6,6 +6,14 @@ class ContenuFormation {
     private string $sous_formation;
     private DateTime $created_at;
 
+    public function __construct(
+        int $id_formation,
+        string $sous_formation
+    ){
+        $this->id_formation = $id_formation;
+        $this->sous_formation = $sous_formation;   
+    }
+
     public function getIdContenuFormation(): int {
         return $this->id_contenu_formation;
     }
@@ -24,5 +32,13 @@ class ContenuFormation {
 
     public function setSousFormation(string $sous_formation){
         $this->sous_formation = $sous_formation;
+    }
+
+    public function getCreatedAt(): DateTime {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(DateTime $created_at){
+        $this->created_at = $created_at;
     }
 }
