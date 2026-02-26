@@ -9,7 +9,7 @@ class ContenueFormationRepositories {
          while ($donne = $stmt->fetch()){
             $completion = new ContenuFormation($donne['formation_id'], $donne['sous_formation']);
             $completion->setCreatedAt($donne['created_at']);
-            $completion->set($donne["id_contenu"]);
+            $completion->setIdContenuFormation($donne["id_contenu"]);
             array_push($result, $completion);
         }
     }
@@ -30,7 +30,8 @@ class ContenueFormationRepositories {
 
         $stmt = $conn->prepare($query);
         $stmt->execute();
-
+        $this->PushArray($stmt, $result);
         return $result;
     }
+
 }
