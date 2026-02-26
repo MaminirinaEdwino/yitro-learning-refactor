@@ -41,5 +41,10 @@ class Cours {
         $this->id_formateur = $id_formateur;
     }
 
-    
+    public function getIdFormation(): int {
+        return $this->id_formation;
+    }
+    public function setIdFormation(int $id_formation){
+        $this->id_formation = $id_formation;
+    }
 }
