@@ -10,9 +10,11 @@ class Formateur{
     private string $experience_formation;
     private string $detail_experience;
     private string $cv;
+    private string $categories;
     private string $autre_domaine;
     private string $titre_cours;
     private string $objectif;
+    private string $public_cible;
     private string $detail_complementaire;
     private string $formats;
     private string $format_autre;
@@ -26,8 +28,68 @@ class Formateur{
     private ?string $code_entree = null;
     private ?string $password = null; 
 
+    public function __construct(
+        string $nom_prenom,
+        string $email,
+        string $telephone,
+        string $ville_pays,
+        string $linkedin,
+        string $intitule_metier,
+        string $experience_formation,
+        string $detail_experience,
+        string $cv,
+        string $categories,
+        string $titre_cours,
+        string $autre_domaine,
+        string $objectif,
+        string $public_cible,
+        string $detail_complementaire,
+        string $formats,
+        string $format_autre,
+        string $duree_estimee,
+        string $type_formation,
+        string $motivation,
+        string $valeur,
+        string $profil_public,
+        string $statut
+    )
+    {
+        $this->nom_prenom = $nom_prenom;
+        $this->email = $email;
+        $this->telephone = $telephone;
+        $this->ville_pays = $ville_pays;
+        $this->linkedin = $linkedin;
+        $this->intitule_metier = $intitule_metier;
+        $this->experience_formation = $experience_formation;
+        $this->detail_experience = $detail_experience;
+        $this->cv = $cv;
+        $this->categories = $categories;
+        $this->titre_cours = $titre_cours;
+        $this->autre_domaine = $autre_domaine;
+        $this->objectif = $objectif;
+        $this->public_cible = $public_cible;
+        $this->detail_complementaire = $detail_complementaire;
+        $this->format_autre = $format_autre;
+        $this->formats = $formats;
+        $this->duree_estimee = $duree_estimee;
+        $this->type_formation = $type_formation;
+        $this->motivation = $motivation;
+        $this->valeur = $valeur;
+        $this->profil_public = $profil_public;
+        $this->statut = $statut;
+    }
+
     public function getId(): int{
         return $this->id;
+    }
+    public function setId(int $id){
+        $this->id = $id;
+    }
+    public function getPublicCible(): string {
+        return $this->public_cible;
+    }
+    public function setPublicCible(string $public_cible){
+        $this->public_cible = $public_cible;
     }
 
     public function getNomPrenom(): string{
@@ -96,7 +158,12 @@ class Formateur{
     public function setCv(string $cv){
         $this->cv = $cv;
     }
-
+    public function getCategories(): string {
+        return $this->categories;
+    }
+    public function setCategories(string $categories){
+        $this->categories = $categories;
+    }
     public function getAutreDomain(): string{
         return $this->autre_domaine;
     }

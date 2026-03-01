@@ -3,15 +3,104 @@
 require_once "./src/config/database.php";
 require_once "./src/models/cours.php";
 
-class CoursRepositories {
+class CoursRepositories
+{
     private Database $database;
 
-    private function PushArray($stmt, $result) {
-         while ($donne = $stmt->fetch()){
-            $completion = new ContenuFormation($donne['formation_id'], $donne['sous_formation']);
+    private function PushArray($stmt, $result)
+    {
+        while ($donne = $stmt->fetch()) {
+            $completion = new Cours(
+                $donne["formateur_id"],
+                $donne["formation_id"],
+                $donne["contenue_formation_id"],
+                $donne["titre"],
+                $donne["description"],
+                $donne["prix"],
+                $donne["photo"],
+                $donne["niveau"]
+            );
             $completion->setCreatedAt($donne['created_at']);
-            $completion->setIdContenuFormation($donne["id_contenu"]);
+            $completion->setId($donne["id"]);
             array_push($result, $completion);
         }
+    }
+
+    public function Insert(Cours $cours)
+    {
+        $query = "INSERT INTO cours (formateur_id, formation_id, contenue_formation_id, titre, description, prix, photo, niveau) VALUES(:formateur_id, :formation_id, :contenue_formation_id, :titre, :description, :prix, :photo, :niveau)";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "formateur_id" => $cours->getIdFormateur(),
+            "formation_id" => $cours->getIdFormation(),
+            "contenue_formation_id" => $cours->getIdContenuFormation(),
+            "titre" => $cours->getTitre(),
+            "description" => $cours->getDescription(),
+            "prix" => $cours->getPrix(),
+            "niveau" => $cours->getNiveau()
+        ]);
+    }
+
+    public function GetAll(): array
+    {
+        $result = [];
+        $query = "SELECT * FROM cours";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Cours
+    {
+        $query = "SELECT * FROM cours WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id" => $id
+        ]);
+        $donne = $stmt->fetch();
+        $result = new Cours(
+            $donne["formateur_id"],
+            $donne["formation_id"],
+            $donne["contenue_formation_id"],
+            $donne["titre"],
+            $donne["description"],
+            $donne["prix"],
+            $donne["photo"],
+            $donne["niveau"]
+        );
+        $result->setId($id);
+        $result->setCreatedAt($donne["created_at"]);
+        return $result;
+    }
+    public function Update(Cours $cours)
+    {
+        $query = "UPDATE cours SET formateur_id = :formateur_id, formation_id = :formation_id, contenue_formation_id = :contenue_formation_id, titre = :titre, description =:description, prix =:prix, photo=:photo, niveau=:niveau WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "formateur_id" => $cours->getIdFormateur(),
+            "formation_id" => $cours->getIdFormation(),
+            "contenue_formation_id" => $cours->getIdContenuFormation(),
+            "titre" => $cours->getTitre(),
+            "description" => $cours->getDescription(),
+            "prix" => $cours->getPrix(),
+            "photo" => $cours->getPhoto(),
+            "niveau" => $cours->getNiveau()
+        ]);
+    }
+
+    public function Delete(Cours $cours)
+    {
+        $query = "DELETE FROM cours WHERE id =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id" => $cours->getId()
+        ]);
     }
 }

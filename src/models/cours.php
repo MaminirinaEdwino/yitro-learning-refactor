@@ -6,8 +6,10 @@ class Cours {
     private int $id_formation;
     private int $id_contenu_formation;
     private string $titre;
+    private string $description;
     private float $prix;
     private string $photo;
+    private string $niveau;
     private DateTime $created_at;
 
     public function __construct(
@@ -15,8 +17,10 @@ class Cours {
         int $id_formation,
         int $id_contenu_formation,
         string $titre,
+        string $description,
         float $prix,
-        string $photo
+        string $photo,
+        string $niveau
     )
     {
         $this->id_contenu_formation = $id_contenu_formation;
@@ -25,6 +29,8 @@ class Cours {
         $this->titre = $titre;
         $this->prix = $prix;
         $this->photo = $photo;
+        $this->description = $description;
+        $this->niveau = $niveau;
     }
 
     public function getId(): int {
@@ -62,6 +68,12 @@ class Cours {
         $this->titre = $titre;
     }
 
+    public function getDescription(): string {
+        return $this->description;
+    }
+    public function setDescription(string $description){
+        $this->description = $description;
+    }
     public function getPrix(): float {
         return $this->prix;
     }
@@ -73,6 +85,12 @@ class Cours {
     }
     public function setPhoto(string $photo) {
         $this->photo = $photo;
+    }
+    public function getNiveau(): string {
+        return $this->niveau;
+    }
+    public function setNiveau(string $niveau) {
+        $this->niveau = $niveau;
     }
     public function getCreatedAt(): DateTime {
         return $this->created_at;
