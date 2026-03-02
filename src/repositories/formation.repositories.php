@@ -42,4 +42,26 @@ class FormationRepositories
             "nom_formation"=>$formation->getNom_formation()
         ]);
     }
+
+    public function GetAll(): array {
+        $query = "SELECT * FROM formations ";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Formation {
+        $query = "SELECT * FROM formations WHERE id_formation =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id"=>$id
+        ]);
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
 }
