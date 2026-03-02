@@ -32,4 +32,14 @@ class FormationRepositories
         $stmt = $conn->prepare($query);
         $stmt->execute(["id"=>$formation->getId_formation()]);
     }
+
+    public function Update(Formation $formation) {
+        $query = "UPDATE formations SET nom_formation =:nom_formation WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id"=>$formation->getId_formation(),
+            "nom_formation"=>$formation->getNom_formation()
+        ]);
+    }
 }
