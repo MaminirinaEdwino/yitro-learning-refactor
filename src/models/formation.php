@@ -3,9 +3,14 @@ class Formation{
     private int $id_formation; 
     private string $nom_formation;
     private DateTime $created_at;
+    
 
     public function getId_formation(): int {
         return $this->id_formation;
+    }
+
+    public function setIdFormation(int $id) {
+        $this->id_formation = $id;
     }
 
     public function getNom_formation(): string {
@@ -18,5 +23,9 @@ class Formation{
 
     public function getCreated_at(): DateTime{
         return $this->created_at;
+    }
+
+    public function setCreated_at(DateTime $created_at) {
+        $this->created_at = $created_at;
     }
 }
