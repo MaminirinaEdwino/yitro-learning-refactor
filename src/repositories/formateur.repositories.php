@@ -72,5 +72,15 @@ class FormateurRepositories{
         ]);
     }
 
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM formateurs";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
 
+    
 }
