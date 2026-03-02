@@ -10,12 +10,12 @@ class FormationRepositories
     private function PushArray($stmt, $result)
     {
         while ($donne = $stmt->fetch()) {
-            $formateur = new Formation(
+            $formation = new Formation(
                 $donne["nom_formation"]
             );
-            $formateur->setCreated_at($donne['created_at']);
-            $formateur->setIdFormation($donne["id_formation"]);
-            array_push($result, $formateur);
+            $formation->setCreated_at($donne['created_at']);
+            $formation->setIdFormation($donne["id_formation"]);
+            array_push($result, $formation);
         }
     }
 
@@ -24,5 +24,12 @@ class FormationRepositories
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["nom_formation"=>$formation->getNom_formation()]);
+    }
+
+    public function Delete(Formation $formation) {
+        $query = "DELETE FROM formations WHERE id_formation = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$formation->getId_formation()]);
     }
 }
