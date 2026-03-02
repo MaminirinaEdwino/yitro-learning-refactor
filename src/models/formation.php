@@ -3,7 +3,13 @@ class Formation{
     private int $id_formation; 
     private string $nom_formation;
     private DateTime $created_at;
-    
+
+    public function __construct(
+        string $nom_formation
+    )
+    {
+        $this->nom_formation = $nom_formation;
+    }
 
     public function getId_formation(): int {
         return $this->id_formation;
