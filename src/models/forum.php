@@ -7,6 +7,9 @@ class Forum {
     private string $description;
     private DateTime $dateCreation;
 
+    public function setId(int $id){
+        $this->id = $id;
+    }
     public function getId(): int {
         return $this->id;
     }
