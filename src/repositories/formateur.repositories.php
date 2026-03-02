@@ -82,5 +82,15 @@ class FormateurRepositories{
         return $result;
     }
 
+    public function GetById(int $id): Formateur {
+        $result = [];
+        $query = "SELECT * FROM formateurs WHERE id =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
+
     
 }
