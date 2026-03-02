@@ -56,11 +56,11 @@ class FormateurRepositories{
             "detail_experience"=>$formateur->getDetailExperience(),
             "cv"=>$formateur->getCv(),
             "categories"=>$formateur->getCategories(),
-            "autre_domainte"=>$formateur->getAutreDomain(),
+            "autre_domaine"=>$formateur->getAutreDomain(),
             "titre_cours"=>$formateur->getTitreCours(),
             "objectif"=>$formateur->getObjectif(),
             "public_cible"=>$formateur->getPublicCible(),
-            "detailcomplementaire"=>$formateur->getDetailComplementaire(),
+            "detail_complementaire"=>$formateur->getDetailComplementaire(),
             "formats"=>$formateur->getFormats(),
             "format_autre"=>$formateur->getFormatAutres(),
             "duree_estimee"=>$formateur->getDureeEstime(),
@@ -97,5 +97,36 @@ class FormateurRepositories{
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["id"=>$formateur->getId()]);
+    }
+
+    public function Update(Formateur $formateur) {
+        $query = "UPDATE formateurs SET nom_prenom =:nom_prenom, email =:email, telephone =:telephone, ville_pays =:ville_pays, linkedin =:linkedin, intitule_metier =:intitule_metier, experience_formation =:experience_formation, detail_experience =:detail_experience, cv =:cv, categories=:categories, autre_domaine =:autre_domaine, titre_cours=:titre_cours, objectif =:objectif, public_cible =:public_cible, detail_complementaire =:detail_complementaire, formats =:formats, format_autre =:format_autre, duree_estimee =:duree_estimee, type_formation =:type_formation, motivation =:motivation, valeurs =:valeurs, profil_public=:profil_public, statut=:statut";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "nom_prenom"=>$formateur->getNomPrenom(),
+            "email"=>$formateur->getEmail(),
+            "telephone"=>$formateur->getTelephone(),
+            "linkedin"=>$formateur->getLinkedin(),
+            "ville_pays"=>$formateur->getVillePays(),
+            "intitule_metier"=>$formateur->getIntituleMetier(),
+            "experience_formation"=>$formateur->getExperienceFormation(),
+            "detail_experience"=>$formateur->getDetailExperience(),
+            "cv"=>$formateur->getCv(),
+            "categories"=>$formateur->getCategories(),
+            "autre_domaine"=>$formateur->getAutreDomain(),
+            "titre_cours"=>$formateur->getTitreCours(),
+            "objectif"=>$formateur->getObjectif(),
+            "public_cible"=>$formateur->getPublicCible(),
+            "detail_complementaire"=>$formateur->getDetailComplementaire(),
+            "formats"=>$formateur->getFormats(),
+            "format_autre"=>$formateur->getFormatAutres(),
+            "duree_estimee"=>$formateur->getDureeEstime(),
+            "type_formation"=>$formateur->getTypeFormation(),
+            "motivation">$formateur->getMotivation(),
+            "valeurs"=>$formateur->getValeur(),
+            "profil_public"=>$formateur->getProfilPublic(),
+            "statut"=>$formateur->getStatut()
+        ]);
     }
 }
