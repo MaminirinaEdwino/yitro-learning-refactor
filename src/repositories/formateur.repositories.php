@@ -92,5 +92,10 @@ class FormateurRepositories{
         return $result[0];
     }
 
-    
+    public function Delete(Formateur $formateur) {
+        $query = "DELETE FROM formateurs WHERE id =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$formateur->getId()]);
+    }
 }
