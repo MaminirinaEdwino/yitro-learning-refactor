@@ -52,5 +52,24 @@ class ForumMessageRepositories
         $this->PushArray($stmt, $result);
         return $result[0];
     }
-    
+
+    public function Update(ForumMessage $forumMessage) {
+        $query = "UPDATE forum_message SET cours_id = :cours_id, utilisateur_id =:utilisateur_id, message = :message, lu = :lu";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "cours_id"=>$forumMessage->getCoursId(),
+            "utilisateur_io"=>$forumMessage->getUtilisateurId(),
+            "message"=>$forumMessage->getMessage(),
+            "lu"=>$forumMessage->getLu()
+        ]);
+    }
+    public function Delete(ForumMessage $forumMessage) {
+        $query = "DELETE FROM forum_message WHERE id =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id"=>$forumMessage->getId()
+        ]);
+    }
 }
