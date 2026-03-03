@@ -11,7 +11,9 @@ class ForumRepositories{
     {
         while ($donne = $stmt->fetch()) {
             $forum = new Forum(
-                $donne["nom_formation"]
+                $donne["cours_id"],
+                $donne["titre"],
+                $donne["description"]
             );
             $forum->setDateCreation($donne['date_creation']);
             $forum->setId($donne["id"]);
