@@ -30,4 +30,26 @@ class ForumRepositories{
         ]);
     }
 
+    public function GetAll(): array {
+        $query = "SELECT * FROM forum ";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Forum {
+        $query = "SELECT * FROM forum ";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id"=>$id
+        ]);
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
+
 }
