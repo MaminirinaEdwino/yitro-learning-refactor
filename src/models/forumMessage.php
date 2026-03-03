@@ -2,19 +2,38 @@
 
 class ForumMessage{
     private int $id;
+
     private int $coursId;
     private int $utilisateurId;
     private string $message;
     private DateTime $date;
     private bool $lu;
 
-    public function __construct()
+    /**
+     * @param int $id
+     * @param int $coursId
+     * @param int $utilisateurId
+     * @param string $message
+     * @param DateTime $date
+     * @param bool $lu
+     */
+    public function __construct(int $id, int $coursId, int $utilisateurId, string $message, DateTime $date, bool $lu)
     {
-        
+        $this->id = $id;
+        $this->coursId = $coursId;
+        $this->utilisateurId = $utilisateurId;
+        $this->message = $message;
+        $this->date = $date;
+        $this->lu = $lu;
     }
+
 
     public function getId(): int{
         return $this->id;
+    }
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getCoursId(): int {
