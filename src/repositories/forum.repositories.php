@@ -18,4 +18,16 @@ class ForumRepositories{
             array_push($result, $forum);
         }
     }
+
+    public function Insert(Forum $forum){
+        $query = "INSERT INTO forum (cours_id, titre, description) VALUES(:cours_id, :titre, :description)";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "cours_id"=>$forum->getCoursId(),
+            "titre"=>$forum->getTitre(),
+            "description"=>$forum->getDescription()
+        ]);
+    }
+
 }
