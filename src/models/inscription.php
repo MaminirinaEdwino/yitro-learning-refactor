@@ -7,10 +7,23 @@ class Inscription {
     private DateTime $dateInscription;
     private string $statutPayement;
 
+    public function __construct(
+        int $utilisateurId,
+        int $coursId, 
+        string $statutPayement
+    )
+    {
+        $this->utilisateurId = $utilisateurId;
+        $this->coursId = $coursId;
+        $this->statutPayement = $statutPayement;
+    }
+
     public function getId(): int {
         return $this->id;
     }
-
+    public function setId(int $id) {
+        $this->id = $id;
+    }
     public function getUtilisateurId(): int {
         return $this->utilisateurId;
     }
