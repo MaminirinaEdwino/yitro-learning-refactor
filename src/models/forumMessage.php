@@ -25,7 +25,6 @@ class ForumMessage{
         $this->lu = $lu;
     }
 
-
     public function getId(): int{
         return $this->id;
     }
