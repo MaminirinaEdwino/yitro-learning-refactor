@@ -54,4 +54,21 @@ class ForumRepositories{
         return $result[0];
     }
 
+    public function Update(Forum $forum){
+        $query = "UPDATE forum SET cours_id = :cours_id, titre = :titre, description=:description WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "cours_id"=>$forum->getId(),
+            "titre"=>$forum->getTitre(),
+            "description"=>$forum->getDescription()
+        ]);
+    }
+
+    public function Delete(Forum $forum){
+        $query = "DELETE FROM forum WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$forum->getId()]);
+    }
 }
