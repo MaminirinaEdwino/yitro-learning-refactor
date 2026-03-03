@@ -10,15 +10,13 @@ class ForumMessage{
     private bool $lu;
 
     /**
-     * @param int $id
      * @param int $coursId
      * @param int $utilisateurId
      * @param string $message
      * @param bool $lu
      */
-    public function __construct(int $id, int $coursId, int $utilisateurId, string $message, bool $lu)
+    public function __construct(int $coursId, int $utilisateurId, string $message, bool $lu)
     {
-        $this->id = $id;
         $this->coursId = $coursId;
         $this->utilisateurId = $utilisateurId;
         $this->message = $message;
