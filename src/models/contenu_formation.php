@@ -1,5 +1,4 @@
 <?php
-
 class ContenuFormation {
     private int $id_contenu_formation;
     private int $id_formation;
