@@ -7,6 +7,17 @@ class Forum {
     private string $description;
     private DateTime $dateCreation;
 
+    public function __construct(
+        int $courId,
+        string $titre,
+        string $description
+    )
+    {
+        $this->courId = $courId;
+        $this->titre = $titre;
+        $this->description = $description;
+    }    
+
     public function setId(int $id){
         $this->id = $id;
     }
