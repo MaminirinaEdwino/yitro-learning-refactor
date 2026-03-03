@@ -49,4 +49,23 @@ class InscriptionRepositories {
         $this->PushArray($stmt, $result);
         return $result[0];
     }
+
+    public function Update(Inscription $inscription)  {
+        $query = "UPDATE inscription SET utilisateur_id = :utilisateur_id, cours_id = :cours_id, statut_payement = :statut_payement WHERE id = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "utilisateur_id"=>$inscription->getUtilisateurId(),
+            "cours_id"=>$inscription->getCoursId(),
+            "statut_payement"=>$inscription->getStatutPayement(),
+            "id"=>$inscription->getId()
+        ]);
+    }
+
+    public function Delete(Inscription $inscription){
+        $query = "DELETE FROM inscription WHERE id = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$inscription->getId()]);
+    }
 }
