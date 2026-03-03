@@ -18,6 +18,4 @@ class ForumRepositories{
             array_push($result, $forum);
         }
     }
-
-    
 }
