@@ -9,14 +9,14 @@ class InscriptionRepositories {
     private function PushArray($stmt, $result)
     {
         while ($donne = $stmt->fetch()) {
-            $forum = new Inscription(
+            $var = new Inscription(
                 $donne["utilisateur_id"],
                 $donne["cours_id"],
                 $donne["statut_payement"]
             );
-            $forum->setDateInscription($donne['date_inscription']);
-            $forum->setId($donne["id"]);
-            array_push($result, $forum);
+            $var->setDateInscription($donne['date_inscription']);
+            $var->setId($donne["id"]);
+            array_push($result, $var);
         }
     }
 
@@ -30,5 +30,23 @@ class InscriptionRepositories {
         ]);
     }
 
-    
+    public function GetAll() : array {
+        $query = "SELECT * FROM inscription";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Inscription {
+        $query = "SELECT * FROM inscription WHERE id =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
 }
