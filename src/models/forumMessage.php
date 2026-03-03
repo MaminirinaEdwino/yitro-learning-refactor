@@ -14,16 +14,14 @@ class ForumMessage{
      * @param int $coursId
      * @param int $utilisateurId
      * @param string $message
-     * @param DateTime $date
      * @param bool $lu
      */
-    public function __construct(int $id, int $coursId, int $utilisateurId, string $message, DateTime $date, bool $lu)
+    public function __construct(int $id, int $coursId, int $utilisateurId, string $message, bool $lu)
     {
         $this->id = $id;
         $this->coursId = $coursId;
         $this->utilisateurId = $utilisateurId;
         $this->message = $message;
-        $this->date = $date;
         $this->lu = $lu;
     }
 
