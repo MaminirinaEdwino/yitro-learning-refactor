@@ -7,8 +7,22 @@ class JournalActivite {
     private string $details;
     private DateTime $createdAt;
 
+    public function __construct(
+        int $adminId,
+        string $action,
+        string $details
+    )
+    {
+        $this->$adminId = $adminId;
+        $this->action = $action;
+        $this->details = $details;
+    }
+
     public function getId(): int {
         return $this->id;
+    }
+    public function setId(int $id){
+        $this->id = $id;
     }
     
     public function getAdminId(): int {
