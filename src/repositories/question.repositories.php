@@ -23,7 +23,7 @@ class QuestionRepositories {
     }
 
     public function Insert(Question $question) {
-        $query = "INSERT INTO question(quiz_id, texte, reponse_correcte, reponse_incorrecte_1,reponse_incorrecte_2, reponse_incorrecte_3) VALUES(:quiz_id, :texte, :reponse_correcte, :reponse_incorrecte_1, :reponse_incorrecte_2, reponse_incorrecte_3)";
+        $query = "INSERT INTO questions(quiz_id, texte, reponse_correcte, reponse_incorrecte_1,reponse_incorrecte_2, reponse_incorrecte_3) VALUES(:quiz_id, :texte, :reponse_correcte, :reponse_incorrecte_1, :reponse_incorrecte_2, reponse_incorrecte_3)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -34,5 +34,25 @@ class QuestionRepositories {
             "reponse_incorrecte_2"=>$question->getReponseIncorrecte2(),
             "reponse_incorrecte_1"=>$question->getReponseIncorrecte3()
         ]);
+    }
+
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM questions";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Question {
+        $result = [];
+        $query = "SELECT * FROM questions WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
     }
 }
