@@ -18,4 +18,35 @@ class ModuleRepositories {
             array_push($result, $var);
         }
     }
+
+    public function Insert(Module $module) {
+        $query = "INSERT INTO module(cours_id, titre, description) VALUES(:cours_id, :titre, :description)";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "cours_id"=>$module->getCoursId(),
+            "titre"=>$module->getTitre(),
+            "description"=>$module->getDescription()
+        ]);
+    }
+
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM module";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Module {
+        $result = [];
+        $query = "SELECT * FROM module WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
 }
