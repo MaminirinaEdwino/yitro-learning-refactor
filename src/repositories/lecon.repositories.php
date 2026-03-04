@@ -20,5 +20,17 @@ class LeconRepositories {
         }
     }
 
+    public function Insert(Lecons $lecons) {
+        $query = "INSERT INTO lecons (module_id, titre, format, fichier) VALUES(:module_id, :titre, :format, :fichier)";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "module_id"=>$lecons->getModuleId(),
+            "titre"=>$lecons->getTitre(),
+            "format"=>$lecons->getFormat(),
+            "fichier"=>$lecons->getFichier()
+        ]);
+    }
+
     
 }
