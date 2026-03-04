@@ -48,5 +48,24 @@ class LeconsCompletee {
         $this->PushArray($stmt, $result);
         return $result[0];
     }
-    
+
+    public function Update(LeconComplete $leconComplete) {
+        $query = "UPDATE lecons_completees SET utilisateur_id = :utilisateur_id, lecon_id=:lecon_id WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "utilisateur_id"=>$leconComplete->getUtilisateurId(),
+            "lecon_id"=>$leconComplete->getLeconId(),
+            "id"=>$leconComplete->getId()
+        ]);
+    }
+
+    public function Delete(LeconComplete $leconComplete) {
+        $query = "DELETE FROM lecons_completees WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id" => $leconComplete->getId()
+        ]);
+    }
 }
