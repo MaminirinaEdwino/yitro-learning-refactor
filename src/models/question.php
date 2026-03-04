@@ -8,8 +8,28 @@ class Question {
     private string $responseIncorrecte2;
     private string $responseIncorrecte3;
 
+    public function __construct(
+        int $quizId,
+        string $texte,
+        string $reponseCorrecte,
+        string $responseIncorrecte1,
+        string $responseIncorrecte2,
+        string $responseIncorrecte3
+    )
+    {
+        $this->quizId = $quizId;
+        $this->texte = $texte;
+        $this->reponseCorrecte = $reponseCorrecte;
+        $this->responseIncorrecte1 = $responseIncorrecte1;
+        $this->responseIncorrecte2 = $responseIncorrecte2;
+        $this->responseIncorrecte3 = $responseIncorrecte3;
+    }
+
     public function getId(): int {
         return $this->id;
+    }
+    public function setId(int $id) {
+        $this->id = $id;
     }
     public function getQuizId(): int {
         return $this->quizId;
