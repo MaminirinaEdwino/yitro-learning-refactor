@@ -7,8 +7,22 @@ class Post{
     private string $contenu;
     private DateTime $datePost;
 
+    public function __construct(
+        int $auteurId,
+        int $forumId,
+        string $contenu
+    )
+    {
+        $this->auteurId = $auteurId;
+        $this->forumId = $forumId;
+        $this->contenu = $contenu;
+    }
+
     public function getId(): int {
         return $this->id;
+    }
+    public function setId(int $id){
+        $this->id = $id;
     }
     public function getAUteurId(): int {
         return $this->auteurId;
