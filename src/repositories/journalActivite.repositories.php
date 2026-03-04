@@ -50,4 +50,25 @@ class JournalActiviteRepositories {
         $this->PushArray($stmt, $result);
         return $result[0];
     }
+
+    public function Update(JournalActivite $journalActivite) {
+        $query = "UPDATE journal_activite SET admin_id = :admin_id, action=:action, details=:details WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt=$conn->prepare($query);
+        $stmt->execute([
+            "admin_id"=>$journalActivite->getAdminId(),
+            "action"=>$journalActivite->getAction(),
+            "details"=>$journalActivite->getDetails(),
+            "id"=>$journalActivite->getId()
+        ]);
+    }
+
+    public function Delete(JournalActivite $journalActivite) {
+        $query = "DELETE FROM journal_activite WHERE id =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id"=>$journalActivite->getId()
+        ]);
+    }
 }
