@@ -29,5 +29,24 @@ class LeconsCompletee {
         ]);
     }
 
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM lecons_completees";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): LeconComplete {
+        $result = [];
+        $query = "SELECT * FROM lecons_completees WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
     
 }
