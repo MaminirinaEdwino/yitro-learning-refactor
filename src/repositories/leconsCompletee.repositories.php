@@ -18,4 +18,16 @@ class LeconsCompletee {
             array_push($result, $var);
         }
     }
+
+    public function Insert(LeconComplete $leconComplete) {
+        $query = "INSERT INTO lecon_completees(utilisateur_id, lecon_id) VALUES(:utilisateur_id, :lecon_id)";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "utilisateur_id"=>$leconComplete->getUtilisateurId(),
+            "lecon_id"=>$leconComplete->getLeconId()
+        ]);
+    }
+
+    
 }
