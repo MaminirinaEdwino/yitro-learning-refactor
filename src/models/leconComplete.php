@@ -6,8 +6,21 @@ class LeconComplete{
     private int $leconId;
     private DateTime $dateCompletion;
 
+    public function __construct(
+        int $utilisateurId,
+        int $leconId
+    )
+    {
+        $this->utilisateurId = $utilisateurId;
+        $this->leconId = $leconId;
+    }
+
     public function getId(): int {
         return $this->id;
+    }
+
+    public function setId(int $id) {
+        $this->id = $id;
     }
     public function getUtilisateurId(): int {
         return $this->utilisateurId;
