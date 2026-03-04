@@ -32,5 +32,22 @@ class LeconRepositories {
         ]);
     }
 
-    
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM lecons";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+    public function GetById(int $id): JournalActivite {
+        $result = [];
+        $query = "SELECT * FROM lecons WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
 }
