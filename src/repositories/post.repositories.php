@@ -30,6 +30,24 @@ class PostRepositories{
         ]);
     }
 
-    
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM post";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Module {
+        $result = [];
+        $query = "SELECT * FROM post WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
 
 }
