@@ -31,5 +31,23 @@ class JournalActiviteRepositories {
         ]);
     }
 
-    
+    public function GetAll(): array{
+        $query = "SELECT * FROM journal_activite";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): JournalActivite {
+        $query = "SELECT * FROM journal_activite WHERE id = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
 }
