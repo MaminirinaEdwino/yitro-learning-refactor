@@ -49,4 +49,25 @@ class ModuleRepositories {
         $this->PushArray($stmt, $result);
         return $result[0];
     }
+
+    public function Update(Module $module) {
+        $query = "UPDATE module SET cours_id = :cours_id, titre=:titre, description =:description WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "cours_id"=>$module->getCoursId(),
+            "titre"=>$module->getTitre(),
+            "description"=>$module->getDescription(),
+            "id"=>$module->getId()
+        ]);
+    }
+
+    public function Delete(Module $module) {
+        $query = "DELETE FROM module WHERE id = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id" => $module->getId()
+        ]);
+    }
 }
