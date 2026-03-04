@@ -19,4 +19,17 @@ class JournalActiviteRepositories {
             array_push($result, $var);
         }
     }
+
+    public function Insert(JournalActivite $journalActivite) {
+        $query = "INSERT INTO journal_activite(admin_id, action, details) VALUES(:admin_id, :action, :details)";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "admin_id"=>$journalActivite->getAdminId(),
+            "action"=>$journalActivite->getAction(),
+            "details"=>$journalActivite->getDetails()
+        ]);
+    }
+
+    
 }
