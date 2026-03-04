@@ -7,9 +7,27 @@ class Lecons{
     private string $format;
     private string $fichier;
 
+    public function __construct(
+        int $moduleId,
+        string $titre,
+        string $format,
+        string $fichier
+    )
+    {
+        $this->moduleId = $moduleId;
+        $this->titre = $titre;
+        $this->format = $format;
+        $this->fichier = $fichier;
+    }
+
     public function getId(): int {
         return $this->id;
     }
+
+    public function setId(int $id) {
+        $this->id = $id;
+    }
+
     public function getTitre(): string {
         return $this->titre;
     }
