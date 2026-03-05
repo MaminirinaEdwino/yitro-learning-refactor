@@ -10,15 +10,25 @@ class QuizRepositories{
     {
         while ($donne = $stmt->fetch()) {
             $var = new Quiz(
-                $donne["quiz_id"],
-                $donne["texte"],
-                $donne["reponse_correcte"],
-                $donne["reponse_incorrecte_1"],
-                $donne["reponse_incorrecte_2"],
-                $donne["reponse_incorrecte_3"]
+                $donne["module_id"],
+                $donne["titre"],
+                $donne["description"],
+                $donne["score_minimum"]
             );
             $var->setId($donne["id"]);
             array_push($result, $var);
         }
+    }
+
+    public function Insert(Quiz $quiz) {
+        $query = "INSERT INTO quiz(module_id, titre, description, score_minimum) VALUES(:module_id, :titre, :description, :score_minimum)";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "module_id"=>$quiz->getModuleId(),
+            "titre"=>$quiz->getTitre(),
+            "description"=>$quiz->getDescription(),
+            "score_minimum"=>$quiz->getScoreMinimum()
+        ]);
     }
 }
