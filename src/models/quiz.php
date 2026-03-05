@@ -7,8 +7,24 @@ class Quiz {
     private string $description;
     private int $scoreMinimum;
 
+    public function __construct(
+        int $moduleId,
+        string $titre,
+        string $description,
+        int $scoreMinimum
+    )
+    {
+        $this->moduleId = $moduleId;
+        $this->titre = $titre;
+        $this->description = $description;
+        $this->scoreMinimum = $scoreMinimum;
+    }
+
     public function getId(): int {
         return $this->id;
+    }
+    public function setId(int $id) {
+        $this->id= $id;
     }
     public function getModuleId(): int {
         return $this->moduleId;
