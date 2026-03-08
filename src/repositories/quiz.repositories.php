@@ -52,5 +52,24 @@ class QuizRepositories{
         return $result[0];
     }
 
-    
+    public function Update(Quiz $quiz) {
+        $query = "UPDATE quiz SET module_id=:module_id, titre=:titre, description=:description, score_minimum=:score_minimum WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "module_id"=>$quiz->getModuleId(),
+            "titre"=>$quiz->getTitre(),
+            "description"=>$quiz->getDescription(),
+            "score_minimum"=>$quiz->getScoreMinimum()
+        ]);
+    }
+
+     public function Delete(Post $post) {
+        $query = "DELETE FROM quiz WHERE id = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id" => $post->getId()
+        ]);
+    }
 }
