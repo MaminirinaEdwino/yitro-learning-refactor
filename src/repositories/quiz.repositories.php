@@ -31,4 +31,26 @@ class QuizRepositories{
             "score_minimum"=>$quiz->getScoreMinimum()
         ]);
     }
+
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM questions";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Quiz {
+        $result = [];
+        $query = "SELECT * FROM quiz WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
+
+    
 }
