@@ -7,8 +7,22 @@ class ResultatQuiz {
     private int $score;
     private DateTime $date;
 
+    public function __construct(
+        int $utilisateurId,
+        int $quizId,
+        int $score
+    )
+    {
+        $this->utilisateurId = $utilisateurId;
+        $this->quizId = $quizId;
+        $this->score = $score;
+    }
+
     public function getId(): int {
         return $this->id;
+    }
+    public function setId(int $id) {
+        $this->id = $id;
     }
     public function getUtilisateurId(): int {
         return $this->utilisateurId;
