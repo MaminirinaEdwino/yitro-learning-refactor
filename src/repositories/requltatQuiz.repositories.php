@@ -61,17 +61,18 @@ class ResultatQuizRepositories {
         $stmt->execute([
             "utilisateur_id" => $resultatQuiz->getUtilisateurId(),
             "quiz_id" => $resultatQuiz->getQuizId(),
-            "score" => $resultatQuiz->getScore()
+            "score" => $resultatQuiz->getScore(),
+            "id"=>$resultatQuiz->getId()
         ]);
     }
 
-    public function Delete(Post $post)
+    public function Delete(ResultatQuiz $resultatQuiz)
     {
         $query = "DELETE FROM resultats_quiz WHERE id = :id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id" => $post->getId()
+            "id" => $resultatQuiz->getId()
         ]);
     }
 }
