@@ -98,4 +98,23 @@ class UtilisateursRepositories {
         ]);
     }
 
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM utilisateurs";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Quiz {
+        $result = [];
+        $query = "SELECT * FROM utilisateurs WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
 }
