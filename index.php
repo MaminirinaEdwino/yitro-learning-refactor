@@ -10,7 +10,7 @@
 </head>
 <body>
     <!-- Header -->
-    <?php require_once 'components/header.php'?>
+    <?php require_once './src/components/header.php'?>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -121,7 +121,7 @@
             <a href="page/formulaire-formateur.php" class="btn-primary" href="#" aria-label="Devenir formateur sur Yitro Learning">Devenir formateur</a>
         </div>
     </section>
-    <?php require_once __DIR__.'/components/footer.php' ; ?>
+    <?php require_once './src/components/footer.php' ; ?>
     
     
     
