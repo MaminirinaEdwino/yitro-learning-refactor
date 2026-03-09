@@ -19,4 +19,15 @@ class ResultatQuizRepositories {
             array_push($result, $var);
         }
     }
+
+     public function Insert(ResultatQuiz $resultatQuiz) {
+        $query = "INSERT INTO resultats_quiz(utilisateur_id, quiz_id, score) VALUES(:utilisateur_id, :quiz_id, :score)";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "utilisateur_id"=>$resultatQuiz->getUtilisateurId(),
+            "quiz_id"=>$resultatQuiz->getQuizId(),
+            "score"=>$resultatQuiz->getScore()
+        ]);
+    }
 }
