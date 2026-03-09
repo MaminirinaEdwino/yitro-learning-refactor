@@ -176,7 +176,7 @@ class Utilisateur{
     public function setObjectif(string $objectif){
         $this->objectif = $objectif;
     }
-    public function geLangue(): string {
+    public function getLangue(): string {
         return $this->langue;
     }
     public function setLangue(string $langue){
