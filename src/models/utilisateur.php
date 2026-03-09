@@ -23,11 +23,56 @@ class Utilisateur{
     private bool $actif;
     private DateTime $createdAt;
 
+    public function __construct(
+        string $nom,
+        string $email,
+        string $mdp,
+        string $telephone,
+        string $photo,
+        string $pays,
+        string $langue,
+        string $objectif,
+        string $autreLangue,
+        string $typeCours,
+        string $niveauFormation,
+        string $niveauEtude,
+        string $accesInternet,
+        string $appareil,
+        bool $rgpd,
+        bool $charte,
+        string $role
+    )
+    {
+        $this->nom = $nom;
+        $this->email = $email;
+        $this->mdp = $mdp;
+        $this->telephone = $telephone;
+        $this->photo = $photo;
+        $this->pays = $pays;
+        $this->langue = $langue;
+        $this->autreLangue = $autreLangue;
+        $this->objectif = $objectif;
+        $this->typeCours = $typeCours;
+        $this->niveauEtude = $niveauEtude;
+        $this->niveauFormation = $niveauFormation;
+        $this->accesInternet = $accesInternet;
+        $this->appareil = $appareil;
+        $this->rgpd = $rgpd;
+        $this->charte = $charte;
+        $this->role = $role;
+    }
+
     public function getCreatedAt(): DateTime {
         return $this->createdAt;
     }
+    public function setCreatedAt(DateTime $createdAt){
+        $this->createdAt = $createdAt;
+    }
     public function getId(): int {
         return $this->id;
+    }
+    public function setId(int $id) {
+        $this->id= $id;
     }
     public function getNom(): string {
         return $this->nom;
