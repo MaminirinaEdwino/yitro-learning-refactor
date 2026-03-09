@@ -70,12 +70,12 @@ class QuestionRepositories {
         ]);
     }
 
-     public function Delete(Post $post) {
+     public function Delete(Question $question) {
         $query = "DELETE FROM questions WHERE id = :id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id" => $post->getId()
+            "id" => $question->getId()
         ]);
     }
 }
