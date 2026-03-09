@@ -1,5 +1,7 @@
 <?php
 
+use LDAP\Result;
+
 require_once "./src/config/database.php";
 require_once "./src/models/resultatQuiz.php";
 
@@ -49,5 +51,27 @@ class ResultatQuizRepositories {
         $stmt->execute(["id"=>$id]);
         $this->PushArray($stmt, $result);
         return $result[0];
+    }
+
+    public function Update(ResultatQuiz $resultatQuiz)
+    {
+        $query = "UPDATE resultats_quiz SET utilisateur_id=:utilisateur_id, quiz_id=:quiz_id, score=:score WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "utilisateur_id" => $resultatQuiz->getUtilisateurId(),
+            "quiz_id" => $resultatQuiz->getQuizId(),
+            "score" => $resultatQuiz->getScore()
+        ]);
+    }
+
+    public function Delete(Post $post)
+    {
+        $query = "DELETE FROM resultats_quiz WHERE id = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id" => $post->getId()
+        ]);
     }
 }
