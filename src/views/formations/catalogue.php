@@ -200,7 +200,7 @@
             <p>Rejoignez des milliers d'apprenants et commencez votre parcours dès maintenant.</p>
             <div class="cta-buttons">
                 <a href="../authentification/inscription.php" class="btn-primary">S'inscrire</a>
-                <a href="contact.php" class="btn-primary">Nous contacter</a>
+                <a href="/apropos/contact" class="btn-primary">Nous contacter</a>
             </div>
         </div>
     </section>
