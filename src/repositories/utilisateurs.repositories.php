@@ -117,4 +117,61 @@ class UtilisateursRepositories {
         $this->PushArray($stmt, $result);
         return $result[0];
     }
+
+    public function Update(Utilisateur $utilisateur)
+    {
+        $query = "UPDATE utilisateurs SET  
+        nom = :nom, 
+        email = :email,
+        mot_de_passe = :mot_de_passe,
+        telephone = :telephone, 
+        photo = :photo,
+        pays = :pays,
+        langue = :langue,
+        objectifs = :objectifs,
+        autre_langues = :autre_langue,
+        type_cours = :type_cours,
+        niveau_formation = :niveau_formation,
+        niveau_etude = :nivea_etude,
+        acces_internet = :acces_internet,
+        appareil = :appareil,
+        accessibilite = :accessibilite,
+        rgpd = :rgpd,
+        charte :charte,
+        role = :role
+        WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+        "nom"=>$utilisateur->getNom(), 
+        "email"=>$utilisateur->getEmail(),
+        "mot_de_passe"=>$utilisateur->getMdp(),
+        "telephone"=>$utilisateur->getTelephone(), 
+        "photo"=>$utilisateur->getPhoto(),
+        "pays"=>$utilisateur->getPays(),
+        "langue"=>$utilisateur->getLangue(),
+        "objectifs"=>$utilisateur->getObjectif(),
+        "autre_langues"=>$utilisateur->getAutreLangue(),
+        "type_cours"=>$utilisateur->getTypeCours(),
+        "niveau_formation"=>$utilisateur->getNiveauFormation(),
+        "niveau_etude"=>$utilisateur->getNiveauEtude(),
+        "acces_internet"=>$utilisateur->getAccesInternet(),
+        "appareil"=>$utilisateur->getAppareil(),
+        "accessibilite"=>$utilisateur->getAccessibilite(),
+        "rgpd"=>$utilisateur->getRgpd(),
+        "charte"=>$utilisateur->getCharte(),
+        "role"=>$utilisateur->getRole(),
+        "id"=>$utilisateur->getId() 
+        ]);
+    }
+
+    public function Delete(Utilisateur $utilisateur)
+    {
+        $query = "DELETE FROM utilisateurs WHERE id = :id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "id" => $utilisateur->getId()
+        ]);
+    }
 }
