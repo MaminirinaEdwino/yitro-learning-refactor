@@ -69,13 +69,13 @@ class QuizRepositories
         ]);
     }
 
-    public function Delete(Post $post)
+    public function Delete(Quiz $quiz)
     {
         $query = "DELETE FROM quiz WHERE id = :id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id" => $post->getId()
+            "id" => $quiz->getId()
         ]);
     }
 }
