@@ -34,7 +34,7 @@ class QuizRepositories{
 
     public function GetAll(): array {
         $result = [];
-        $query = "SELECT * FROM questions";
+        $query = "SELECT * FROM quiz";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute();
