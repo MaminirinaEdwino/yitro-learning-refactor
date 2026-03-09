@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Découvrir Yitro - Yitro Learning</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="icon" href="./asset/images/Yitro consulting.png" type="image/png">
+    <link rel="icon" href="<?= URL_ROOT ?>asset/images/Yitro consulting.png" type="image/png">
 
-    <link rel="stylesheet" href="./asset/css/styles/style.css">
+    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/styles/style.css">
 </head>
 <body>
     <!-- Header -->
-    <?php require_once './src/components/header.php'?>
-
+    <?php require_once './src/components/header.php';?>
+    
     <!-- Main Content -->
     <main class="decouvrir-yitro">
         <!-- Section 1 – Qui sommes-nous ? -->

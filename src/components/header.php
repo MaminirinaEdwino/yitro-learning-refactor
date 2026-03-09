@@ -7,7 +7,7 @@ require_once dirname(__DIR__).'/utils/relativeroute.php';
             <div class="container">
                 <div class="logo">
                 <!-- <?php echo To_relative_path('asset/images/logo.png')?> -->
-                    <img src="<?php echo To_relative_path('asset/images/logo.png')?>" alt="Yitro E-Learning">
+                    <img src="<?= URL_ROOT ?>asset/images/logo.png" alt="Yitro E-Learning">
                     <a href="<?php echo To_relative_path('')?>" class="logo-text">SK Yitro Learning</a>
                 </div>
                 <ul class="nav-list">
