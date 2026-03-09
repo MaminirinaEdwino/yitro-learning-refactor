@@ -103,4 +103,34 @@ class CoursRepositories
             "id" => $cours->getId()
         ]);
     }
+
+    public function GetCoursCatalogue(): array {
+        $result = [];
+        $query = "
+        SELECT 
+            c.id, 
+            c.titre, 
+            c.description, 
+            c.prix, 
+            c.niveau,
+            c.photo,
+            c.formation_id,         
+            c.contenu_formation_id,
+            f.nom_formation AS nom_theme,
+            cf.sous_formation AS nom_sous_theme
+        FROM 
+            cours c
+        LEFT JOIN   
+            formations f ON c.formation_id = f.id_formation
+        LEFT JOIN  
+            contenu_formations cf ON c.contenu_formation_id = cf.id_contenu
+        ORDER BY 
+            c.titre ASC";
+
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(); 
+        
+        return $result; 
+    }
 }
