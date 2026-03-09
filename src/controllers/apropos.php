@@ -9,5 +9,9 @@ $aproposRouter->get("/apropos/decouvrir-yitro", function(){
 });
 
 $aproposRouter->get("/apropos/faq", function(){
-    TemplateRender::render("/aPropos/faq.php", null)
+    TemplateRender::render("/aPropos/faq.php", null);
+});
+
+$aproposRouter->get("/apropos/contact", function(){
+    TemplateRender::render("/aPropos/contact.php", null);
 });
