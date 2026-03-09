@@ -30,4 +30,24 @@ class ResultatQuizRepositories {
             "score"=>$resultatQuiz->getScore()
         ]);
     }
+
+    public function GetAll(): array {
+        $result = [];
+        $query = "SELECT * FROM resultats_quiz";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $this->PushArray($stmt, $result);
+        return $result;
+    }
+
+    public function GetById(int $id): Quiz {
+        $result = [];
+        $query = "SELECT * FROM resultats_quiz WHERE id=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id"=>$id]);
+        $this->PushArray($stmt, $result);
+        return $result[0];
+    }
 }
