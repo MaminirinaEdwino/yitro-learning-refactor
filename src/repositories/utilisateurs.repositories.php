@@ -35,4 +35,67 @@ class UtilisateursRepositories {
         }
     }
 
+    public function Insert(Utilisateur $utilisateur) {
+        $query = "INSERT INTO utilisateurs(
+        nom, 
+        email,
+        mot_de_passe,
+        telephone, 
+        photo,
+        pays,
+        langue,
+        objectifs,
+        autre_langues,
+        type_cours,
+        niveau_formation,
+        niveau_etude,
+        acces_internet,
+        appareil,
+        accessibilite,
+        rgpd,
+        charte,
+        role ) VALUES(
+        :nom, 
+        :email,
+        :mot_de_passe,
+        :telephone, 
+        :photo,
+        :pays,
+        :langue,
+        :objectifs,
+        :autre_langues,
+        :type_cours,
+        :niveau_formation,
+        :niveau_etude,
+        :acces_internet,
+        :appareil,
+        :accessibilite,
+        :rgpd,
+        :charte,
+        :role
+        )";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+        "nom"=>$utilisateur->getNom(), 
+        "email"=>$utilisateur->getEmail(),
+        "mot_de_passe"=>$utilisateur->getMdp(),
+        "telephone"=>$utilisateur->getTelephone(), 
+        "photo"=>$utilisateur->getPhoto(),
+        "pays"=>$utilisateur->getPays(),
+        "langue"=>$utilisateur->getLangue(),
+        "objectifs"=>$utilisateur->getObjectif(),
+        "autre_langues"=>$utilisateur->getAutreLangue(),
+        "type_cours"=>$utilisateur->getTypeCours(),
+        "niveau_formation"=>$utilisateur->getNiveauFormation(),
+        "niveau_etude"=>$utilisateur->getNiveauEtude(),
+        "acces_internet"=>$utilisateur->getAccesInternet(),
+        "appareil"=>$utilisateur->getAppareil(),
+        "accessibilite"=>$utilisateur->getAccessibilite(),
+        "rgpd"=>$utilisateur->getRgpd(),
+        "charte"=>$utilisateur->getCharte(),
+        "role"=>$utilisateur->getRole() 
+        ]);
+    }
+
 }
