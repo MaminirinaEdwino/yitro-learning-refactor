@@ -8,15 +8,15 @@ require_once dirname(__DIR__).'/utils/relativeroute.php';
                 <div class="logo">
                 <!-- <?php echo To_relative_path('asset/images/logo.png')?> -->
                     <img src="<?= URL_ROOT ?>asset/images/logo.png" alt="Yitro E-Learning">
-                    <a href="<?php echo To_relative_path('')?>" class="logo-text">SK Yitro Learning</a>
+                    <a href="/" class="logo-text">SK Yitro Learning</a>
                 </div>
                 <ul class="nav-list">
                     <li class="dropdown">
                         <a href="#">À propos <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo To_relative_path("page/decouvrir-yitro.php")?>">Découvrir Yitro</a></li>
-                            <li><a href="<?php echo To_relative_path("page/FAQ.php")?>">FAQ</a></li>
-                            <li><a href="<?php echo To_relative_path("page/contact.php")?>">Contact</a></li>
+                            <li><a href="/apropos/decouvrir-yitro">Découvrir Yitro</a></li>
+                            <li><a href="/apropos/faq">FAQ</a></li>
+                            <li><a href="/apropos/contact">Contact</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
