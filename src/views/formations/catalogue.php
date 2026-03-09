@@ -208,8 +208,7 @@
     <!-- Footer -->
     <?php require_once './src/components/footer.php'?>
 
-    <script>
-        // Animation de particules pour la section hero
+    <script src="<?= URL_ROOT ?>asset/js/catalogueAnimation.js">
         
 
     </script>
