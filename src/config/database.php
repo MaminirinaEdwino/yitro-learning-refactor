@@ -9,7 +9,7 @@ class Database{
     public function __construct(){}
 
     public function getConnection():PDO{
-        $dsn = "mysql:host={$this->host};dbname={$this->name};charset=utf-8";
+        $dsn = "mysql:host={$this->host};dbname={$this->name};charset=utf8";
         return new PDO($dsn, $this->user, $this->password);
     }
 }
