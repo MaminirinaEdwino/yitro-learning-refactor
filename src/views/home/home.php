@@ -23,9 +23,9 @@
                 <h1>Apprends. Progresse. Impacte.</h1>
                 <p>La plateforme e-learning inclusive pour les talents formateurs.</p>
                 <div class="hero-buttons">
-                    <a href="page/catalogue.php" class="btn-primary">Explorer les cours</a>
+                    <a href="/formation/catalogue" class="btn-primary">Explorer les cours</a>
                     <a href="page/devenir-formateur.php" class="btn-primary">Devenir formateur</a>
-                    <a href="page/decouvrir-yitro.php" class="btn-primary">Découvrir Yitro</a>
+                    <a href="/apropos/decouvrir-yitro" class="btn-primary">Découvrir Yitro</a>
                 </div>
             </div>
         </div>
