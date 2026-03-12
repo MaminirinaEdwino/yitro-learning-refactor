@@ -7,7 +7,7 @@ require_once "./src/models/formation.php";
 class FormationRepositories
 {
     private Database $database;
-
+    private array $result;
     public function __construct()
     {
         $this->database = new Database();
@@ -15,13 +15,15 @@ class FormationRepositories
 
     private function PushArray($stmt, $result)
     {
+        $this->result = [];
         while ($donne = $stmt->fetch()) {
             $formation = new Formation(
                 $donne["nom_formation"]
             );
             $formation->setCreated_at(new DateTime($donne['created_at']));
             $formation->setIdFormation($donne["id_formation"]);
-            array_push($result, $formation);
+            array_push($this->result, $formation);
+
         }
     }
 
@@ -56,7 +58,7 @@ class FormationRepositories
         $stmt->execute();
         $result = [];
         $this->PushArray($stmt, $result);
-        return $result;
+        return $this->result;
     }
 
     public function GetById(int $id): Formation {
