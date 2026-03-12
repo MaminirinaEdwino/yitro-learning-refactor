@@ -7,6 +7,10 @@ class CoursRepositories
 {
     private Database $database;
 
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
     private function PushArray($stmt, $result)
     {
         while ($donne = $stmt->fetch()) {
@@ -130,7 +134,9 @@ class CoursRepositories
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(); 
-        
+        while ($donne = $stmt->fetch()) { 
+            array_push($result, $donne);
+        }
         return $result; 
     }
 }
