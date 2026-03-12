@@ -44,7 +44,9 @@
 // } catch (PDOException $e) {
 //     error_log("Erreur de requête des cours : " . $e->getMessage());
 //     die("Erreur Fatale de Base de Données: " . $e->getMessage() . "<br>Veuillez vérifier votre requête SQL."); 
-// }?>
+// }
+
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -66,7 +68,7 @@
     <!-- Hero Section -->
     <section class="catalogue-hero">
         <div class="catalogue-hero-content">
-            <h1>Explorez nos formations</h1>
+            <h1>Explorez nos formations <?= count($params["formations"]) ?><?= count($params["cours"]) ?>?></h1>
             <p>Découvrez une large gamme de cours conçus par des experts pour booster vos compétences. Trouvez la formation parfaite pour vous dès aujourd'hui !</p>
             <div class="search-bar">
                 <input type="text" id="search-input" placeholder="Rechercher une formation..." aria-label="Rechercher une formation">
@@ -85,8 +87,9 @@
                 <label for="theme_filter">Thème</label>
                 <select id="theme_filter" onchange="loadAndFilterCourses()">
                     <option value="">Tous les Thèmes</option>
-                    <?php foreach ($formations as $f): ?>
-                        <option value="<?php echo $f['id_formation']; ?>"><?php echo htmlspecialchars($f['nom_formation']); ?></option>
+                    <?php foreach ($params["formations"] as $f): ?>
+                        <option value="<?= $f->getId_formation() ?>">
+                            <?= $f->getNom_formation() ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -131,10 +134,10 @@
                 </div>
             </div>
             <div class="courses-grid" id="courses-grid">
-                <?php if (empty($cours)): ?>
+                <?php if (empty($params["cours"])): ?>
                     <p style="grid-column: 1 / -1; text-align: center; color: #555;">Aucun cours disponible pour le moment.</p>
                 <?php else: ?>
-                    <?php foreach ($cours as $c): ?>
+                    <?php foreach ($params["cours"] as $c): ?>
                         <?php
                             $price_text = $c['prix'] == 0 ? 'Gratuit' : number_format($c['prix'], 2) . ' €';
                             $price_data = $c['prix'] == 0 ? 'free' : 'paid';
