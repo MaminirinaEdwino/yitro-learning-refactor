@@ -19,7 +19,7 @@ require_once dirname(__DIR__).'/utils/relativeroute.php';
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="<?php echo To_relative_path('page/catalogue.php')?>">Nos formations <i class="fas fa-chevron-down"></i></a>
+                        <a href="/formation/catalogue">Nos formations <i class="fas fa-chevron-down"></i></a>
                         
                     </li>
                 </ul>
