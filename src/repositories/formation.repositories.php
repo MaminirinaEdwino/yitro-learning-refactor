@@ -3,9 +3,15 @@
 require_once "./src/config/database.php";
 require_once "./src/models/formation.php";
 
+
 class FormationRepositories
 {
     private Database $database;
+
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
 
     private function PushArray($stmt, $result)
     {
@@ -13,7 +19,7 @@ class FormationRepositories
             $formation = new Formation(
                 $donne["nom_formation"]
             );
-            $formation->setCreated_at($donne['created_at']);
+            $formation->setCreated_at(new DateTime($donne['created_at']));
             $formation->setIdFormation($donne["id_formation"]);
             array_push($result, $formation);
         }
