@@ -25,13 +25,13 @@ require_once dirname(__DIR__).'/utils/relativeroute.php';
                 <div class="footer-column">
                     <h4>Liens rapide</h4>
                     <ul>
-                        <li><a href="<?php echo To_relative_path('index.php')?>">Accueil</a></a>
+                        <li><a href="/">Accueil</a></a>
                         <li>
-                        <li><a href="<?php echo To_relative_path('page/catalogue.php')?>">Formations</a></a>
+                        <li><a href="/formation/catalogue">Formations</a></a>
                         </li>
                         <!-- <li><a href="">Certifications</a></a> -->
                         </li>
-                        <li><a href="<?php echo To_relative_path("page/contact.php")?>">Contact</a></a>
+                        <li><a href="/apropos/contact">Contact</a></a>
                     </li>
                     </ul>
                 </div>
