@@ -21,8 +21,6 @@
     }else{
         require_once './src/components/header.php';
     }
-    
-    
     ?>
 
     <!-- Hero Section -->
