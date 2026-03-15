@@ -7,7 +7,7 @@
             </div>
             <ul class="nav-list">
                 <li><a href="/formation/catalogue">Catalogues</a></li>
-                <li><a href="progression_apprenant.php">Ma progression</a></li>
+                <li><a href="/espace/apprenant/progression">Ma progression</a></li>
                 <li><a href="mes_cours.php">Mes Cours</a></li>
 
             </ul>
