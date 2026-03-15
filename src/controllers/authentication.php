@@ -9,3 +9,7 @@ $authRouter = new Router();
 $authRouter->get("/connexion", function(){
     TemplateRender::render("/authentication/connexion.php", null);
 });
+
+$authRouter->get("/inscription", function(){
+    TemplateRender::render("/authentication/inscription.php", null);
+});
