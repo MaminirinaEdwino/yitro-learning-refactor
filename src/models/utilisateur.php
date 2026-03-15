@@ -20,7 +20,7 @@ class Utilisateur{
     private bool $rgpd = false;
     private bool $charte = false;
     private string $role = "apprenant"|"admin"|"moderator";
-    private bool $actif;
+    private bool $actif = false;
     private DateTime $createdAt;
 
 
