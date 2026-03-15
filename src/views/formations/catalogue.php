@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,18 @@
     <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/catalogue.css">
     <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/catalogue2.css">
 </head>
+
 <body>
     <!-- Header -->
-    <?php require_once './src/components/header.php'?>
+    <?php
+    if ($_SESSION['logged_in']) {
+        require_once './src/components/headerapprenant2.php';
+    }else{
+        require_once './src/components/header.php';
+    }
+    
+    
+    ?>
 
     <!-- Hero Section -->
     <section class="catalogue-hero">
@@ -32,7 +42,7 @@
     <div class="catalogue-main">
         <aside class="catalogue-sidebar">
             <h2>Filtres</h2>
-            
+
             <div class="filter-group">
                 <label for="theme_filter">Thème</label>
                 <select id="theme_filter" onchange="loadAndFilterCourses()">
@@ -43,14 +53,14 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-            
+
             <div class="filter-group" id="subtheme-group">
                 <label for="subtheme_filter">Sous-Thème</label>
                 <select id="subtheme_filter" onchange="filterCourses(true)">
                     <option value="">Tous les Sous-Thèmes</option>
-                    </select>
+                </select>
             </div>
-            
+
             <div class="filter-group">
                 <label for="level_filter">Niveau</label>
                 <select id="level_filter" onchange="filterCourses(true)">
@@ -60,7 +70,7 @@
                     <option value="Avancé">Avancé</option>
                 </select>
             </div>
-            
+
             <div class="filter-group">
                 <label for="price_filter">Prix</label>
                 <select id="price_filter" onchange="filterCourses(true)">
@@ -89,22 +99,21 @@
                 <?php else: ?>
                     <?php foreach ($params["cours"] as $c): ?>
                         <?php
-                            $price_text = $c['prix'] == 0 ? 'Gratuit' : number_format($c['prix'], 2) . ' €';
-                            $price_data = $c['prix'] == 0 ? 'free' : 'paid';
-                            //bouton "Accéder"
-                            $access_link = $is_logged_in ? '../Espace/apprenant/cours_detail1.php?id=' . $c['id'] : 'connect-Apprenant.php';
-                            $button_text = $is_logged_in ? 'Accéder' : 'Connecter';
+                        $price_text = $c['prix'] == 0 ? 'Gratuit' : number_format($c['prix'], 2) . ' €';
+                        $price_data = $c['prix'] == 0 ? 'free' : 'paid';
+                        //bouton "Accéder"
+                        $access_link = $_SESSION['logged_in'] ? '/espace/apprenant?id=' . $c['id'] : '/connect';
+                        $button_text = $_SESSION['logged_in'] ? 'Accéder' : 'Connecter';
 
                         ?>
-                        <div class="course-card" 
-                            data-theme="<?php echo htmlspecialchars($c['formation_id']); ?>" 
-                            data-subtheme="<?php echo htmlspecialchars($c['contenu_formation_id'] ?? ''); ?>" 
-                            data-level="<?php echo htmlspecialchars($c['niveau']); ?>" 
-                            data-price="<?php echo $price_data; ?>" 
+                        <div class="course-card"
+                            data-theme="<?php echo htmlspecialchars($c['formation_id']); ?>"
+                            data-subtheme="<?php echo htmlspecialchars($c['contenu_formation_id'] ?? ''); ?>"
+                            data-level="<?php echo htmlspecialchars($c['niveau']); ?>"
+                            data-price="<?php echo $price_data; ?>"
                             data-price-value="<?php echo $c['prix']; ?>"
-                            data-popularity="100" 
-                            data-date="<?php echo date('Y-m-d'); ?>" 
-                            >
+                            data-popularity="100"
+                            data-date="<?php echo date('Y-m-d'); ?>">
                             <img src="../Uploads/cours/<?php echo htmlspecialchars($c['photo']); ?>" alt="<?php echo htmlspecialchars($c['titre']); ?>">
                             <div class="course-card-content">
                                 <h3><?php echo htmlspecialchars($c['titre']); ?></h3>
@@ -159,11 +168,12 @@
     </section>
 
     <!-- Footer -->
-    <?php require_once './src/components/footer.php'?>
+    <?php require_once './src/components/footer.php' ?>
 
     <script src="<?= URL_ROOT ?>asset/js/catalogueAnimation.js">
-        
+
 
     </script>
 </body>
+
 </html>
