@@ -1,4 +1,9 @@
 <?php
+enum UserRole: string {
+    case Apprenant = 'apprenant';
+    case Admin = 'admin';
+    case Moderator = 'moderator';
+}
 
 class Utilisateur{
     private int $id;
@@ -19,10 +24,11 @@ class Utilisateur{
     private string $accessibilite;
     private bool $rgpd = false;
     private bool $charte = false;
-    private string $role = "apprenant"|"admin"|"moderator";
+    private string $role;
     private bool $actif = false;
     private DateTime $createdAt;
 
+    
 
     public function __construct(
         string $nom,
@@ -39,6 +45,7 @@ class Utilisateur{
         string $niveauEtude,
         string $accesInternet,
         string $appareil,
+        string $accessibilite,
         bool $rgpd,
         bool $charte,
         string $role
@@ -61,6 +68,7 @@ class Utilisateur{
         $this->rgpd = $rgpd;
         $this->charte = $charte;
         $this->role = $role;
+        $this->accessibilite = $accessibilite;
     }
 
     public function getCreatedAt(): DateTime {
@@ -120,6 +128,7 @@ class Utilisateur{
     public function getRole(): string {
         return $this->role;
     }
+    
     public function setRole(string $role){
         $this->role = $role;
     }
