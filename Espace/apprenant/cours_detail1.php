@@ -708,7 +708,7 @@ $can_access = $is_free || $is_enrolled;
     </style>
 </head>
 <body>
-    <?php require_once '../../components/headerapprenant.php'?>
+    <?php require_once './src/components/headerapprenant.php'?>
 
     <section class="course-details<?php echo $can_access ? ' course-free' : ''; ?>">
         <div class="container">
@@ -855,7 +855,7 @@ $can_access = $is_free || $is_enrolled;
         </div>
     </div>   
 
-    <?php require_once '../../components/footer.php'?>
+    <?php require_once './src/components/footer.php'?>
 
     <script>
         // Fonctions de base de la modale de paiement
