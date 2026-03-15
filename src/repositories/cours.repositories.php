@@ -108,7 +108,8 @@ class CoursRepositories
         ]);
     }
 
-    public function GetCoursCatalogue(): array {
+    public function GetCoursCatalogue(): array
+    {
         $result = [];
         $query = "
         SELECT 
@@ -133,14 +134,15 @@ class CoursRepositories
 
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
-        $stmt->execute(); 
-        while ($donne = $stmt->fetch()) { 
+        $stmt->execute();
+        while ($donne = $stmt->fetch()) {
             array_push($result, $donne);
         }
-        return $result; 
+        return $result;
     }
 
-    public function GetCoursFormation(): array{
+    public function GetCoursFormation(): array
+    {
         $result = [];
         $query = "SELECT c.*, f.id_formation FROM cours c LEFT JOIN formations f ON c.formation_id = f.id_formation";
         $conn = $this->database->getConnection();
@@ -148,5 +150,26 @@ class CoursRepositories
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
+    }
+    public function GetCoursProgression(): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+    SELECT c.id, c.titre,
+           COUNT(DISTINCT q.id) AS total_quiz,
+           COUNT(DISTINCT CASE WHEN rq.score >= q.score_minimum THEN rq.id END) AS quiz_reussis
+    FROM inscriptions i
+    JOIN cours c ON i.cours_id = c.id
+    LEFT JOIN modules m ON m.cours_id = c.id
+    LEFT JOIN quiz q ON q.module_id = m.id
+    LEFT JOIN resultats_quiz rq ON rq.quiz_id = q.id AND rq.utilisateur_id = :rq_id
+    WHERE i.utilisateur_id = :id AND i.statut_paiement = 'paye'
+    GROUP BY c.id, c.titre
+");
+        $stmt->execute([
+            "rq_id" => $_SESSION['user_id'], 
+            "id" => $_SESSION['user_id']
+        ]);
+        $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $cours;
     }
 }

@@ -22,3 +22,9 @@ $espaceApprenantRouter->get("/espace/apprenant", function () {
         "forums" => $forums
     ]);
 });
+
+$espaceApprenantRouter->get("/espace/apprenant/progression",  function(){
+    $coursRepo = new CoursRepositories();
+    $cours = $coursRepo->GetCoursProgression();
+    TemplateRender::render("/espaceApprenant/progression.php", ['cours'=>$cours]);
+});
