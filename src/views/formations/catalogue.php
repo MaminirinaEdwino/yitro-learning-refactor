@@ -18,7 +18,7 @@
     <!-- Hero Section -->
     <section class="catalogue-hero">
         <div class="catalogue-hero-content">
-            <h1>Explorez nos formations <?= count($params["formations"]) ?><?= count($params["cours"]) ?>?></h1>
+            <h1>Explorez nos formations </h1>
             <p>Découvrez une large gamme de cours conçus par des experts pour booster vos compétences. Trouvez la formation parfaite pour vous dès aujourd'hui !</p>
             <div class="search-bar">
                 <input type="text" id="search-input" placeholder="Rechercher une formation..." aria-label="Rechercher une formation">

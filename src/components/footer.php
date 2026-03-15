@@ -29,8 +29,7 @@ require_once dirname(__DIR__).'/utils/relativeroute.php';
                         <li>
                         <li><a href="/formation/catalogue">Formations</a></a>
                         </li>
-                        <!-- <li><a href="">Certifications</a></a> -->
-                        </li>
+                        
                         <li><a href="/apropos/contact">Contact</a></a>
                     </li>
                     </ul>

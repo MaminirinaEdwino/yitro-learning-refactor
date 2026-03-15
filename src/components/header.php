@@ -25,7 +25,7 @@ require_once dirname(__DIR__).'/utils/relativeroute.php';
                 </ul>
                 <div class="auth-links">
                     <ul class="nav-list">
-                        <li><a href="<?php echo To_relative_path('authentification/connexion.php')?>" class="btn-primary">Connexion</a></li>
+                        <li><a href="/connexion" class="btn-primary">Connexion</a></li>
                         <li><a href="<?php echo To_relative_path('authentification/inscription.php')?>" class="btn-primary">Inscription</a></li>
                     </ul>
                 </div>
