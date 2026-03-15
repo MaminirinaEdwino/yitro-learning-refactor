@@ -56,22 +56,22 @@ $authRouter->post("/auth", function(){
 
     // Vérification des identifiants
     if ($user) {
-        if (!$user['actif']) {
+        if ($user->getActif() == false) {
             error_log("Compte inactif pour l'email: " . $email);
-            $_SESSION['error'] = "Votre compte est désactivé. Veuillez contacter l'administrateur.";
-            header("Location: connexion.php");
+            $_SESSION['error'] = "Votre compte est désactivé. Veuillez contacter l'administrateur. " . $user->getActif();
+            header("Location: /connexion");
             exit();
         }
 
-        if (password_verify($password, $user['mot_de_passe'])) {
+        if (password_verify($password, $user->getMdp())) {
             // Réinitialiser les tentatives de connexion en cas de succès
             unset($_SESSION['login_attempts'][$email]);
 
             // Création de la session
-            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_id'] = $user->getId();
             $_SESSION['user_type'] = 'apprenant';
-            $_SESSION['user_nom'] = $user['nom'];
-            $_SESSION['success'] = "Connexion réussie ! Bienvenue, " . $user['nom'] . ".";
+            $_SESSION['user_nom'] = $user->getNom();
+            $_SESSION['success'] = "Connexion réussie ! Bienvenue, " . $user->getNom() . ".";
             error_log("Connexion réussie pour l'utilisateur: " . $email);
             header("Location: ../Espace/apprenant/espace_apprenant.php");
             exit();
@@ -86,7 +86,7 @@ $authRouter->post("/auth", function(){
             error_log("Mot de passe incorrect pour l'email: " . $email);
             $_SESSION['error'] = "Mot de passe incorrect. Tentatives restantes : "
              . ($max_attempts - $_SESSION['login_attempts'][$email]['count']) . ".";
-            header("Location: connexion.php");
+            header("Location: /connexion");
             exit();
         }
     } else {
@@ -99,7 +99,7 @@ $authRouter->post("/auth", function(){
 
         error_log("Échec de connexion pour l'email: " . $email);
         $_SESSION['error'] = "E-mail non trouvé ou compte non autorisé. Tentatives restantes : " . ($max_attempts - $_SESSION['login_attempts'][$email]['count']) . ".";
-        header("Location: connexion.php");
+        header("Location: /connexion");
         exit();
     }
 });
