@@ -61,6 +61,16 @@ class FormationRepositories
         return $this->result;
     }
 
+    public function GetAllByNom(): array {
+        $query = "SELECT * FROM formations ORDER BY nom_formation";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = [];
+        $this->PushArray($stmt, $result);
+        return $this->result;
+    }
+
     public function GetById(int $id): Formation {
         $query = "SELECT * FROM formations WHERE id_formation =:id";
         $conn = $this->database->getConnection();
