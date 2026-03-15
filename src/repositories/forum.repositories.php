@@ -8,6 +8,10 @@ class ForumRepositories
 {
     private Database $database;
 
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
     private function PushArray($stmt, $result)
     {
         while ($donne = $stmt->fetch()) {
