@@ -85,6 +85,7 @@ $authRouter->post("/auth", function () {
             echo "teste role ". $user->getRole();
             if ($user->getRole() == "apprenant"){
                 $_SESSION['user_type'] = 'apprenant';
+                $_SESSION['logged_in'] = true;
                 header("Location: /espace/apprenant");
             }
             exit();
