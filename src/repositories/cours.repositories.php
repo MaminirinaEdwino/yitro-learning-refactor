@@ -166,10 +166,49 @@ class CoursRepositories
     GROUP BY c.id, c.titre
 ");
         $stmt->execute([
-            "rq_id" => $_SESSION['user_id'], 
+            "rq_id" => $_SESSION['user_id'],
             "id" => $_SESSION['user_id']
         ]);
         $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $cours;
+    }
+
+    public function GetByUser(int $userId): array
+    {
+        $stmt = $this->database->getConnection()->prepare(
+            "SELECT c.* 
+        FROM cours c 
+        JOIN inscriptions i ON c.id = i.cours_id 
+        WHERE i.utilisateur_id = ? AND i.statut_paiement = 'paye'"
+        );
+        $stmt->execute([$userId]);
+        $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $cours;
+    }
+
+    public function GetCoursStatus($cours, int $userId): array
+    {
+        $cours_statuts = [];
+        foreach ($cours as $course) {
+            $stmt = $this->database->getConnection()->prepare(
+                "SELECT COUNT(*) AS total_modules, 
+                SUM(CASE WHEN c.module_id IS NOT NULL THEN 1 ELSE 0 END) AS completed_modules
+            FROM modules m
+            LEFT JOIN completions c ON m.id = c.module_id 
+             AND c.utilisateur_id = ? 
+             AND c.cours_id = ?
+         WHERE m.cours_id = ?"
+            );
+            $stmt->execute([$userId, $course['id'], $course['id']]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $total_modules = $result['total_modules'];
+            $completed_modules = $result['completed_modules'];
+            $cours_statuts[$course['id']] = [
+                'is_completed' => $total_modules > 0 && $total_modules == $completed_modules,
+                'progress' => $total_modules > 0 ? ($completed_modules / $total_modules * 100) : 0
+            ];
+        }
+        return $cours_statuts;
     }
 }
