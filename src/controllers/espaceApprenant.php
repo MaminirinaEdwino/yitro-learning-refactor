@@ -8,8 +8,10 @@ require_once "./src/repositories/cours.repositories.php";
 $espaceApprenantRouter = new Router();
 
 $espaceApprenantRouter->get("/espace/apprenant", function () {
-    $formations = new FormationRepositories()->GetAllByNom();
-    $cours = new CoursRepositories()->GetCoursFormation();
+    $formationRepo = new FormationRepositories();
+    $formations = $formationRepo->GetAllByNom();
+    $coursRepo = new CoursRepositories();
+    $cours = $coursRepo->GetCoursFormation();
     TemplateRender::render("/espaceApprenant/espaceApprenant.php", [
         "formations" => $formations,
         "cours" => $cours
