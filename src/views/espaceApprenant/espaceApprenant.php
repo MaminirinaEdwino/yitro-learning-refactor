@@ -9,18 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $formations = $params['formations'];
 $cours = $params["cours"];
-// try {
-//     $stmt_formations = $pdo->prepare("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation");
-//     $stmt_formations->execute();
-//     $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
-// } catch (PDOException $e) {
-//     error_log("Erreur de requête des formations : " . $e->getMessage());
-// }
-
-// // Récupérer tous les cours (y compris l'ID de formation pour le filtrage)
-// $stmt = $pdo->prepare("SELECT c.*, f.id_formation FROM cours c LEFT JOIN formations f ON c.formation_id = f.id_formation");
-// $stmt->execute();
-// $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$forums = $params["forums"];
 
 ?>
 
@@ -132,12 +121,7 @@ $cours = $params["cours"];
                     </form>
                 </div>
                 <div class="forum-grid">
-                    <?php
-                    // Récupérer les fils de discussion pour chaque cours
-                    $stmt = $pdo->prepare("SELECT f.*, c.titre AS cours_titre FROM forum f JOIN cours c ON f.cours_id = c.id");
-                    $stmt->execute();
-                    $forums = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    ?>
+                    
                     <?php if (empty($forums)): ?>
                         <p class="no-forum">Aucun fil de discussion disponible pour le moment.</p>
                     <?php else: ?>
