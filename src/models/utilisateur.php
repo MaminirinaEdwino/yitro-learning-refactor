@@ -23,6 +23,7 @@ class Utilisateur{
     private bool $actif;
     private DateTime $createdAt;
 
+
     public function __construct(
         string $nom,
         string $email,
