@@ -5,9 +5,15 @@ require_once "./src/models/utilisateur.php";
 
 class UtilisateursRepositories {
     private Database $database;
+    private array $result; 
 
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
     private function PushArray($stmt, $result)
     {
+        $this->result = [];
         while ($donne = $stmt->fetch()) {
             $var = new Utilisateur(
                 $donne["nom"],
@@ -31,7 +37,7 @@ class UtilisateursRepositories {
             );
             $var->setId($donne["id"]);
             $var->setCreatedAt($donne["date"]);
-            array_push($result, $var);
+            array_push($this->result, $var);
         }
     }
 
@@ -106,6 +112,18 @@ class UtilisateursRepositories {
         $stmt->execute();
         $this->PushArray($stmt, $result);
         return $result;
+    }
+
+    public function GetForAuth(string $email, string $mdp): array {
+        $query = "SELECT * FROM utilisateurs WHERE email = :email, mot_de_passe=:mdp";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "email"=>$email,
+            "mdp"=>$mdp
+        ]);
+        $this->PushArray($stmt, null);
+        return $this->result;
     }
 
     public function GetById(int $id): Quiz {
