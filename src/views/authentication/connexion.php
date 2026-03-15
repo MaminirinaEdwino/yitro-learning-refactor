@@ -41,7 +41,7 @@
                     unset($_SESSION['success']);
                 }
                 ?>
-                <form id="apprenantForm" action="connexion-apprenant.php" method="POST">
+                <form id="apprenantForm" action="/auth" method="POST">
                     <div class="form-group">
                         <label for="emailApprenant" class="form-label">Adresse e-mail *</label>
                         <input type="email" class="form-control" id="emailApprenant" name="email" required>
