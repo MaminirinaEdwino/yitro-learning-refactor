@@ -1,7 +1,3 @@
-
-<?php
-require_once dirname(__DIR__).'/utils/relativeroute.php';
-?>
 <header>
         <nav class="main-nav">
             <div class="container">
@@ -20,13 +16,12 @@ require_once dirname(__DIR__).'/utils/relativeroute.php';
                     </li>
                     <li class="dropdown">
                         <a href="/formation/catalogue">Nos formations <i class="fas fa-chevron-down"></i></a>
-                        
                     </li>
                 </ul>
                 <div class="auth-links">
                     <ul class="nav-list">
                         <li><a href="/connexion" class="btn-primary">Connexion</a></li>
-                        <li><a href="<?php echo To_relative_path('authentification/inscription.php')?>" class="btn-primary">Inscription</a></li>
+                        <li><a href="/inscription" class="btn-primary">Inscription</a></li>
                     </ul>
                 </div>
             </div>
