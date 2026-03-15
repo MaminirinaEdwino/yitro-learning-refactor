@@ -7,19 +7,20 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 
-$formations = [];
-try {
-    $stmt_formations = $pdo->prepare("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation");
-    $stmt_formations->execute();
-    $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log("Erreur de requête des formations : " . $e->getMessage());
-}
+$formations = $params['formations'];
+$cours = $params["cours"];
+// try {
+//     $stmt_formations = $pdo->prepare("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation");
+//     $stmt_formations->execute();
+//     $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
+// } catch (PDOException $e) {
+//     error_log("Erreur de requête des formations : " . $e->getMessage());
+// }
 
-// Récupérer tous les cours (y compris l'ID de formation pour le filtrage)
-$stmt = $pdo->prepare("SELECT c.*, f.id_formation FROM cours c LEFT JOIN formations f ON c.formation_id = f.id_formation");
-$stmt->execute();
-$cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// // Récupérer tous les cours (y compris l'ID de formation pour le filtrage)
+// $stmt = $pdo->prepare("SELECT c.*, f.id_formation FROM cours c LEFT JOIN formations f ON c.formation_id = f.id_formation");
+// $stmt->execute();
+// $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -31,24 +32,25 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Espace Apprenant</title>
     <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/styles.css">
-    <link rel="icon" href="<?= URL_ROOT ?>asset/images/Yitro_consulting.png" type="image/png">
+    <link rel="icon" href="<?= URL_ROOT ?>asset/images/Yitro consulting.png" type="image/png">
+    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/espaceApprenant.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php require_once '../../components/headerapprenant.php'?>
+    <?php require_once './src/components/headerapprenant.php'?>
 
-    <div class="sidebar-toggle"><i class="fas fa-filter"></i> Filtres</div>
+    <div class="sidebar-toggle"><i class="fas fa-filter"></i> Filtres </div>
     <div class="main-content">
         <aside class="sidebar">
-            <h3><i class="fas fa-filter"></i> Filtres</h3>
+            <h3><i class="fas fa-filter"></i> Filtres <?= count($formations) ?></h3>
             <div class="filter-group">
                 <h4><i class="fas fa-book"></i> Filtrer les cours</h4>
                 <label for="category_filter">Catégories</label>
                 <select id="category_filter">
                     <option value="">Toutes les catégories</option>
                     <?php foreach ($formations as $f): ?>
-                        <option value="<?php echo $f['id_formation']; ?>"><?php echo htmlspecialchars($f['nom_formation']); ?></option>
+                        <option value="<?php echo $f->getId_formation(); ?>"><?php echo htmlspecialchars($f->getNom_formation()); ?></option>
                     <?php endforeach; ?>
                 </select>
                 <label for="course-level">Niveau</label>
@@ -152,10 +154,9 @@ $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </section>
         </main>
     </div>
+    <?php require_once './src/components/footer.php'?>
 
-    <?php require_once '../../components/footer.php'?>
-
-    <script>
+    <script src="<?= URL_ROOT ?>asset/js/espaceApprenant.js ">
         //gerer l'animation et la visibilité de la barre de navigation
         
     </script>
