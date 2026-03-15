@@ -4,7 +4,8 @@ require_once "./src/config/database.php";
 require_once "./src/models/forum.php";
 
 
-class ForumRepositories{
+class ForumRepositories
+{
     private Database $database;
 
     private function PushArray($stmt, $result)
@@ -21,18 +22,20 @@ class ForumRepositories{
         }
     }
 
-    public function Insert(Forum $forum){
+    public function Insert(Forum $forum)
+    {
         $query = "INSERT INTO forum (cours_id, titre, description) VALUES(:cours_id, :titre, :description)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "cours_id"=>$forum->getCoursId(),
-            "titre"=>$forum->getTitre(),
-            "description"=>$forum->getDescription()
+            "cours_id" => $forum->getCoursId(),
+            "titre" => $forum->getTitre(),
+            "description" => $forum->getDescription()
         ]);
     }
 
-    public function GetAll(): array {
+    public function GetAll(): array
+    {
         $query = "SELECT * FROM forum ";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
@@ -42,33 +45,44 @@ class ForumRepositories{
         return $result;
     }
 
-    public function GetById(int $id): Forum {
+    public function GetById(int $id): Forum
+    {
         $query = "SELECT * FROM forum ";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id"=>$id
+            "id" => $id
         ]);
         $result = [];
         $this->PushArray($stmt, $result);
         return $result[0];
     }
 
-    public function Update(Forum $forum){
+    public function Update(Forum $forum)
+    {
         $query = "UPDATE forum SET cours_id = :cours_id, titre = :titre, description=:description WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "cours_id"=>$forum->getId(),
-            "titre"=>$forum->getTitre(),
-            "description"=>$forum->getDescription()
+            "cours_id" => $forum->getId(),
+            "titre" => $forum->getTitre(),
+            "description" => $forum->getDescription()
         ]);
     }
 
-    public function Delete(Forum $forum){
+    public function Delete(Forum $forum)
+    {
         $query = "DELETE FROM forum WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
-        $stmt->execute(["id"=>$forum->getId()]);
+        $stmt->execute(["id" => $forum->getId()]);
+    }
+
+    public function GetByCours(): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT f.*, c.titre AS cours_titre FROM forum f JOIN cours c ON f.cours_id = c.id");
+        $stmt->execute();
+        $forum = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $forum;
     }
 }
