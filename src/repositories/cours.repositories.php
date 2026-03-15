@@ -139,4 +139,14 @@ class CoursRepositories
         }
         return $result; 
     }
+
+    public function GetCoursFormation(): array{
+        $result = [];
+        $query = "SELECT c.*, f.id_formation FROM cours c LEFT JOIN formations f ON c.formation_id = f.id_formation";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }
