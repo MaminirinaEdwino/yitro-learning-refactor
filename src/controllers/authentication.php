@@ -78,11 +78,15 @@ $authRouter->post("/auth", function () {
 
             // Création de la session
             $_SESSION['user_id'] = $user->getId();
-            $_SESSION['user_type'] = 'apprenant';
+            
             $_SESSION['user_nom'] = $user->getNom();
             $_SESSION['success'] = "Connexion réussie ! Bienvenue, " . $user->getNom() . ".";
             error_log("Connexion réussie pour l'utilisateur: " . $email);
-            header("Location: ../Espace/apprenant/espace_apprenant.php");
+            echo "teste role ". $user->getRole();
+            if ($user->getRole() == "apprenant"){
+                $_SESSION['user_type'] = 'apprenant';
+                header("Location: /espace/apprenant");
+            }
             exit();
         } else {
             // Enregistrer la tentative échouée
