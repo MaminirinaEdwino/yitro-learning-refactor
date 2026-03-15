@@ -8,15 +8,24 @@ require_once "./src/config/database.php";
 
 $authRouter = new Router();
 
-$authRouter->get("/connexion", function(){
+$authRouter->get("/connexion", function () {
     TemplateRender::render("/authentication/connexion.php", null);
 });
 
-$authRouter->get("/inscription", function(){
+$authRouter->get("/inscription", function () {
     TemplateRender::render("/authentication/inscription.php", null);
 });
 
-$authRouter->post("/auth", function(){
+$authRouter->get("/logout", function () {
+    $_SESSION = [];
+
+    session_destroy();
+
+    header("Location: /connexion");
+    exit;
+});
+
+$authRouter->post("/auth", function () {
     $userRepo = new UtilisateursRepositories();
     $email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
     $password = trim($_POST['password'] ?? '');
@@ -40,8 +49,8 @@ $authRouter->post("/auth", function(){
     $lockout_time = 15 * 60; // 15 minutes en secondes
     if (isset($_SESSION['login_attempts'][$email]) && $_SESSION['login_attempts'][$email]['count'] >= $max_attempts) {
         if (time() - $_SESSION['login_attempts'][$email]['time'] < $lockout_time) {
-            $_SESSION['error'] = "Trop de tentatives de connexion. Veuillez réessayer dans " 
-            . ceil(($lockout_time - (time() - $_SESSION['login_attempts'][$email]['time'])) / 60) . " minutes.";
+            $_SESSION['error'] = "Trop de tentatives de connexion. Veuillez réessayer dans "
+                . ceil(($lockout_time - (time() - $_SESSION['login_attempts'][$email]['time'])) / 60) . " minutes.";
             header("Location: connexion.php");
             exit();
         } else {
@@ -51,7 +60,7 @@ $authRouter->post("/auth", function(){
     }
 
     // Requête pour vérifier l'utilisateur avec le rôle 'apprenant' et compte actif
-   
+
     $user = $userRepo->GetForAuth($email, $password);
 
     // Vérification des identifiants
@@ -85,7 +94,7 @@ $authRouter->post("/auth", function(){
 
             error_log("Mot de passe incorrect pour l'email: " . $email);
             $_SESSION['error'] = "Mot de passe incorrect. Tentatives restantes : "
-             . ($max_attempts - $_SESSION['login_attempts'][$email]['count']) . ".";
+                . ($max_attempts - $_SESSION['login_attempts'][$email]['count']) . ".";
             header("Location: /connexion");
             exit();
         }
