@@ -22,7 +22,7 @@ class InscriptionRepositories {
             );
             $var->setDateInscription($donne['date_inscription']);
             $var->setId($donne["id"]);
-            array_push($result, $var);
+            array_push($this->result, $var);
         }
     }
 
@@ -75,7 +75,7 @@ class InscriptionRepositories {
         $stmt->execute(["id"=>$inscription->getId()]);
     }
 
-    public function GetEnrollerCours(int $utilisateurId, $coursId): bool{
+    public function GetEnrolledCours(int $utilisateurId, $coursId): bool{
         $stmt = $this->database->getConnection()->prepare("SELECT * FROM inscriptions WHERE utilisateur_id = ? AND cours_id = ? AND statut_paiement = 'paye'");
         $stmt->execute([$utilisateurId, $coursId]);
         $is_enrolled = $stmt->fetch(PDO::FETCH_ASSOC) !== false;
