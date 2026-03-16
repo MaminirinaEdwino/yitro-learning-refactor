@@ -9,6 +9,11 @@ class ResultatQuizRepositories
 {
     private Database $database;
     private array $result;
+
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
     private function PushArray($stmt, $result)
     {
         $this->result = [];
