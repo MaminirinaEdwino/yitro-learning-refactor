@@ -10,6 +10,7 @@ require_once "./src/controllers/formation.php";
 require_once "./src/controllers/mentionLegale.php";
 require_once "./src/controllers/authentication.php";
 require_once "./src/controllers/espaceApprenant.php";
+require_once "./src/controllers/cours.php";
 
 $request_uri = $_SERVER['REQUEST_URI'];
 
@@ -23,4 +24,6 @@ $router->includeRouter($formationRouter);
 $router->includeRouter($mentionLegaleRouter);
 $router->includeRouter($authRouter);
 $router->includeRouter($espaceApprenantRouter);
+$router->includeRouter($coursRouter);
+
 $router->dispatch($request_uri);
