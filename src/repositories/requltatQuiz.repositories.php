@@ -5,11 +5,13 @@ use LDAP\Result;
 require_once "./src/config/database.php";
 require_once "./src/models/resultatQuiz.php";
 
-class ResultatQuizRepositories {
+class ResultatQuizRepositories
+{
     private Database $database;
-
+    private array $result;
     private function PushArray($stmt, $result)
     {
+        $this->result = [];
         while ($donne = $stmt->fetch()) {
             $var = new ResultatQuiz(
                 $donne["utilisateur_id"],
@@ -18,22 +20,24 @@ class ResultatQuizRepositories {
             );
             $var->setId($donne["id"]);
             $var->setDate($donne["date"]);
-            array_push($result, $var);
+            array_push($this->result, $var);
         }
     }
 
-     public function Insert(ResultatQuiz $resultatQuiz) {
+    public function Insert(ResultatQuiz $resultatQuiz)
+    {
         $query = "INSERT INTO resultats_quiz(utilisateur_id, quiz_id, score) VALUES(:utilisateur_id, :quiz_id, :score)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "utilisateur_id"=>$resultatQuiz->getUtilisateurId(),
-            "quiz_id"=>$resultatQuiz->getQuizId(),
-            "score"=>$resultatQuiz->getScore()
+            "utilisateur_id" => $resultatQuiz->getUtilisateurId(),
+            "quiz_id" => $resultatQuiz->getQuizId(),
+            "score" => $resultatQuiz->getScore()
         ]);
     }
 
-    public function GetAll(): array {
+    public function GetAll(): array
+    {
         $result = [];
         $query = "SELECT * FROM resultats_quiz";
         $conn = $this->database->getConnection();
@@ -43,12 +47,13 @@ class ResultatQuizRepositories {
         return $result;
     }
 
-    public function GetById(int $id): Quiz {
+    public function GetById(int $id): Quiz
+    {
         $result = [];
         $query = "SELECT * FROM resultats_quiz WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
-        $stmt->execute(["id"=>$id]);
+        $stmt->execute(["id" => $id]);
         $this->PushArray($stmt, $result);
         return $result[0];
     }
@@ -62,7 +67,7 @@ class ResultatQuizRepositories {
             "utilisateur_id" => $resultatQuiz->getUtilisateurId(),
             "quiz_id" => $resultatQuiz->getQuizId(),
             "score" => $resultatQuiz->getScore(),
-            "id"=>$resultatQuiz->getId()
+            "id" => $resultatQuiz->getId()
         ]);
     }
 
@@ -74,5 +79,13 @@ class ResultatQuizRepositories {
         $stmt->execute([
             "id" => $resultatQuiz->getId()
         ]);
+    }
+
+    public function GetByModuleId(int $utilisateurId, $moduleId): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT quiz_id FROM resultats_quiz WHERE utilisateur_id = ? AND quiz_id IN (SELECT id FROM quiz WHERE module_id = ?)");
+        $stmt->execute([$utilisateurId, $moduleId]);
+        $this->result = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $this->result;
     }
 }
