@@ -48,7 +48,7 @@ class QuizRepositories
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $this->PushArray($stmt, $result);
-        return $result;
+        return $this->result;
     }
 
     public function GetById(int $id): Quiz
@@ -85,10 +85,11 @@ class QuizRepositories
         ]);
     }
 
-    public function GetByModuleId(int $moduleId)
+    public function GetByModuleId(int $moduleId):array
     {
-        $stmt = $this->database->getConnection()->prepare("SELECT id, titre, description, score_minimum FROM quiz WHERE module_id = ?");
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM quiz WHERE module_id = ?");
         $stmt->execute([$moduleId]);
         $this->PushArray($stmt, null);
+        return $this->result;
     }
 }
