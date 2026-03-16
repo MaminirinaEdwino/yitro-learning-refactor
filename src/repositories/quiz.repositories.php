@@ -6,9 +6,15 @@ require_once "./src/models/quiz.php";
 class QuizRepositories
 {
     private Database $database;
+    private array $result;
 
+    public function __construct()
+    {
+        $this->database = new  Database();
+    }
     private function PushArray($stmt, $result)
     {
+        $this->result = [];
         while ($donne = $stmt->fetch()) {
             $var = new Quiz(
                 $donne["module_id"],
@@ -17,7 +23,7 @@ class QuizRepositories
                 $donne["score_minimum"]
             );
             $var->setId($donne["id"]);
-            array_push($result, $var);
+            array_push($this->result, $var);
         }
     }
 
@@ -77,5 +83,12 @@ class QuizRepositories
         $stmt->execute([
             "id" => $quiz->getId()
         ]);
+    }
+
+    public function GetByModuleId(int $moduleId)
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT id, titre, description, score_minimum FROM quiz WHERE module_id = ?");
+        $stmt->execute([$moduleId]);
+        $this->PushArray($stmt, null);
     }
 }
