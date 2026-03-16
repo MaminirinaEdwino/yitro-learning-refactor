@@ -5,6 +5,12 @@ require_once "./src/models/inscription.php";
 
 class InscriptionRepositories {
     private Database $database;
+    private array $result;
+
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
     
     private function PushArray($stmt, $result)
     {
@@ -67,5 +73,12 @@ class InscriptionRepositories {
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["id"=>$inscription->getId()]);
+    }
+
+    public function GetEnrollerCours(int $utilisateurId, $coursId): bool{
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM inscriptions WHERE utilisateur_id = ? AND cours_id = ? AND statut_paiement = 'paye'");
+        $stmt->execute([$utilisateurId, $coursId]);
+        $is_enrolled = $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+        return $is_enrolled;
     }
 }
