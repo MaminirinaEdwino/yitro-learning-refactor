@@ -6,6 +6,7 @@ require_once "./src/models/cours.php";
 class CoursRepositories
 {
     private Database $database;
+    
 
     public function __construct()
     {
@@ -70,7 +71,7 @@ class CoursRepositories
         $result = new Cours(
             $donne["formateur_id"],
             $donne["formation_id"],
-            $donne["contenue_formation_id"],
+            $donne["contenu_formation_id"],
             $donne["titre"],
             $donne["description"],
             $donne["prix"],
@@ -78,7 +79,7 @@ class CoursRepositories
             $donne["niveau"]
         );
         $result->setId($id);
-        $result->setCreatedAt($donne["created_at"]);
+        $result->setCreatedAt(new DateTime($donne["created_at"]));
         return $result;
     }
     public function Update(Cours $cours)
