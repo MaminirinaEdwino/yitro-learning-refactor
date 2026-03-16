@@ -6,9 +6,15 @@ require_once "./src/models/lecons.php";
 class LeconRepositories
 {
     private Database $database;
+    private array $result;
 
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
     private function PushArray($stmt, $result)
     {
+        $this->result = [];
         while ($donne = $stmt->fetch()) {
             $var = new Lecons(
                 $donne["module_id"],
@@ -17,7 +23,7 @@ class LeconRepositories
                 $donne["fichier"]
             );
             $var->setId($donne["id"]);
-            array_push($result, $var);
+            array_push($this->result, $var);
         }
     }
 
@@ -62,18 +68,27 @@ class LeconRepositories
         $stmt = $conn->prepare($query);
         $stmt->execute([
             "id" => $lecons->getId(),
-            "module_id"=>$lecons->getModuleId(),
-            "titre"=>$lecons->getTitre(),
-            "format"=>$lecons->getFormat(),
-            "fichier"=>$lecons->getFichier()
+            "module_id" => $lecons->getModuleId(),
+            "titre" => $lecons->getTitre(),
+            "format" => $lecons->getFormat(),
+            "fichier" => $lecons->getFichier()
         ]);
     }
-    public function Delete(Lecons $lecons) {
+    public function Delete(Lecons $lecons)
+    {
         $query = "DELETE FROM lecons WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
             "id" => $lecons->getId()
         ]);
+    }
+
+    public function GetByModuleId($moduleId): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM lecons WHERE module_id = ?");
+        $stmt->execute([$moduleId]);
+        $this->PushArray($stmt, null);
+        return $this->result;
     }
 }
