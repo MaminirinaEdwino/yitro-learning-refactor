@@ -1,10 +1,4 @@
 <?php
-enum UserRole: string {
-    case Apprenant = 'apprenant';
-    case Admin = 'admin';
-    case Moderator = 'moderator';
-}
-
 class Utilisateur{
     private int $id;
     private string $nom;
