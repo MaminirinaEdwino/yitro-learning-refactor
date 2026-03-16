@@ -11,7 +11,8 @@ class FormateurRepositories{
         $this->database = new Database();
     }
     private function PushArray($stmt, $result) {
-         while ($donne = $stmt->fetch()){
+        $this->result = [];
+        while ($donne = $stmt->fetch()){
             $formateur = new Formateur(
                 $donne['nom_prenom'], 
                 $donne['email'],
@@ -33,12 +34,12 @@ class FormateurRepositories{
                 $donne["duree_estimee"],
                 $donne["type_formation"],
                 $donne["motivation"],
-                $donne["valeur"],
-                $donne["prpfil_public"],
+                $donne["valeurs"],
+                $donne["profil_public"],
                 $donne["statut"]
             );
-            $formateur->setCreatedAt($donne['created_at']);
-            $formateur->setId($donne["id_contenu"]);
+            $formateur->setCreatedAt(new DateTime($donne['created_at']));
+            $formateur->setId($donne["id"]);
             array_push($this->result, $formateur);
         }
     }
@@ -93,7 +94,8 @@ class FormateurRepositories{
         $stmt = $conn->prepare($query);
         $stmt->execute(["id"=>$id]);
         $this->PushArray($stmt, $result);
-        return $result[0];
+
+        return $this->result[0];
     }
 
     public function Delete(Formateur $formateur) {
