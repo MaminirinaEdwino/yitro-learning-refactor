@@ -1,5 +1,6 @@
 <?php
 
+
 class Cours {
     private int $id_cours;
     private int $id_formateur;
