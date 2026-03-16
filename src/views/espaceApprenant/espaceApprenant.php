@@ -89,14 +89,14 @@ $forums = $params["forums"];
                                     <?php if (!empty($c['photo'])): ?>
                                         <img src="../../Uploads/cours/<?php echo htmlspecialchars($c['photo']); ?>" alt="<?php echo htmlspecialchars($c['titre']); ?>">
                                     <?php else: ?>
-                                        <img src="../../asset/images/default_course.jpg" alt="Image par défaut">
+                                        <img src="<?= URL_ROOT ?>asset/images/default_course.jpg" alt="Image par défaut">
                                     <?php endif; ?>
                                 </div>
                                 <div class="course-content">
                                     <h3><?php echo htmlspecialchars($c['titre']); ?></h3>
                                     <p><?php echo htmlspecialchars(substr($c['description'], 0, 100)) . (strlen($c['description']) > 100 ? '...' : ''); ?></p>
                                     <div class="price"><?php echo number_format($c['prix'], 2); ?> €</div>
-                                    <a href="cours_detail1.php?id=<?php echo $c['id']; ?>" class="btn-learn">Voir les détails</a>
+                                    <a href="/cours/apprenant/<?php echo $c['id']; ?>" class="btn-learn">Voir les détails</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
