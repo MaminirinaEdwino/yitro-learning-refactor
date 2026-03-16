@@ -5,7 +5,11 @@ require_once "./src/models/formateur.php";
 
 class FormateurRepositories{
     private Database $database;
-
+    private array $result;
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
     private function PushArray($stmt, $result) {
          while ($donne = $stmt->fetch()){
             $formateur = new Formateur(
@@ -35,7 +39,7 @@ class FormateurRepositories{
             );
             $formateur->setCreatedAt($donne['created_at']);
             $formateur->setId($donne["id_contenu"]);
-            array_push($result, $formateur);
+            array_push($this->result, $formateur);
         }
     }
 
