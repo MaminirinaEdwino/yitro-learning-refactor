@@ -316,7 +316,7 @@ $data_inscriptions = array_values($inscriptions);
             border-radius: 5px;
             font-size: 0.9em;
         }
-        .alert-success {b.php')?>"><i class="fas fa-tachometer-a
+        .alert-success {
             background: #d4edda;
             color: #155724;
         }

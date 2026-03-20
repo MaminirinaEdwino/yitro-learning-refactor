@@ -85,11 +85,25 @@ class QuizRepositories
         ]);
     }
 
-    public function GetByModuleId(int $moduleId):array
+    public function GetByModuleId(int $moduleId): array
     {
         $stmt = $this->database->getConnection()->prepare("SELECT * FROM quiz WHERE module_id = ?");
         $stmt->execute([$moduleId]);
         $this->PushArray($stmt, null);
         return $this->result;
+    }
+
+    public function GetCoursModuleQuizByQuiz(int $quiz_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+    SELECT q.*, m.cours_id, c.titre AS cours_titre, m.titre AS module_titre, c.prix
+    FROM quiz q
+    JOIN modules m ON q.module_id = m.id
+    JOIN cours c ON m.cours_id = c.id
+    WHERE q.id = ?
+        ");
+        $stmt->execute([$quiz_id]);
+        $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $quiz;
     }
 }

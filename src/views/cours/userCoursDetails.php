@@ -99,7 +99,8 @@ $formateur = $params["formateur"];
                                         <strong><?php echo htmlspecialchars($q->getTitre()); ?></strong> (Score minimum : <?php echo htmlspecialchars($q->getScoreMinimum()); ?>%)
                                         <?php if ($can_access): ?>
                                             <div>
-                                                <a href="take_quiz.php?id=<?php echo $q->getId(); ?>">Passer le quiz</a>
+                                                <!-- <a href="take_quiz.php?id=<?php echo $q->getId(); ?>">Passer le quiz</a> -->
+                                                <a href="/cours/quiz/apprenant/<?php echo $q->getId(); ?>">Passer le quiz</a>
                                                 <?php if (in_array($q->getId(), $completed_quizzes[$module->getId()])): ?>
                                                     <span class="completed"> (Complété)</span>
                                                 <?php endif; ?>
