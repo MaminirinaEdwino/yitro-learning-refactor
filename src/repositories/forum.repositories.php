@@ -89,4 +89,12 @@ class ForumRepositories
         $forum = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $forum;
     }
+
+    public function GetFromForumCours(int $forum_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT f.*, c.titre AS cours_titre FROM forum f JOIN cours c ON f.cours_id = c.id WHERE f.id = ?");
+        $stmt->execute([$forum_id]);
+        $forum = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $forum;
+    }
 }
