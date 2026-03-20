@@ -1,56 +1,8 @@
 <?php
-// session_start();
-// require_once '../config/db.php';
-
-// // Vérifier si l'utilisateur est connecté
-// if (!isset($_SESSION['user_id'])) {
-//     header("Location: ../../authentification/login.php");
-//     exit();
-// }
-
-// // Récupérer le nom de l'utilisateur
-// $stmt = $pdo->prepare("SELECT nom FROM utilisateurs WHERE id = ?");
-// $stmt->execute([$_SESSION['user_id']]);
-// $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// if (!$user) {
-//     header("Location: ../../authentification/login.php");
-//     exit();
-// }
-
-// Vérifier si l'ID du quiz est fourni
-// if (!isset($_GET['id'])) {
-//     header("Location: espace_apprenant.php");
-//     exit();
-// }
-
-
-// if ($quiz_id === false || $quiz_id <= 0) {
-//     header("Location: espace_apprenant.php?error=ID du quiz invalide");
-//     exit();
-// }
-
-// Récupérer les détails du quiz et du cours
-
 $quiz_id = $params["quiz_id"];
-// $stmt = $pdo->prepare("
-//     SELECT q.*, m.cours_id, c.titre AS cours_titre, m.titre AS module_titre, c.prix
-//     FROM quiz q
-//     JOIN modules m ON q.module_id = m.id
-//     JOIN cours c ON m.cours_id = c.id
-//     WHERE q.id = ?
-// ");
-// $stmt->execute([$quiz_id]);
 $quiz = $params['quiz'];
 
-// if (!$quiz) {
-//     header("Location: espace_apprenant.php?error=Quiz non trouvé");
-//     exit();
-// }
 
-// Vérifier si l'utilisateur a accès au cours
-// $stmt = $pdo->prepare("SELECT * FROM inscriptions WHERE utilisateur_id = ? AND cours_id = ? AND statut_paiement = 'paye'");
-// $stmt->execute([$_SESSION['user_id'], $quiz['cours_id']]);
 $is_enrolled = $params["is_enrolled"];
 $is_free = $quiz['prix'] == 0;
 $can_access = $is_free || $is_enrolled;
@@ -60,10 +12,6 @@ if (!$can_access) {
     exit();
 }
 
-// Récupérer les questions
-// $stmt = $pdo->prepare("SELECT * FROM questions WHERE quiz_id = ?");
-// $stmt->execute([$quiz_id]);
-// $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $questions = $params["questions"];
 // Traitement de la soumission finale via AJAX
 $result_message = '';
