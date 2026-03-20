@@ -13,6 +13,7 @@ require_once "./src/controllers/espaceApprenant.php";
 require_once "./src/controllers/cours.php";
 require_once "./src/controllers/quiz.php";
 require_once "./src/controllers/forum.php";
+require_once "./src/controllers/post.php";
 
 $request_uri = $_SERVER['REQUEST_URI'];
 
@@ -29,5 +30,6 @@ $router->includeRouter($espaceApprenantRouter);
 $router->includeRouter($coursRouter);
 $router->includeRouter($quizRouter);
 $router->includeRouter($forumRouter);
+$router->includeRouter($postRouter);
 
 $router->dispatch($request_uri);

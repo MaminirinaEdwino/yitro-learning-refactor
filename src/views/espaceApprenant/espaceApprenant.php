@@ -108,7 +108,7 @@ $forums = $params["forums"];
                 <h2 class="section-title">Forum de Discussion</h2>
                 <div class="forum-form">
                     <h3>Créer un nouveau fil de discussion</h3>
-                    <form action="forum.php" method="POST">
+                    <form action="/forum/new" method="POST">
                         <input type="text" name="titre" placeholder="Titre du fil de discussion" required>
                         <textarea name="description" placeholder="Description du fil..." rows="4"></textarea>
                         <select name="cours_id" required>
@@ -130,7 +130,7 @@ $forums = $params["forums"];
                                 <h3><?php echo htmlspecialchars($forum['titre']); ?></h3>
                                 <p>Dans le cours : <?php echo htmlspecialchars($forum['cours_titre']); ?></p>
                                 <p><?php echo htmlspecialchars(substr($forum['description'], 0, 100)) . (strlen($forum['description']) > 100 ? '...' : ''); ?></p>
-                                <a href="forum.php?forum_id=<?php echo $forum['id']; ?>" class="btn-forum">Participer à la discussion</a>
+                                <a href="/espace/apprenant/forum/<?php echo $forum['id']; ?>" class="btn-forum">Participer à la discussion</a>
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
