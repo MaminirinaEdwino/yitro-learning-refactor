@@ -100,7 +100,7 @@
                         $price_text = $c['prix'] == 0 ? 'Gratuit' : number_format($c['prix'], 2) . ' €';
                         $price_data = $c['prix'] == 0 ? 'free' : 'paid';
                         //bouton "Accéder"
-                        $access_link = $_SESSION['logged_in'] ? '/espace/apprenant?id=' . $c['id'] : '/connect';
+                        $access_link = $_SESSION['logged_in'] ? '/cours/apprenant/' . $c['id'] : '/connect';
                         $button_text = $_SESSION['logged_in'] ? 'Accéder' : 'Connecter';
 
                         ?>

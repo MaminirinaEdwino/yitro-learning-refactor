@@ -46,7 +46,7 @@ $cours= $params["cours"];
                             <div class="course-status <?php echo $cours_statuts[$c['id']]['is_completed'] ? 'completed' : 'in-progress'; ?>">
                                 Statut : <?php echo $cours_statuts[$c['id']]['is_completed'] ? 'Terminé' : 'En cours (' . round($cours_statuts[$c['id']]['progress']) . '%)'; ?>
                             </div>
-                            <a href="cours_details.php?id=<?php echo $c['id']; ?>" class="btn-learn">
+                            <a href="/cours/apprenant/<?php echo $c['id']; ?>" class="btn-learn">
                                 <?php echo $cours_statuts[$c['id']]['is_completed'] ? 'Voir les détails' : 'Continuer'; ?>
                             </a>
                         </div>
