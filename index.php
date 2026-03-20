@@ -12,6 +12,7 @@ require_once "./src/controllers/authentication.php";
 require_once "./src/controllers/espaceApprenant.php";
 require_once "./src/controllers/cours.php";
 require_once "./src/controllers/quiz.php";
+require_once "./src/controllers/forum.php";
 
 $request_uri = $_SERVER['REQUEST_URI'];
 
@@ -27,5 +28,6 @@ $router->includeRouter($authRouter);
 $router->includeRouter($espaceApprenantRouter);
 $router->includeRouter($coursRouter);
 $router->includeRouter($quizRouter);
+$router->includeRouter($forumRouter);
 
 $router->dispatch($request_uri);
