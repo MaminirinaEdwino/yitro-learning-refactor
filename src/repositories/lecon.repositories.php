@@ -52,13 +52,12 @@ class LeconRepositories
     }
     public function GetById(int $id): Lecons
     {
-        $result = [];
         $query = "SELECT * FROM lecons WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["id" => $id]);
-        $this->PushArray($stmt, $result);
-        return $result[0];
+        $this->PushArray($stmt, null);
+        return $this->result[0];
     }
 
     public function Update(Lecons $lecons)
