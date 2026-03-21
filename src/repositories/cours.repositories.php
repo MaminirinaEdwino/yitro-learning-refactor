@@ -232,4 +232,24 @@ class CoursRepositories
         $ventes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $ventes;
     }
+    public function GetApprenant(int $formateur_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+    SELECT c.id, c.titre, u.id AS utilisateur_id, u.nom AS utilisateur_nom,
+           COUNT(DISTINCT m.id) AS total_modules,
+           COUNT(DISTINCT comp.id) AS modules_termines
+    FROM cours c
+    LEFT JOIN inscriptions i ON c.id = i.cours_id AND i.statut_paiement = 'paye'
+    LEFT JOIN utilisateurs u ON i.utilisateur_id = u.id
+    LEFT JOIN modules m ON m.cours_id = c.id
+    LEFT JOIN completions comp ON comp.module_id = m.id AND comp.utilisateur_id = u.id
+    WHERE c.formateur_id = ?
+    GROUP BY c.id, c.titre, u.id, u.nom
+    HAVING u.id IS NOT NULL
+    ORDER BY c.id, u.nom
+");
+        $stmt->execute([$formateur_id]);
+        $apprenants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $apprenants;
+    }
 }
