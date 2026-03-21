@@ -32,6 +32,6 @@ $router->includeRouter($coursRouter);
 $router->includeRouter($quizRouter);
 $router->includeRouter($forumRouter);
 $router->includeRouter($postRouter);
-$router->includeRouter($espaceFormateur);
+$router->includeRouter($espaceFormateurRouter);
 
 $router->dispatch($request_uri);

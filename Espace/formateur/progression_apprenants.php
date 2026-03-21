@@ -11,7 +11,7 @@ if (!isset($_SESSION['formateur_id'])) {
 $formateur_id = $_SESSION['formateur_id'];
 
 // Récupérer le nom du formateur
-$trainer_name = "Formateur";
+$trainer_name = $_SESSION['formateur_nom_prenom'];
 if (isset($pdo)) {
     try {
         $query = "SELECT nom_prenom FROM formateurs WHERE id = :id";

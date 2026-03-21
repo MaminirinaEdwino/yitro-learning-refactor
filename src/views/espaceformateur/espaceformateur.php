@@ -1,26 +1,10 @@
 <?php
-
-
-
 $formateur_id = $_SESSION['formateur_id'];
 $trainer_name = $_SESSION["formateur_nom_prenom"];
-
-
-// Nombre total de cours créés
 $total_cours = $params["total_cours"];
-
-// Données des ventes
 $ventes = $params["ventes"];
-
-// Progression des apprenants
-
-
 $apprenants = $params["apprenants"];
 $progression = $params["progression"];
-
-
-// Notifications des messages du forum
-
 $notifications = $params["notifications"];
 ?>
 
@@ -30,8 +14,8 @@ $notifications = $params["notifications"];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Tableau de bord formateur</title>
-    <link rel="stylesheet" href="../../asset/css/styles/style-formateur.css">
-    <link rel="stylesheet" href="../../asset/css/styles/espace-formateur.css">
+    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/styles/style-formateur.css">
+    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/styles/espace-formateur.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
