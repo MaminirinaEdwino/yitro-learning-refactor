@@ -5,7 +5,12 @@ require_once "./src/config/database.php";
 
 class ContenueFormationRepositories {
     private Database $database;
-    private function PushArray($stmt, $result) {
+
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
+    private function PushArray($stmt, &$result) {
          while ($donne = $stmt->fetch()){
             $completion = new ContenuFormation($donne['formation_id'], $donne['sous_formation']);
             $completion->setCreatedAt($donne['created_at']);
@@ -68,6 +73,16 @@ class ContenueFormationRepositories {
         $stmt->execute([
             "id"=>$contenuFormation->getIdContenuFormation()
         ]);
+    }
+
+    public function GetSousFormationAsJson(int $formation_id) : array{
+        $stmt = $this->database->getConnection()->prepare("SELECT id_contenu, sous_formation 
+                                FROM contenu_formations 
+                                WHERE formation_id = ? 
+                                ORDER BY sous_formation ASC");
+        $stmt->execute([$formation_id]);
+        $sous_formations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $sous_formations;
     }
 
 }
