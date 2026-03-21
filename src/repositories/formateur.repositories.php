@@ -137,7 +137,7 @@ class FormateurRepositories{
         ]);
     }
 
-    public function GetFOrAuth(string $email): array {
+    public function GetForAuth(string $email): array {
         $stmt = $this->database->getConnection()->prepare("SELECT id, email, password, nom_prenom FROM formateurs WHERE email = ? AND password IS NOT NULL");
         $stmt->execute([$email]);
         $formateur = $stmt->fetch(PDO::FETCH_ASSOC);
