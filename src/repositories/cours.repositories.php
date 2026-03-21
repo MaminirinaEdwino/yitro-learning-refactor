@@ -97,7 +97,7 @@ class CoursRepositories
             "prix" => $cours->getPrix(),
             "photo" => $cours->getPhoto(),
             "niveau" => $cours->getNiveau(),
-            "id"=>$cours->getId()
+            "id" => $cours->getId()
         ]);
     }
 
@@ -269,7 +269,7 @@ class CoursRepositories
         $stmt = $this->database->getConnection()->prepare("SELECT * FROM cours WHERE id = ? AND formateur_id = ?");
         $stmt->execute([$id, $formateur_id]);
         $cours = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $cours; 
+        return $cours;
     }
 
     public function GetLastInsertId(int $formateur_id): int

@@ -111,10 +111,17 @@ class ModuleRepositories
         ");
         $stmt->execute([$userId, $coursId]);
         $modules_termines = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        return $modules_termines; 
+        return $modules_termines;
     }
 
-    public function GetLastInsertId(): int {
+    public function GetLastInsertId(): int
+    {
         return $this->database->getConnection()->lastInsertId();
+    }
+
+    public function DeleteByCoursId(int $id)
+    {
+        $stmtModules = $this->database->getConnection()->prepare("DELETE FROM modules WHERE cours_id = ?");
+        $stmtModules->execute([$id]);
     }
 }

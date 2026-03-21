@@ -177,7 +177,7 @@ $coursRouter->get("/cours/edit/:id", function (int $coursId) {
 });
 
 $coursRouter->post("/cours/edit/:id", function (int $coursId) {
-    
+
     $formateur_id = $_SESSION["formateur_id"];
     $coursRepo = new CoursRepositories();
 
@@ -333,4 +333,21 @@ $coursRouter->get("/cours/apprenant/:id", function (int $coursId) {
         "lecons" => $lecons,
         "modules" => $modules
     ]);
+});
+
+$coursRouter->get("/cours/delete/:id", function (int $id) {
+    $inscriptionrepo = new InscriptionRepositories();
+    $completionRepo = new CompletionsRepositories();
+    $moduleRepo = new ModuleRepositories();
+    $coursRepo = new CoursRepositories();
+
+    $cours= $coursRepo->GetById($id);
+    unlink("./Upload/cours/".$cours->getPhoto());
+
+    $inscriptionrepo->DeleteByCoursId($id);
+    $completionRepo->DeleteByCoursId($id);
+    $moduleRepo->DeleteByCoursId($id);
+    $coursRepo->Delete($cours);
+    header("Location: /cours/formateur");
+    exit;
 });

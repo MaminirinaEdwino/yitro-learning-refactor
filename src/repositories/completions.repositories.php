@@ -102,4 +102,14 @@ class CompletionsRepositories
         $completed_modules = $stmt->fetchAll(PDO::FETCH_COLUMN);
         return $completed_modules;
     }
+
+    public function DeleteByCoursId(int $id)
+    {
+        $stmtCompletions = $this->database->getConnection()->prepare("
+    DELETE completions FROM completions 
+    INNER JOIN modules ON completions.module_id = modules.id 
+    WHERE modules.cours_id = ?
+");
+        $stmtCompletions->execute([$id]);
+    }
 }

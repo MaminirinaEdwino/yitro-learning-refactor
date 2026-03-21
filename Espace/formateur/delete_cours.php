@@ -5,6 +5,7 @@ if (!isset($_GET['id'])) {
     die("ID cours manquant.");
 }
 
+
 $id = $_GET['id'];
 
 // Supprimer les enregistrements de la table inscriptions liés à ce cours
