@@ -11,6 +11,7 @@ require_once "./src/repositories/quiz.repositories.php";
 require_once "./src/repositories/requltatQuiz.repositories.php";
 require_once "./src/repositories/lecon.repositories.php";
 require_once "./src/repositories/formation.repositories.php";
+require_once "./src/repositories/contenueFormation.repositories.php";
 require_once "./src/models/cours.php";
 require_once "./src/models/module.php";
 require_once "./src/models/lecons.php";
@@ -91,7 +92,7 @@ $coursRouter->post("/cours/new",  function () {
             $module_description = $module['description'];
 
             $newModule = new Module($coursId, $module_titre, $module_description);
-            
+
 
             $module_id = $moduleRepo->Insert($newModule);
 
@@ -156,6 +157,101 @@ $coursRouter->get("/cours/new", function () {
     ]);
 });
 
+$coursRouter->get("/cours/edit/:id", function (int $coursId) {
+    $formateur_id = $_SESSION["formateur_id"];
+    $coursRepo = new CoursRepositories();
+    $formationRepo = new FormationRepositories();
+    $contenuFormationRepo = new ContenueFormationRepositories();
+
+
+    $cours = $coursRepo->GetCoursByIdFormateur($coursId, $formateur_id);
+    $formations = $formationRepo->GetAllByNom();
+    $contenuFormation = $contenuFormationRepo->GetSousFormationAsJson($cours["formation_id"]);
+
+    TemplateRender::render("/cours/edit/php", [
+        "cours" => $cours,
+        "formations" => $formations,
+        "contenu_formation" => $contenuFormation
+    ]);
+});
+
+$coursRouter->post("/cours/edit/:id", function (int $coursId) {
+    $formateur_id = $_SESSION["formateur_id"];
+    $coursRepo = new CoursRepositories();
+
+    $cours = $coursRepo->GetCoursByIdFormateur($coursId, $formateur_id);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $titre = $_POST['titre'];
+        $description = $_POST['description'];
+        $prix = $_POST['prix'];
+        $formation_id = $_POST['formation_id'] ?? null;
+        $contenu_formation_id = $_POST['contenu_formation_id'] ?? null;
+
+        // Validation des IDs
+        if (empty($formation_id) || empty($contenu_formation_id)) {
+            $error = "Veuillez sélectionner le Thème et le Sous-Thème.";
+        }
+
+        $photo = $cours['photo'];
+        $upload_dir = './Uploads/cours/';
+        $allowed_types = ['image/jpeg', 'image/jpg', 'image/png'];
+        $max_size = 5 * 1024 * 1024; // 5MB
+
+        try {
+            // Créer le dossier d'upload s'il n'existe pas
+            if (!is_dir($upload_dir)) {
+                if (!mkdir($upload_dir, 0755, true)) {
+                    throw new Exception("Impossible de créer le dossier : $upload_dir");
+                }
+            }
+
+            // Vérifier si le dossier est accessible en écriture
+            if (!is_writable($upload_dir)) {
+                throw new Exception("Le dossier $upload_dir n'est pas accessible en écriture.");
+            }
+
+            // Gérer l'upload de la nouvelle photo
+            if (isset($_FILES['photo_cours']) && $_FILES['photo_cours']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['photo_cours'];
+                $file_name = $file['name'];
+                $file_tmp = $file['tmp_name'];
+                $file_size = $file['size'];
+                $file_type = $file['type'];
+
+                // Vérifier le type et la taille
+                if (in_array($file_type, $allowed_types) && $file_size <= $max_size) {
+                    $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+                    $photo = 'course_' . time() . '.' . $extension;
+                    $dest = $upload_dir . $photo;
+
+                    // Supprimer l'ancienne photo si elle existe
+                    if ($cours['photo'] && file_exists($upload_dir . $cours['photo'])) {
+                        if (!unlink($upload_dir . $cours['photo'])) {
+                            throw new Exception("Impossible de supprimer l'ancienne photo.");
+                        }
+                    }
+
+                    // Uploader la nouvelle photo
+                    if (!move_uploaded_file($file_tmp, $dest)) {
+                        throw new Exception("Échec de l'upload de la photo vers $dest.");
+                    }
+                } else {
+                    throw new Exception("Type de fichier non autorisé ou taille excessive.");
+                }
+            }
+
+            $updateCours = new Cours($formateur_id, $formation_id, $contenu_formation_id, $titre, $description, $prix, $photo, $cours["niveau"]);
+
+            $coursRepo->Update($updateCours);
+            header("Location: /cours");
+            exit;
+        } catch (Exception $e) {
+            $error = "Erreur : " . htmlspecialchars($e->getMessage());
+        }
+    }
+});
+
 $coursRouter->get("/cours/formateur", function () {
     $formateurId = $_SESSION["formateur_id"];
     $coursRepo = new CoursRepositories();
@@ -170,7 +266,7 @@ $coursRouter->get("/cours/formateur", function () {
     $forums = [];
     foreach ($cours as $c) {
         // Modules
-        
+
         $modules[$c['id']] = $moduleRepo->GetByCoursId($c['id']);
 
         // Leçons
@@ -184,9 +280,9 @@ $coursRouter->get("/cours/formateur", function () {
     }
     TemplateRender::render("/cours/list.php", [
         "cours" => $cours,
-        "modules"=>$modules,
-        "lecons"=>$lecons,
-        "forums"=>$forums
+        "modules" => $modules,
+        "lecons" => $lecons,
+        "forums" => $forums
     ]);
 });
 

@@ -1,0 +1,100 @@
+.main--content {
+    padding: 40px;
+    background: #f5f7fa;
+    min-height: 100vh;
+}
+
+h2 {
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 12px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-control:focus {
+    border-color: #01ae8f;
+    box-shadow: 0 0 8px rgba(1, 174, 143, 0.2);
+    outline: none;
+}
+
+.form-control[type="file"] {
+    padding: 8px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.2s, background-color 0.3s;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-success {
+    background-color: #2ecc71;
+    border: none;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+label {
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.course-image {
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.user--info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.trainer-name {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #2c3e50;
+}

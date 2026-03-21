@@ -44,7 +44,7 @@ class CoursRepositories
             "description" => $cours->getDescription(),
             "prix" => $cours->getPrix(),
             "niveau" => $cours->getNiveau(),
-            "photo"=>$cours->getPhoto()
+            "photo" => $cours->getPhoto()
         ]);
     }
 
@@ -263,10 +263,18 @@ class CoursRepositories
         return $cours;
     }
 
+    public function GetCoursByIdFormateur(int $id, int $formateur_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM cours WHERE id = ? AND formateur_id = ?");
+        $stmt->execute([$id, $formateur_id]);
+        $cours = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $cours; 
+    }
+
     public function GetLastInsertId(int $formateur_id): int
     {
         $stmt = $this->database->getConnection()->prepare("SELECT id FROM cours WHERE formateur_id = :formateurid ORDER BY id DESC");
-        $stmt->execute(["formateurid"=>$formateur_id]);
+        $stmt->execute(["formateurid" => $formateur_id]);
         $id = $stmt->fetchAll();
         return $id[0]['id'];
     }

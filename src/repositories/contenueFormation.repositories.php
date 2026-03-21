@@ -3,15 +3,17 @@
 require_once "./src/models/contenu_formation.php";
 require_once "./src/config/database.php";
 
-class ContenueFormationRepositories {
+class ContenueFormationRepositories
+{
     private Database $database;
 
     public function __construct()
     {
         $this->database = new Database();
     }
-    private function PushArray($stmt, &$result) {
-         while ($donne = $stmt->fetch()){
+    private function PushArray($stmt, &$result)
+    {
+        while ($donne = $stmt->fetch()) {
             $completion = new ContenuFormation($donne['formation_id'], $donne['sous_formation']);
             $completion->setCreatedAt($donne['created_at']);
             $completion->setIdContenuFormation($donne["id_contenu"]);
@@ -19,16 +21,18 @@ class ContenueFormationRepositories {
         }
     }
 
-    public function Insert(ContenuFormation $contenuFormation){
+    public function Insert(ContenuFormation $contenuFormation)
+    {
         $query  = "INSERT INTO contenu_formations (formation_id, sous_formation) VALUES(:formation_id, :sous_formation)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "formation_id"=>$contenuFormation->getIdFormation(),
-            "sous_formation"=>$contenuFormation->getSousFormation()
+            "formation_id" => $contenuFormation->getIdFormation(),
+            "sous_formation" => $contenuFormation->getSousFormation()
         ]);
     }
-    public function GetAll(): array{
+    public function GetAll(): array
+    {
         $result = [];
         $query = "SELECT * FROM contenu_formations";
         $conn = $this->database->getConnection();
@@ -39,12 +43,13 @@ class ContenueFormationRepositories {
         return $result;
     }
 
-    public function GetById(int $id): ContenuFormation {
+    public function GetById(int $id): ContenuFormation
+    {
         $query = "SELECT * FROM contenu_formations WHERE id_contenu = :id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id"=>$id
+            "id" => $id
         ]);
         $donne = $stmt->fetch();
         $result = new ContenuFormation(
@@ -56,26 +61,29 @@ class ContenueFormationRepositories {
         return $result;
     }
 
-    public function Update(ContenuFormation $contenuFormation){
+    public function Update(ContenuFormation $contenuFormation)
+    {
         $query = "UPDATE contenu_formations SET formation_id = :formation_id, sous_formation =:sous_formation";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "formation_id"=>$contenuFormation->getIdFormation(),
-            "sous_formation"=>$contenuFormation->getSousFormation()
+            "formation_id" => $contenuFormation->getIdFormation(),
+            "sous_formation" => $contenuFormation->getSousFormation()
         ]);
     }
 
-    public function Delete(ContenuFormation $contenuFormation) {
+    public function Delete(ContenuFormation $contenuFormation)
+    {
         $query = "DELETE FROM contenu_formations WHERE id =:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id"=>$contenuFormation->getIdContenuFormation()
+            "id" => $contenuFormation->getIdContenuFormation()
         ]);
     }
 
-    public function GetSousFormationAsJson(int $formation_id) : array{
+    public function GetSousFormationAsJson(int $formation_id): array
+    {
         $stmt = $this->database->getConnection()->prepare("SELECT id_contenu, sous_formation 
                                 FROM contenu_formations 
                                 WHERE formation_id = ? 
