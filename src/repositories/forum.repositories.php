@@ -100,7 +100,7 @@ class ForumRepositories
 
     public function GetByCoursId(int $coursId): array
     {
-        $stmt = $this->database->getConnection()->prepare("SELECT id, titre FROM forum WHERE cours_id = ?");
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM forum WHERE cours_id = ?");
         $stmt->execute([$coursId]);
         $forums = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $forums;

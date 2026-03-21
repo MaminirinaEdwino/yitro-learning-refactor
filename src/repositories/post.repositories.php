@@ -103,4 +103,20 @@ class PostRepositories
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $posts;
     }
+
+    public function GetPostFormateurIndicator(int $forum_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+        SELECT p.id, p.contenu, p.date_post, COALESCE(f.nom_prenom, u.nom) AS auteur_nom,
+               CASE WHEN f.id IS NOT NULL THEN 1 ELSE 0 END AS is_formateur
+        FROM post p
+        JOIN utilisateurs u ON p.auteur_id = u.id
+        LEFT JOIN formateurs f ON u.email = f.email
+        WHERE p.forum_id = ?
+        ORDER BY p.date_post ASC
+    ");
+        $stmt->execute([$forum_id]);
+        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $posts;
+    }
 }

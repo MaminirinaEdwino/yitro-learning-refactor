@@ -307,4 +307,12 @@ class CoursRepositories
         $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $cours;
     }
+
+    public function GetFormateurCours(int $cours_id, int $formateur_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT titre FROM cours WHERE id = ? AND formateur_id = ?");
+        $stmt->execute([$cours_id, $formateur_id]);
+        $cours = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $cours;
+    }
 }
