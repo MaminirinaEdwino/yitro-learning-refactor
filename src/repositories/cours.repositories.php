@@ -252,4 +252,12 @@ class CoursRepositories
         $apprenants = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $apprenants;
     }
+
+    public function GetCoursByFormateur(int $formateur_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM cours WHERE formateur_id = ?");
+        $stmt->execute([$formateur_id]);
+        $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $cours;
+    }
 }
