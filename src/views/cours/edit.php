@@ -22,29 +22,7 @@ $contenu_formations = $params["contenu_formation"];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo"></div>
-        <ul class="menu">
-            <li>
-                <a href="espace_formateur.php"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
-            </li>
-            <li>
-                <a href="create_cours.php"><i class="fas fa-user-cog"></i><span>Créer un cours</span></a>
-            </li>
-            <li class="active">
-                <a href="liste_cours.php"><i class="fas fa-folder-open"></i><span>Mes cours</span></a>
-            </li>
-            <li>
-                <a href="progression_apprenants.php"><i class="fas fa-chart-line"></i><span>Progression des apprenants</span></a>
-            </li>
-            <li>
-                <a href="liste_quiz.php"><i class="fas fa-question-circle"></i><span>Gestion des quiz</span></a>
-            </li>
-            <li class="logout">
-                <a href="../../authentification/logout.php"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
-            </li>
-        </ul>
-    </div>
+    <?php require_once "./src/components/formateurSideBar.php"?>
     <div class="main--content">
         <div class="header--wrapper">
             <div class="header--title">
@@ -66,15 +44,15 @@ $contenu_formations = $params["contenu_formation"];
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
-        <form action="edit_cours.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data">
+        <form action="/cours/edit/<?php echo $id; ?>" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="formation_id">Thème (Formation principale)</label>
                     <select name="formation_id" id="formation_id" class="form-control" required>
                         <option value="">Sélectionnez un thème</option>
                         <?php foreach ($formations as $f): ?>
-                            <option value="<?php echo $f['id_formation']; ?>" 
-                                <?php echo ($f['id_formation'] == $cours['formation_id']) ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($f['nom_formation']); ?>
+                            <option value="<?php echo $f->getId_formation(); ?>" 
+                                <?php echo ($f->getId_formation() == $cours['formation_id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($f->getNom_formation()); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -126,7 +104,7 @@ $contenu_formations = $params["contenu_formation"];
                 }
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', 'get_sous_formations.php?formation_id=' + formationId, true);
+                xhr.open('GET', '/sousformation/' + formationId, true);
                 
                 xhr.onload = function() {
                     if (xhr.status === 200) {

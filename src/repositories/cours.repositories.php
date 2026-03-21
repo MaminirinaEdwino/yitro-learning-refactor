@@ -18,7 +18,7 @@ class CoursRepositories
             $completion = new Cours(
                 $donne["formateur_id"],
                 $donne["formation_id"],
-                $donne["contenue_formation_id"],
+                $donne["contenu_formation_id"],
                 $donne["titre"],
                 $donne["description"],
                 $donne["prix"],
@@ -85,7 +85,7 @@ class CoursRepositories
     }
     public function Update(Cours $cours)
     {
-        $query = "UPDATE cours SET formateur_id = :formateur_id, formation_id = :formation_id, contenue_formation_id = :contenue_formation_id, titre = :titre, description =:description, prix =:prix, photo=:photo, niveau=:niveau WHERE id=:id";
+        $query = "UPDATE cours SET formateur_id = :formateur_id, formation_id = :formation_id, contenu_formation_id = :contenue_formation_id, titre = :titre, description =:description, prix =:prix, photo=:photo, niveau=:niveau WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -96,7 +96,8 @@ class CoursRepositories
             "description" => $cours->getDescription(),
             "prix" => $cours->getPrix(),
             "photo" => $cours->getPhoto(),
-            "niveau" => $cours->getNiveau()
+            "niveau" => $cours->getNiveau(),
+            "id"=>$cours->getId()
         ]);
     }
 

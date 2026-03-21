@@ -70,7 +70,7 @@ $forums = $params["forums"];
                                 <p class="price"><?php echo number_format($c['prix'], 2); ?> €</p>
                                 <p class="niveau"><?php echo htmlspecialchars($c['niveau']);?></p>
                                 <div class="course-actions">
-                                    <a href="edit_cours.php?id=<?php echo $c['id']; ?>" class="btn btn-success"><i class="fas fa-edit"></i> Modifier</a>
+                                    <a href="/cours/edit/<?php echo $c['id']; ?>" class="btn btn-success"><i class="fas fa-edit"></i> Modifier</a>
                                     <a href="delete_cours.php?id=<?php echo $c['id']; ?>" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce cours ?');"><i class="fas fa-trash"></i> Supprimer</a>
                                     <a href="forum_cours.php?id=<?php echo $c['id']; ?>" class="btn btn-info"><i class="fas fa-comments"></i> Accéder au forum</a>
                                 </div>
