@@ -219,4 +219,17 @@ class CoursRepositories
         $total_cours = $stmt->fetch(PDO::FETCH_ASSOC)['total_cours'];
         return $total_cours;
     }
+    public function GetVente(int $formateur_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+    SELECT c.titre, c.prix, COUNT(i.id) AS inscriptions, SUM(c.prix) AS revenu
+    FROM cours c
+    LEFT JOIN inscriptions i ON c.id = i.cours_id AND i.statut_paiement = 'paye'
+    WHERE c.formateur_id = ?
+    GROUP BY c.id, c.titre, c.prix
+");
+        $stmt->execute([$formateur_id]);
+        $ventes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $ventes;
+    }
 }
