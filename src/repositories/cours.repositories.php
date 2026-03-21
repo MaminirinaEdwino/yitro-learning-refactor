@@ -6,7 +6,7 @@ require_once "./src/models/cours.php";
 class CoursRepositories
 {
     private Database $database;
-    
+
 
     public function __construct()
     {
@@ -211,5 +211,12 @@ class CoursRepositories
             ];
         }
         return $cours_statuts;
+    }
+    public function GetCoursCount(int $formateur_id): int
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) AS total_cours FROM cours WHERE formateur_id = ?");
+        $stmt->execute([$formateur_id]);
+        $total_cours = $stmt->fetch(PDO::FETCH_ASSOC)['total_cours'];
+        return $total_cours;
     }
 }
