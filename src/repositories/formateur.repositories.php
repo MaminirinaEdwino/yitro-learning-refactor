@@ -141,6 +141,9 @@ class FormateurRepositories{
         $stmt = $this->database->getConnection()->prepare("SELECT id, email, password, nom_prenom FROM formateurs WHERE email = ? AND password IS NOT NULL");
         $stmt->execute([$email]);
         $formateur = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $formateur; 
+        if (is_array($formateur)) {
+            return $formateur;
+        }
+        return []; 
     }
 }

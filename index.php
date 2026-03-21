@@ -16,6 +16,7 @@ require_once "./src/controllers/forum.php";
 require_once "./src/controllers/post.php";
 require_once "./src/controllers/espaceFormateur.php";
 require_once "./src/controllers/sousFormation.php";
+require_once "./src/controllers/module.php";
 
 $request_uri = $_SERVER['REQUEST_URI'];
 
@@ -35,5 +36,6 @@ $router->includeRouter($forumRouter);
 $router->includeRouter($postRouter);
 $router->includeRouter($espaceFormateurRouter);
 $router->includeRouter($sousFormationRouter);
+$router->includeRouter($moduleRouter);
 
 $router->dispatch($request_uri);

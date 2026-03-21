@@ -16,7 +16,7 @@ $contenu_formations = $params["contenu_formation"];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning - Modifier un cours</title>
     <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/styles/style-formateur.css">
-    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/styles/editCours.css">
+    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/editCours.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -80,12 +80,12 @@ $contenu_formations = $params["contenu_formation"];
                 <div class="form-group">
                     <label for="photo_cours">Photo du cours (jpg, jpeg, png)</label>
                     <?php if ($cours['photo']): ?>
-                        <img src="../../Uploads/cours/<?php echo htmlspecialchars($cours['photo']); ?>" alt="Photo du cours" class="course-image">
+                        <img src="<?= URL_ROOT ?>Uploads/cours/<?php echo htmlspecialchars($cours['photo']); ?>" alt="Photo du cours" class="course-image">
                     <?php endif; ?>
                     <input type="file" name="photo_cours" id="photo_cours" class="form-control" accept="image/jpeg,image/jpg,image/png">
                 </div>
                 <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
-                <a href="liste_cours.php" class="btn btn-secondary">Annuler</a>
+                <a href="/cours/formateur" class="btn btn-secondary">Annuler</a>
         </form>
     </div>
 

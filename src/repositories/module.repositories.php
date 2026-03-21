@@ -43,7 +43,7 @@ class ModuleRepositories
     public function GetAll(): array
     {
         $result = [];
-        $query = "SELECT * FROM module";
+        $query = "SELECT * FROM modules";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute();
@@ -53,18 +53,17 @@ class ModuleRepositories
 
     public function GetById(int $id): Module
     {
-        $result = [];
-        $query = "SELECT * FROM module WHERE id=:id";
+        $query = "SELECT * FROM modules WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["id" => $id]);
-        $this->PushArray($stmt, $result);
-        return $result[0];
+        $this->PushArray($stmt, null);
+        return $this->result[0];
     }
 
     public function Update(Module $module)
     {
-        $query = "UPDATE module SET cours_id = :cours_id, titre=:titre, description =:description WHERE id=:id";
+        $query = "UPDATE modules SET cours_id = :cours_id, titre=:titre, description =:description WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -77,7 +76,7 @@ class ModuleRepositories
 
     public function Delete(Module $module)
     {
-        $query = "DELETE FROM module WHERE id = :id";
+        $query = "DELETE FROM modules WHERE id = :id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([

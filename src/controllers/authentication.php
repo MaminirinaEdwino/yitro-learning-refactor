@@ -84,7 +84,7 @@ $authRouter->post("/auth", function () {
             exit();
         }
     }
-    $user = $userRepo->GetForAuth($email, $password);
+    $user = $userRepo->GetForAuth($email);
     if ($user) {
         if ($user->getActif() == false) {
             error_log("Compte inactif pour l'email: " . $email);
