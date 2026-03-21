@@ -99,4 +99,17 @@ class ModuleRepositories
         $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $modules;
     }
+
+    public function GetModuletermine(int $userId, int $coursId)
+    {
+        $stmt = $this->database->getConnection()->prepare("
+            SELECT m.titre
+            FROM completions c
+            JOIN modules m ON c.module_id = m.id
+            WHERE c.utilisateur_id = ? AND c.cours_id = ?
+        ");
+        $stmt->execute([$userId, $coursId]);
+        $modules_termines = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $modules_termines; 
+    }
 }
