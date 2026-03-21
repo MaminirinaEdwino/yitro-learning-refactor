@@ -93,4 +93,18 @@ class ResultatQuizRepositories
         $this->result = $stmt->fetchAll(PDO::FETCH_COLUMN);
         return $this->result;
     }
+
+    public function GetByUserIdCoursId(int $userId, int $coursId): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+            SELECT q.titre AS quiz_titre, r.score, r.date, q.score_minimum
+            FROM resultats_quiz r
+            JOIN quiz q ON r.quiz_id = q.id
+            JOIN modules m ON q.module_id = m.id
+            WHERE r.utilisateur_id = ? AND m.cours_id = ?
+        ");
+        $stmt->execute([$userId, $coursId]);
+        $resultats_quiz = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $resultats_quiz;
+    }
 }
