@@ -84,7 +84,7 @@ $forums = $params["forums"];
                                         <p><?php echo htmlspecialchars(substr($module->getDescription(), 0, 80)) . (strlen($module->getDescription()) > 80 ? '...' : ''); ?></p>
                                         <div class="course-actions">
                                             <a href="/module/edit/<?php echo $module->getId(); ?>" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> Modifier</a>
-                                            <a href="delete_module.php?id=<?php echo $module->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce module ?');"><i class="fas fa-trash"></i> Supprimer</a>
+                                            <a href="/module/delete/<?php echo $module->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer ce module ?');"><i class="fas fa-trash"></i> Supprimer</a>
                                         </div>
                                         
                                         <?php if (!empty($lecons[$module->getId()])): ?>

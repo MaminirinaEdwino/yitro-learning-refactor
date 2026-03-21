@@ -91,4 +91,10 @@ class LeconRepositories
         $this->PushArray($stmt, null);
         return $this->result;
     }
+
+    public function DeleteByModuleId(int $moduleId)
+    {
+        $stmtLecons = $this->database->getConnection()->prepare("DELETE FROM lecons WHERE module_id = ?");
+        $stmtLecons->execute([$moduleId]);
+    }
 }

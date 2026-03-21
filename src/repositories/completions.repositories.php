@@ -112,4 +112,10 @@ class CompletionsRepositories
 ");
         $stmtCompletions->execute([$id]);
     }
+
+    public function DeleteByModueId(int $module_id)
+    {
+        $stmtCompletions = $this->database->getConnection()->prepare("DELETE FROM completions WHERE module_id = ?");
+        $stmtCompletions->execute([$module_id]);
+    }
 }
