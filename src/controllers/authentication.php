@@ -5,6 +5,8 @@ require_once "./src/router/router.php";
 require_once "./src/templaterender/templateRender.php";
 require_once "./src/repositories/utilisateurs.repositories.php";
 require_once "./src/config/database.php";
+require_once "./src/repositories/formateur.repositories.php";
+
 
 $authRouter = new Router();
 
@@ -27,6 +29,8 @@ $authRouter->get("/logout", function () {
 
 $authRouter->post("/auth", function () {
     $userRepo = new UtilisateursRepositories();
+    $formateurRepo = new FormateurRepositories();
+
     $email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
     $password = trim($_POST['password'] ?? '');
 
@@ -61,9 +65,26 @@ $authRouter->post("/auth", function () {
 
     // Requête pour vérifier l'utilisateur avec le rôle 'apprenant' et compte actif
 
-    $user = $userRepo->GetForAuth($email, $password);
-
+    
+    $formateur = $formateurRepo->GetForAuth($email);
     // Vérification des identifiants
+    if ($formateur) {
+        if ($formateur && password_verify($password, $formateur['password'])) {
+            // Connexion réussie : initialiser la session
+            $_SESSION['formateur_id'] = $formateur['id'];
+            $_SESSION['formateur_email'] = $formateur['email'];
+            $_SESSION['formateur_nom_prenom'] = $formateur['nom_prenom'];
+            $_SESSION['success'] = "Connexion réussie ! Bienvenue, " . $formateur['nom_prenom'] . ".";
+            header("Location: ../Espace/formateur/espace_formateur.php");
+            exit();
+        } else {
+            error_log("Échec de connexion pour l'email: " . $email);
+            $_SESSION['error'] = "E-mail ou mot de passe incorrect.";
+            header("Location: /connexion");
+            exit();
+        }
+    }
+    $user = $userRepo->GetForAuth($email, $password);
     if ($user) {
         if ($user->getActif() == false) {
             error_log("Compte inactif pour l'email: " . $email);
@@ -77,15 +98,16 @@ $authRouter->post("/auth", function () {
             unset($_SESSION['login_attempts'][$email]);
 
             // Création de la session
-            $_SESSION['user_id'] = $user->getId();
-            
-            $_SESSION['user_nom'] = $user->getNom();
+
             $_SESSION['success'] = "Connexion réussie ! Bienvenue, " . $user->getNom() . ".";
             error_log("Connexion réussie pour l'utilisateur: " . $email);
-            echo "teste role ". $user->getRole();
-            if ($user->getRole() == "apprenant"){
+
+            if ($user->getRole() == "apprenant") {
                 $_SESSION['user_type'] = 'apprenant';
                 $_SESSION['logged_in'] = true;
+                $_SESSION['user_id'] = $user->getId();
+                $_SESSION['user_nom'] = $user->getNom();
+
                 header("Location: /espace/apprenant");
             }
             exit();

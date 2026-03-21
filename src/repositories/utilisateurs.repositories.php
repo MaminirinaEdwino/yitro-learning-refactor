@@ -127,6 +127,7 @@ class UtilisateursRepositories
             "email" => $email
         ]);
         $this->PushArray($stmt, null);
+        
         return $this->result[0];
     }
 
