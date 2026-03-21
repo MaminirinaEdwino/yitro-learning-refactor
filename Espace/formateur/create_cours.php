@@ -1,30 +1,11 @@
 <?php
-session_start();
-require_once '../config/db.php';
 
-$trainer_name = "Formateur"; 
-if (!isset($pdo)) {
-    die("Erreur : Connexion à la base de données non établie.");
-}
-if (isset($_SESSION['formateur_id'])) {
-    $formateur_id = $_SESSION['formateur_id'];
-    try {
-        $query = "SELECT nom_prenom FROM formateurs WHERE id = :id";
-        $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':id', $formateur_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            $trainer_name = htmlspecialchars($row['nom_prenom']);
-        }
-    } catch (PDOException $e) {
-        error_log("Erreur de requête : " . $e->getMessage());
-    }
-}
+$trainer_name = $_SESSION["formateur_nom_prenom"];
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,6 +15,7 @@ if (isset($_SESSION['formateur_id'])) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
+
 <body>
   <div class="sidebar">
     <div class="logo"></div>
@@ -76,35 +58,35 @@ if (isset($_SESSION['formateur_id'])) {
     <h2>Créer un nouveau cours</h2>
 
     <form action="submit_cours.php" method="post" enctype="multipart/form-data" id="courseForm">
-      
+
       <div class="form-group">
         <label for="formation_id">Thème du cours (Formation)</label>
         <select id="formation_id" name="formation_id" class="form-control" required onchange="chargerSousFormations()">
-            <option value="">-- Sélectionner un thème --</option>
-            <?php
-                // Code pour charger les Formations
-                try {
-                    $stmt_formations = $pdo->query("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation ASC");
-                    $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
+          <option value="">-- Sélectionner un thème --</option>
+          <?php
+          // Code pour charger les Formations
+          try {
+            $stmt_formations = $pdo->query("SELECT id_formation, nom_formation FROM formations ORDER BY nom_formation ASC");
+            $formations = $stmt_formations->fetchAll(PDO::FETCH_ASSOC);
 
-                    foreach($formations as $f) {
-                        echo '<option value="' . htmlspecialchars($f['id_formation']) . '">' . htmlspecialchars($f['nom_formation']) . '</option>';
-                    }
-                } catch (PDOException $e) {
-                    error_log("Erreur de chargement des formations : " . $e->getMessage());
-                    echo '<option value="" disabled>Erreur de BDD ou aucune formation.</option>';
-                }
-            ?>
+            foreach ($formations as $f) {
+              echo '<option value="' . htmlspecialchars($f['id_formation']) . '">' . htmlspecialchars($f['nom_formation']) . '</option>';
+            }
+          } catch (PDOException $e) {
+            error_log("Erreur de chargement des formations : " . $e->getMessage());
+            echo '<option value="" disabled>Erreur de BDD ou aucune formation.</option>';
+          }
+          ?>
         </select>
       </div>
 
       <div class="form-group">
         <label for="contenu_formation_id">Sous-Thème du cours (Contenu)</label>
         <select id="contenu_formation_id" name="contenu_formation_id" class="form-control" required>
-            <option value="">-- Sélectionner d'abord un thème --</option>
+          <option value="">-- Sélectionner d'abord un thème --</option>
         </select>
       </div>
-      
+
       <div class="form-group">
         <label for="titre_cours">Titre du cours</label>
         <input type="text" name="titre_cours" id="titre_cours" class="form-control" required>
@@ -125,17 +107,17 @@ if (isset($_SESSION['formateur_id'])) {
       <div class="form-group">
         <label for="niveau_cours">Niveau du cours</label>
         <select id="niveau_cours" name="niveau_cours" class="form-control" required>
-            <option value="" disabled selected>Sélectionner le niveau</option>
-            <option value="Débutant">Débutant</option>
-            <option value="Intermédiaire">Intermédiaire</option>
-            <option value="Avancé">Avancé</option>
+          <option value="" disabled selected>Sélectionner le niveau</option>
+          <option value="Débutant">Débutant</option>
+          <option value="Intermédiaire">Intermédiaire</option>
+          <option value="Avancé">Avancé</option>
         </select>
       </div>
 
       <div id="modules-container"></div>
 
       <button type="button" class="btn btn-secondary mt-3" onclick="ajouterModule()">+ Ajouter un module</button>
-      
+
       <button type="submit" class="btn btn-primary mt-3">Enregistrer le cours</button>
     </form>
   </div>
@@ -207,65 +189,85 @@ if (isset($_SESSION['formateur_id'])) {
     }
 
     function chargerSousFormations() {
-        const formationId = document.getElementById('formation_id').value;
-        const selectContenu = document.getElementById('contenu_formation_id');
+      const formationId = document.getElementById('formation_id').value;
+      const selectContenu = document.getElementById('contenu_formation_id');
 
-        // Réinitialiser la liste des sous-formations
-        selectContenu.innerHTML = '<option value="">-- Chargement... --</option>';
+      // Réinitialiser la liste des sous-formations
+      selectContenu.innerHTML = '<option value="">-- Chargement... --</option>';
 
-        if (formationId) {
-            // Requête vers le script PHP qui retourne les sous-thèmes
-            // Assurez-vous que le chemin vers get_sous_formations.php est correct
-            fetch('get_sous_formations.php?formation_id=' + formationId) 
-                .then(response => response.json())
-                .then(data => {
-                    selectContenu.innerHTML = '<option value="">-- Sélectionner un sous-thème --</option>';
-                    if (data.length > 0) {
-                        data.forEach(item => {
-                            const option = document.createElement('option');
-                            option.value = item.id_contenu;
-                            option.textContent = item.sous_formation;
-                            selectContenu.appendChild(option);
-                        });
-                    } else {
-                        selectContenu.innerHTML = '<option value="" disabled>Aucune sous-formation pour ce thème.</option>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur lors du chargement des sous-formations:', error);
-                    selectContenu.innerHTML = '<option value="" disabled>-- Erreur de chargement --</option>';
-                });
-        } else {
-            selectContenu.innerHTML = '<option value="">-- Sélectionner d\'abord un thème --</option>';
-        }
+      if (formationId) {
+        // Requête vers le script PHP qui retourne les sous-thèmes
+        // Assurez-vous que le chemin vers get_sous_formations.php est correct
+        fetch('get_sous_formations.php?formation_id=' + formationId)
+          .then(response => response.json())
+          .then(data => {
+            selectContenu.innerHTML = '<option value="">-- Sélectionner un sous-thème --</option>';
+            if (data.length > 0) {
+              data.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id_contenu;
+                option.textContent = item.sous_formation;
+                selectContenu.appendChild(option);
+              });
+            } else {
+              selectContenu.innerHTML = '<option value="" disabled>Aucune sous-formation pour ce thème.</option>';
+            }
+          })
+          .catch(error => {
+            console.error('Erreur lors du chargement des sous-formations:', error);
+            selectContenu.innerHTML = '<option value="" disabled>-- Erreur de chargement --</option>';
+          });
+      } else {
+        selectContenu.innerHTML = '<option value="">-- Sélectionner d\'abord un thème --</option>';
+      }
     }
 
     document.getElementById('courseForm').addEventListener('submit', function(e) {
       const titre = document.getElementById('titre_cours').value.trim();
       const description = document.getElementById('description_cours').value.trim();
       const prix = document.getElementById('prix_cours').value.trim();
-      
+
       const formationId = document.getElementById('formation_id').value;
       const contenuId = document.getElementById('contenu_formation_id').value;
-      const niveau = document.getElementById('niveau_cours').value; 
+      const niveau = document.getElementById('niveau_cours').value;
 
       if (!titre || !description || !prix || !formationId || !contenuId || !niveau) {
         e.preventDefault();
         alert('Veuillez remplir tous les champs obligatoires du cours : Thème, Sous-Thème, Niveau, Titre, Description, et Prix.');
         return;
       }
-      
+
       const modules = document.querySelectorAll('.module-container');
       if (modules.length === 0) {
-          e.preventDefault();
-          alert('Votre cours doit contenir au moins un module pour être valide.');
-          return;
+        e.preventDefault();
+        alert('Votre cours doit contenir au moins un module pour être valide.');
+        return;
       }
     });
 
-    gsap.from(".main--content", { opacity: 0, y: 50, duration: 1, ease: "power3.out" });
-    gsap.from(".form-group", { opacity: 0, y: 20, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.2 });
-    gsap.from(".btn", { opacity: 0, scale: 0.8, duration: 0.5, stagger: 0.1, ease: "back.out(1.7)", delay: 0.5 });
+    gsap.from(".main--content", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: "power3.out"
+    });
+    gsap.from(".form-group", {
+      opacity: 0,
+      y: 20,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power2.out",
+      delay: 0.2
+    });
+    gsap.from(".btn", {
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.5,
+      stagger: 0.1,
+      ease: "back.out(1.7)",
+      delay: 0.5
+    });
   </script>
 </body>
+
 </html>

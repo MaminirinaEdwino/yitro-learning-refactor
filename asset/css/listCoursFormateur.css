@@ -1,0 +1,32 @@
+.course-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.theme-subtheme-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.85em;
+    text-align: right;
+    line-height: 1.2;
+}
+
+.theme-text {
+    color: #1976d2;
+    font-weight: 500;
+}
+
+.subtheme-text {
+    color: #028f76;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.theme-text i,
+.subtheme-text i {
+    margin-right: 5px;
+}

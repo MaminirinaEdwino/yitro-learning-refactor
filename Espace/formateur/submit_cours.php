@@ -5,7 +5,7 @@ require_once '../config/db.php';
 if (!isset($_SESSION['formateur_id'])) {
     header("Location: ../../authentification/login.php");
     exit;
-}
+} 
 
 $formateur_id = $_SESSION['formateur_id'];
 $upload_dir = '../../Uploads/cours/';

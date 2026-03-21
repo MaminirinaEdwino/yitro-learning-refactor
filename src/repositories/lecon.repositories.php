@@ -84,7 +84,7 @@ class LeconRepositories
         ]);
     }
 
-    public function GetByModuleId($moduleId): array
+    public function GetByModuleId(int $moduleId): array
     {
         $stmt = $this->database->getConnection()->prepare("SELECT * FROM lecons WHERE module_id = ?");
         $stmt->execute([$moduleId]);

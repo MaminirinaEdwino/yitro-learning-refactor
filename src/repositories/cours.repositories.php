@@ -33,7 +33,7 @@ class CoursRepositories
 
     public function Insert(Cours $cours)
     {
-        $query = "INSERT INTO cours (formateur_id, formation_id, contenue_formation_id, titre, description, prix, photo, niveau) VALUES(:formateur_id, :formation_id, :contenue_formation_id, :titre, :description, :prix, :photo, :niveau)";
+        $query = "INSERT INTO cours (formateur_id, formation_id, contenu_formation_id, titre, description, prix, photo, niveau) VALUES(:formateur_id, :formation_id, :contenue_formation_id, :titre, :description, :prix, :photo, :niveau)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -43,7 +43,8 @@ class CoursRepositories
             "titre" => $cours->getTitre(),
             "description" => $cours->getDescription(),
             "prix" => $cours->getPrix(),
-            "niveau" => $cours->getNiveau()
+            "niveau" => $cours->getNiveau(),
+            "photo"=>$cours->getPhoto()
         ]);
     }
 
@@ -132,6 +133,7 @@ class CoursRepositories
             contenu_formations cf ON c.contenu_formation_id = cf.id_contenu
         ORDER BY 
             c.titre ASC";
+
 
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
@@ -256,6 +258,42 @@ class CoursRepositories
     public function GetCoursByFormateur(int $formateur_id): array
     {
         $stmt = $this->database->getConnection()->prepare("SELECT * FROM cours WHERE formateur_id = ?");
+        $stmt->execute([$formateur_id]);
+        $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $cours;
+    }
+
+    public function GetLastInsertId(int $formateur_id): int
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT id FROM cours WHERE formateur_id = :formateurid ORDER BY id DESC");
+        $stmt->execute(["formateurid"=>$formateur_id]);
+        $id = $stmt->fetchAll();
+        return $id[0]['id'];
+    }
+
+    public function GetCoursFormationContenu(int $formateur_id): array
+    {
+        $sql_cours = "
+    SELECT 
+        c.id, 
+        c.titre, 
+        c.description, 
+        c.prix, 
+        c.photo,
+        c.niveau,
+        f.nom_formation AS nom_theme,          
+        cf.sous_formation AS nom_sous_theme    
+    FROM 
+        cours c
+    JOIN 
+        formations f ON c.formation_id = f.id_formation
+    JOIN 
+        contenu_formations cf ON c.contenu_formation_id = cf.id_contenu
+    WHERE 
+        c.formateur_id = ?
+";
+
+        $stmt = $this->database->getConnection()->prepare($sql_cours);
         $stmt->execute([$formateur_id]);
         $cours = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $cours;

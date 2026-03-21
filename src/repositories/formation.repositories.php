@@ -23,7 +23,6 @@ class FormationRepositories
             $formation->setCreated_at(new DateTime($donne['created_at']));
             $formation->setIdFormation($donne["id_formation"]);
             array_push($this->result, $formation);
-
         }
     }
 

@@ -5,7 +5,7 @@
             <a href="/espace/formateur"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
         </li>
         <li>
-            <a href="create_cours.php"><i class="fas fa-user-cog"></i><span>Créer un cours</span></a>
+            <a href="/cours/new"><i class="fas fa-user-cog"></i><span>Créer un cours</span></a>
         </li>
         <li>
             <a href="liste_cours.php"><i class="fas fa-folder-open"></i><span>Mes cours</span></a>

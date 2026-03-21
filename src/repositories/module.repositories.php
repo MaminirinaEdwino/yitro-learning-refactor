@@ -27,9 +27,9 @@ class ModuleRepositories
         }
     }
 
-    public function Insert(Module $module)
+    public function Insert(Module $module): int
     {
-        $query = "INSERT INTO module(cours_id, titre, description) VALUES(:cours_id, :titre, :description)";
+        $query = "INSERT INTO modules(cours_id, titre, description) VALUES(:cours_id, :titre, :description)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -37,6 +37,7 @@ class ModuleRepositories
             "titre" => $module->getTitre(),
             "description" => $module->getDescription()
         ]);
+        return $conn->lastInsertId();
     }
 
     public function GetAll(): array
@@ -111,5 +112,9 @@ class ModuleRepositories
         $stmt->execute([$userId, $coursId]);
         $modules_termines = $stmt->fetchAll(PDO::FETCH_COLUMN);
         return $modules_termines; 
+    }
+
+    public function GetLastInsertId(): int {
+        return $this->database->getConnection()->lastInsertId();
     }
 }
