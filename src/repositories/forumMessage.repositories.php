@@ -33,7 +33,8 @@ class ForumMessageRepositories
         ]);
     }
 
-    public function GetAll(): array {
+    public function GetAll(): array
+    {
         $query = "SELECT * FROM forum_message";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
@@ -43,33 +44,52 @@ class ForumMessageRepositories
         return $result;
     }
 
-    public function GetById(int $id) : ForumMessage {
+    public function GetById(int $id): ForumMessage
+    {
         $query = "SELECT * FROM forum_message WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
-        $stmt->execute(["id"=>$id]);
+        $stmt->execute(["id" => $id]);
         $result = [];
         $this->PushArray($stmt, $result);
         return $result[0];
     }
 
-    public function Update(ForumMessage $forumMessage) {
+    public function Update(ForumMessage $forumMessage)
+    {
         $query = "UPDATE forum_message SET cours_id = :cours_id, utilisateur_id =:utilisateur_id, message = :message, lu = :lu";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "cours_id"=>$forumMessage->getCoursId(),
-            "utilisateur_io"=>$forumMessage->getUtilisateurId(),
-            "message"=>$forumMessage->getMessage(),
-            "lu"=>$forumMessage->getLu()
+            "cours_id" => $forumMessage->getCoursId(),
+            "utilisateur_io" => $forumMessage->getUtilisateurId(),
+            "message" => $forumMessage->getMessage(),
+            "lu" => $forumMessage->getLu()
         ]);
     }
-    public function Delete(ForumMessage $forumMessage) {
+    public function Delete(ForumMessage $forumMessage)
+    {
         $query = "DELETE FROM forum_message WHERE id =:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id"=>$forumMessage->getId()
+            "id" => $forumMessage->getId()
         ]);
+    }
+
+    public function GetNotifications(int $formateur_id)
+    {
+        $stmt = $this->database->getConnection()->prepare("
+    SELECT fm.id, fm.message, fm.date, u.nom AS utilisateur_nom, c.titre AS cours_titre
+    FROM forum_messages fm
+    JOIN utilisateurs u ON fm.utilisateur_id = u.id
+    JOIN cours c ON fm.cours_id = c.id
+    WHERE c.formateur_id = ? AND fm.lu = FALSE
+    ORDER BY fm.date DESC
+    LIMIT 5
+");
+        $stmt->execute([$formateur_id]);
+        $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $notifications; 
     }
 }
