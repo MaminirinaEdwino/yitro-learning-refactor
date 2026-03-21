@@ -7,57 +7,21 @@ $trainer_name = $_SESSION["formateur_nom_prenom"];
 
 
 // Nombre total de cours créés
-
+$total_cours = $params["total_cours"];
 
 // Données des ventes
-$stmt = $pdo->prepare("
-    SELECT c.titre, c.prix, COUNT(i.id) AS inscriptions, SUM(c.prix) AS revenu
-    FROM cours c
-    LEFT JOIN inscriptions i ON c.id = i.cours_id AND i.statut_paiement = 'paye'
-    WHERE c.formateur_id = ?
-    GROUP BY c.id, c.titre, c.prix
-");
-$stmt->execute([$formateur_id]);
-$ventes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$ventes = $params["ventes"];
 
 // Progression des apprenants
-$progression = [];
-$stmt = $pdo->prepare("
-    SELECT c.id, c.titre, u.id AS utilisateur_id, u.nom AS utilisateur_nom,
-           COUNT(DISTINCT m.id) AS total_modules,
-           COUNT(DISTINCT comp.id) AS modules_termines
-    FROM cours c
-    LEFT JOIN inscriptions i ON c.id = i.cours_id AND i.statut_paiement = 'paye'
-    LEFT JOIN utilisateurs u ON i.utilisateur_id = u.id
-    LEFT JOIN modules m ON m.cours_id = c.id
-    LEFT JOIN completions comp ON comp.module_id = m.id AND comp.utilisateur_id = u.id
-    WHERE c.formateur_id = ?
-    GROUP BY c.id, c.titre, u.id, u.nom
-    HAVING u.id IS NOT NULL
-    ORDER BY c.id, u.nom
-");
-$stmt->execute([$formateur_id]);
-$apprenants = $stmt->fetchAll(PDO::FETCH_ASSOC);
-foreach ($apprenants as $a) {
-    $progression[$a['id']]['titre'] = $a['titre'];
-    $progression[$a['id']]['apprenants'][$a['utilisateur_id']] = [
-        'nom' => $a['utilisateur_nom'],
-        'progression' => $a['total_modules'] > 0 ? ($a['modules_termines'] / $a['total_modules']) * 100 : 0
-    ];
-}
+
+
+$apprenants = $params["apprenants"];
+$progression = $params["progression"];
+
 
 // Notifications des messages du forum
-$stmt = $pdo->prepare("
-    SELECT fm.id, fm.message, fm.date, u.nom AS utilisateur_nom, c.titre AS cours_titre
-    FROM forum_messages fm
-    JOIN utilisateurs u ON fm.utilisateur_id = u.id
-    JOIN cours c ON fm.cours_id = c.id
-    WHERE c.formateur_id = ? AND fm.lu = FALSE
-    ORDER BY fm.date DESC
-    LIMIT 5
-");
-$stmt->execute([$formateur_id]);
-$notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$notifications = $params["notifications"];
 ?>
 
 <!DOCTYPE html>
