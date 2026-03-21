@@ -15,6 +15,7 @@ require_once "./src/controllers/quiz.php";
 require_once "./src/controllers/forum.php";
 require_once "./src/controllers/post.php";
 require_once "./src/controllers/espaceFormateur.php";
+require_once "./src/controllers/sousFormation.php";
 
 $request_uri = $_SERVER['REQUEST_URI'];
 
@@ -33,5 +34,6 @@ $router->includeRouter($quizRouter);
 $router->includeRouter($forumRouter);
 $router->includeRouter($postRouter);
 $router->includeRouter($espaceFormateurRouter);
+$router->includeRouter($sousFormationRouter);
 
 $router->dispatch($request_uri);
