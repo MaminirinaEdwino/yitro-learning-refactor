@@ -5,8 +5,11 @@ require_once "./src/config/database.php";
 class ForumMessageRepositories
 {
     private Database $database;
-
-    private function PushArray($stmt, $result)
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
+    private function PushArray($stmt, &$result)
     {
         while ($donne = $stmt->fetch()) {
             $forum = new ForumMessage(
