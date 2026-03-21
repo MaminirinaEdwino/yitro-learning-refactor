@@ -75,7 +75,7 @@ $authRouter->post("/auth", function () {
             $_SESSION['formateur_email'] = $formateur['email'];
             $_SESSION['formateur_nom_prenom'] = $formateur['nom_prenom'];
             $_SESSION['success'] = "Connexion réussie ! Bienvenue, " . $formateur['nom_prenom'] . ".";
-            header("Location: ../Espace/formateur/espace_formateur.php");
+            header("Location: /espace/formateur");
             exit();
         } else {
             error_log("Échec de connexion pour l'email: " . $email);
