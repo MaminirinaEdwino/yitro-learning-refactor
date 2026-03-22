@@ -1,105 +1,23 @@
-
 <?php
-
-
-// Traitement des actions (marquer notification comme lue, désactiver utilisateur)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['mark_notification_read'])) {
-        $_SESSION['notifications_read'] = true;
-        $success_message = "Notifications marquées comme lues.";
-        // Journaliser l'action
-        $stmt = $pdo->prepare("INSERT INTO journal_activite (admin_id, action, details) VALUES (?, ?, ?)");
-        $stmt->execute([$_SESSION['user_id'], 'Marquer notifications comme lues', 'Notifications des dernières 24 heures']);
-    } elseif (isset($_POST['deactivate_user_id'])) {
-        $user_id = (int)$_POST['deactivate_user_id'];
-        try {
-            // Vérifier si la colonne 'active' existe
-            $stmt = $pdo->prepare("SHOW COLUMNS FROM utilisateurs LIKE 'active'");
-            $stmt->execute();
-            $has_active_column = $stmt->rowCount() > 0;
-
-            if ($has_active_column) {
-                $stmt = $pdo->prepare("UPDATE utilisateurs SET active = 0 WHERE id = ?");
-                $stmt->execute([$user_id]);
-                $success_message = "Compte désactivé avec succès.";
-                // Journaliser l'action
-                $stmt = $pdo->prepare("INSERT INTO journal_activite (admin_id, action, details) VALUES (?, ?, ?)");
-                $stmt->execute([$_SESSION['user_id'], 'Désactivation de compte', "Utilisateur ID: $user_id"]);
-            } else {
-                $error_message = "La colonne 'active' n'existe pas dans la table 'utilisateurs'. Ajoutez-la pour utiliser cette fonctionnalité.";
-            }
-        } catch (Exception $e) {
-            $error_message = "Erreur lors de la désactivation du compte : " . $e->getMessage();
-        }
-    }
-}
-
-
 $new_apprenants = $params["new_apprenant"];
 $new_formateurs = $params["new_formateurs"];
-
-
-
-$stmt = $pdo->prepare("SELECT COUNT(*) as count FROM cours WHERE created_at >= NOW() - INTERVAL 1 DAY");
-$stmt->execute();
-$new_cours = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
-
+$new_cours = $params["new_cours"];
+$inactive_users = $params["inactive_users"];
+$formateurs = $params["formateurs"];
+$apprenants_count = $params["apprenant_count"];
+$formateurs_count = $params["formateurs_count"];
+$cours_count = $params["cours_count"];
+$activites_aujourdhui = $params["activite_log"];
+$dernieres_activites = $params["last_log"];
 $has_notifications = ($new_apprenants > 0 || $new_formateurs > 0 || $new_cours > 0) && !isset($_SESSION['notifications_read']);
-
-// Récupérer les utilisateurs inactifs (pas de message depuis 30 jours, fallback sur created_at)
-$inactive_users = [];
-try {
-    $stmt = $pdo->prepare("
-        SELECT u.id, u.nom, u.email, u.role, MAX(COALESCE(p.date_post, u.created_at)) as last_activity
-        FROM utilisateurs u
-        LEFT JOIN post p ON u.id = p.auteur_id
-        GROUP BY u.id
-        HAVING last_activity < NOW() - INTERVAL 30 DAY
-        ORDER BY last_activity ASC
-        LIMIT 5
-    ");
-    $stmt->execute();
-    $inactive_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    $error_message = "Erreur lors de la récupération des utilisateurs inactifs : " . $e->getMessage();
-}
-
-// Récupérer les formateurs pour vérifier les rôles
-$stmt = $pdo->query("SELECT id FROM formateurs");
-$formateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Récupérer les statistiques
-$stmt = $pdo->query("SELECT COUNT(*) as count FROM utilisateurs WHERE role = 'apprenant'");
-$apprenants_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
-
-$stmt = $pdo->query("SELECT COUNT(*) as count FROM formateurs");
-$formateurs_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
-
-$stmt = $pdo->query("SELECT COUNT(*) as count FROM cours");
-$cours_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
-
-$stmt = $pdo->query("SELECT COUNT(*) as count FROM journal_activite WHERE DATE(created_at) = CURDATE()");
-$activites_aujourdhui = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
-
-// Récupérer les 5 dernières activités
-$stmt = $pdo->prepare("SELECT j.*, u.nom FROM journal_activite j JOIN utilisateurs u ON j.admin_id = u.id ORDER BY j.created_at DESC LIMIT 5");
-$stmt->execute();
-$dernieres_activites = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Données pour les graphiques (inscriptions par mois)
-$inscriptions = [];
-for ($i = 5; $i >= 0; $i--) {
-    $mois = date('Y-m', strtotime("-$i months"));
-    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM utilisateurs WHERE role = 'apprenant' AND DATE_FORMAT(created_at, '%Y-%m') = ?");
-    $stmt->execute([$mois]);
-    $inscriptions[$mois] = (int)$stmt->fetch(PDO::FETCH_ASSOC)['count'];
-}
+$inscriptions = $params["inscriptions"];
 $labels_inscriptions = array_keys($inscriptions);
 $data_inscriptions = array_values($inscriptions);
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -110,8 +28,9 @@ $data_inscriptions = array_values($inscriptions);
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
+
 <body>
-    <?php require_once './src/components/sidebaradmin.php'?>
+    <?php require_once './src/components/sidebaradmin.php' ?>
     <div class="main--content">
         <div class="header--wrapper">
             <div class="header--title">
@@ -123,22 +42,18 @@ $data_inscriptions = array_values($inscriptions);
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Rechercher...">
                 </div>
-                <img src="../asset/images/lito.jpg" alt="User Profile">
+                <img src="<?= URL_ROOT ?>asset/images/lito.jpg" alt="User Profile">
             </div>
         </div>
 
-        <?php if ($success_message): ?>
-            <div class="alert alert-success"><?php echo htmlspecialchars($success_message); ?></div>
-        <?php endif; ?>
-        <?php if ($error_message): ?>
-            <div class="alert alert-error"><?php echo htmlspecialchars($error_message); ?></div>
-        <?php endif; ?>
+
+
 
         <!-- Notifications -->
         <?php if ($has_notifications): ?>
             <div class="notifications--container">
                 <h3>Notifications Récentes
-                    <form action="" method="POST" style="display:inline;">
+                    <form action="/notification/read" method="POST" style="display:inline;">
                         <button type="submit" name="mark_notification_read" class="btn-mark-read">Marquer comme lues</button>
                     </form>
                 </h3>
@@ -223,9 +138,15 @@ $data_inscriptions = array_values($inscriptions);
                                     <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($user['last_activity']))) ?></td>
                                     <td>
                                         <a href="#" class="btn-action btn-remind">Envoyer un rappel</a>
-                                        <form action="" method="POST" style="display:inline;">
+                                        <form action="/user/deactivate" method="POST" style="display:inline;">
                                             <input type="hidden" name="deactivate_user_id" value="<?= $user['id'] ?>">
-                                            <button type="submit" class="btn-action btn-deactivate" onclick="return confirm('Voulez-vous vraiment désactiver ce compte ?')">Désactiver</button>
+                                            <?php
+                                            if ($user['actif']) {
+                                            ?>
+                                                <button type="submit" class="btn-action btn-deactivate" onclick="return confirm('Voulez-vous vraiment désactiver ce compte ?')">Désactiver</button>
+                                            <?php
+                                            }
+                                            ?>
                                         </form>
                                     </td>
                                 </tr>
@@ -300,81 +221,86 @@ $data_inscriptions = array_values($inscriptions);
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top' }
+                        legend: {
+                            position: 'top'
+                        }
                     },
                     scales: {
-                        y: { beginAtZero: true }
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
             });
 
             // Animations GSAP
-            gsap.from(".header--wrapper", { 
-                opacity: 0, 
-                y: -20, 
-                duration: 0.8, 
-                ease: "power3.out" 
+            gsap.from(".header--wrapper", {
+                opacity: 0,
+                y: -20,
+                duration: 0.8,
+                ease: "power3.out"
             });
-            gsap.from(".notifications--container", { 
-                opacity: 0, 
-                y: 30, 
-                duration: 0.8, 
+            gsap.from(".notifications--container", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
                 ease: "power3.out",
-                delay: 0.1 
+                delay: 0.1
             });
-            gsap.from(".notification", { 
-                opacity: 0, 
-                x: -20, 
-                duration: 0.8, 
-                stagger: 0.1, 
+            gsap.from(".notification", {
+                opacity: 0,
+                x: -20,
+                duration: 0.8,
+                stagger: 0.1,
                 ease: "power2.out",
-                delay: 0.2 
+                delay: 0.2
             });
-            gsap.from(".stat--card", { 
-                opacity: 0, 
-                y: 30, 
-                duration: 0.8, 
-                stagger: 0.1, 
+            gsap.from(".stat--card", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.1,
                 ease: "power3.out",
-                delay: 0.3 
+                delay: 0.3
             });
-            gsap.from(".inactive-users--container", { 
-                opacity: 0, 
-                y: 30, 
-                duration: 0.8, 
+            gsap.from(".inactive-users--container", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
                 ease: "power3.out",
-                delay: 0.4 
+                delay: 0.4
             });
-            gsap.from(".chart--container", { 
-                opacity: 0, 
-                y: 30, 
-                duration: 0.8, 
+            gsap.from(".chart--container", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
                 ease: "power3.out",
-                delay: 0.5 
+                delay: 0.5
             });
-            gsap.from(".activites--container", { 
-                opacity: 0, 
-                y: 30, 
-                duration: 0.8, 
+            gsap.from(".activites--container", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
                 ease: "power3.out",
-                delay: 0.6 
+                delay: 0.6
             });
-            gsap.from(".table--row", { 
-                opacity: 0, 
-                x: -20, 
-                duration: 0.8, 
-                stagger: 0.05, 
+            gsap.from(".table--row", {
+                opacity: 0,
+                x: -20,
+                duration: 0.8,
+                stagger: 0.05,
                 ease: "power2.out",
-                delay: 0.7 
+                delay: 0.7
             });
-            gsap.from(".alert", { 
-                opacity: 0, 
-                y: 20, 
-                duration: 0.8, 
+            gsap.from(".alert", {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
                 ease: "power3.out",
-                delay: 0.0 
+                delay: 0.0
             });
         </script>
     </div>
 </body>
+
 </html>

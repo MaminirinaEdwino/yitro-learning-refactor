@@ -118,12 +118,51 @@ class UtilisateursRepositories
         return $result;
     }
 
-    public function GetNewApprenant(): array
+    public function HasActiveCol(): bool
+    {
+        $stmt = $this->database->getConnection()->prepare("SHOW COLUMNS FROM utilisateurs LIKE 'actif'");
+        $stmt->execute();
+        $has_active_column = $stmt->rowCount() > 0;
+        return $has_active_column;
+    }
+
+    public function DeactiveUser(int $userId)
+    {
+        $stmt = $this->database->getConnection()->prepare("UPDATE utilisateurs SET actif = 0 WHERE id = ?");
+        $stmt->execute([$userId]);
+    }
+
+    public function CountUserPerMonth(string $mois): int
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) as count FROM utilisateurs WHERE role = 'apprenant' AND DATE_FORMAT(created_at, '%Y-%m') = ?");
+        $stmt->execute([$mois]);
+        $inscriptions = (int)$stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        return $inscriptions;
+    }
+
+    public function GetNewApprenant(): int
     {
         $stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) as count FROM utilisateurs WHERE role = 'apprenant' AND created_at >= NOW() - INTERVAL 1 DAY");
         $stmt->execute();
         $new_apprenants = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
         return $new_apprenants;
+    }
+
+    public function GetInactiveUsers(): array
+    {
+        $inactive_users = [];
+        $stmt = $this->database->getConnection()->prepare("
+        SELECT u.id, u.nom, u.email, u.role, u.actif, MAX(COALESCE(p.date_post, u.created_at)) as last_activity
+        FROM utilisateurs u
+        LEFT JOIN post p ON u.id = p.auteur_id
+        GROUP BY u.id
+        HAVING last_activity < NOW() - INTERVAL 30 DAY
+        ORDER BY last_activity ASC
+        LIMIT 5
+    ");
+        $stmt->execute();
+        $inactive_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $inactive_users;
     }
 
     public function GetForAuth(string $email): Utilisateur
@@ -217,5 +256,12 @@ class UtilisateursRepositories
         $stmt->execute([
             "id" => $utilisateur->getId()
         ]);
+    }
+
+    public function CountApprenant(): int
+    {
+        $stmt = $this->database->getConnection()->query("SELECT COUNT(*) as count FROM utilisateurs WHERE role = 'apprenant'");
+        $apprenants_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        return $apprenants_count;
     }
 }

@@ -31,6 +31,13 @@ class CoursRepositories
         }
     }
 
+    public function CountCours(): int
+    {
+        $stmt = $this->database->getConnection()->query("SELECT COUNT(*) as count FROM cours");
+        $cours_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        return $cours_count;
+    }
+
     public function Insert(Cours $cours)
     {
         $query = "INSERT INTO cours (formateur_id, formation_id, contenu_formation_id, titre, description, prix, photo, niveau) VALUES(:formateur_id, :formation_id, :contenue_formation_id, :titre, :description, :prix, :photo, :niveau)";
@@ -58,6 +65,14 @@ class CoursRepositories
 
         $this->PushArray($stmt, $result);
         return $result;
+    }
+
+    public function GetNewCours(): int
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) as count FROM cours WHERE created_at >= NOW() - INTERVAL 1 DAY");
+        $stmt->execute();
+        $new_cours = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        return $new_cours;
     }
 
     public function GetById(int $id): Cours

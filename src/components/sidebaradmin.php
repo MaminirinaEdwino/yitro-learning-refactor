@@ -2,11 +2,11 @@
 <?php require_once dirname(__DIR__).'/utils/relativeroute.php';?>
 <div class="sidebar">
         <div class="logo">
-            <img src="<?php echo To_relative_path('asset/images/logo.png')?>" alt="Yitro E-Learning" style=" height: 50px;border-radius:5px;background: wheat;">
+            <img src="<?= URL_ROOT ?>asset/images/logo.png" alt="Yitro E-Learning" style=" height: 50px;border-radius:5px;background: wheat;">
         </div>
         <ul class="menu" style="margin-top:-14px">
             <li class="active">
-                <a href="<?php echo To_relative_path('Espace/admin/backoffice.php')?>"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
+                <a href="/admin/baskoffice"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
             </li>
             <li>
                 <a href="<?php echo To_relative_path('Espace/admin/gestion_utilisateurs/gestion_utilisateur.php')?>"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>

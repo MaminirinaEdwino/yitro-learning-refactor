@@ -18,6 +18,9 @@ require_once "./src/controllers/espaceFormateur.php";
 require_once "./src/controllers/sousFormation.php";
 require_once "./src/controllers/module.php";
 require_once "./src/controllers/lecon.php";
+require_once "./src/controllers/admin.php";
+require_once "./src/controllers/journalactivite.php";
+require_once "./src/controllers/utilisateurs.php";
 
 $request_uri = $_SERVER['REQUEST_URI'];
 
@@ -39,5 +42,8 @@ $router->includeRouter($espaceFormateurRouter);
 $router->includeRouter($sousFormationRouter);
 $router->includeRouter($moduleRouter);
 $router->includeRouter($leconRouter);
+$router->includeRouter($userRouter);
+$router->includeRouter($journalRouter);
+$router->includeRouter($adminRouter);
 
 $router->dispatch($request_uri);

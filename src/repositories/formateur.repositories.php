@@ -155,11 +155,25 @@ class FormateurRepositories
         return [];
     }
 
-    public function GetNewFormateur(): array
+    public function GetNewFormateur(): int
     {
         $stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) as count FROM formateurs WHERE created_at >= NOW() - INTERVAL 1 DAY");
         $stmt->execute();
         $new_formateurs = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
         return $new_formateurs;
+    }
+    
+    public function GetFormateurId(): array
+    {
+        $stmt = $this->database->getConnection()->query("SELECT id FROM formateurs");
+        $formateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $formateurs;
+    }
+
+    public function CountFormateur(): int
+    {
+        $stmt = $this->database->getConnection()->query("SELECT COUNT(*) as count FROM formateurs");
+        $formateurs_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        return $formateurs_count;
     }
 }
