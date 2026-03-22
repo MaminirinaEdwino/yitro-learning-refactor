@@ -42,6 +42,7 @@ class UtilisateursRepositories
             array_push($this->result, $var);
         }
     }
+    
 
     public function Insert(Utilisateur $utilisateur)
     {

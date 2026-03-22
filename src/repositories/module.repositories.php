@@ -91,6 +91,12 @@ class ModuleRepositories
         $this->PushArray($stmt, null);
         return $this->result;
     }
+    public function GetByCoursId2(int $cours_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM modules WHERE cours_id = ?");
+        $stmt->execute([$cours_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function GetByCoursIdArray(int $cours_id): array
     {

@@ -234,25 +234,53 @@ $adminRouter->get("/suivi/apprenant/:id", function (int $id) {
     $userRepo = new UtilisateursRepositories();
 
     TemplateRender::render("/admin/suiviApprenant.php", [
-        "id"=>$id,
-        "user"=>$userRepo->GetById($id)
+        "id" => $id,
+        "user" => $userRepo->GetById($id)
     ]);
 });
 
-$adminRouter->get("/voir/user/:id", function(int $id){
+$adminRouter->get("/voir/user/:id", function (int $id) {
     $userRepo = new UtilisateursRepositories();
 
     TemplateRender::render("/admin/voirApprenant.php", [
-        "id"=>$id,
-        "user"=>$userRepo->GetById($id)
+        "id" => $id,
+        "user" => $userRepo->GetById($id)
     ]);
 });
 
-$adminRouter->get("/voir/formateur/:id", function(int $id){
+$adminRouter->get("/voir/formateur/:id", function (int $id) {
     $formateurRepo = new FormateurRepositories();
 
     TemplateRender::render("/admin/voirFormateur.php", [
-        "id"=>$id,
-        "formateur"=>$formateurRepo->GetById2($id)
+        "id" => $id,
+        "formateur" => $formateurRepo->GetById2($id)
     ]);
+});
+
+$adminRouter->get("/controle/qualite/:id", function (int $id) {
+    $formateurRepo = new FormateurRepositories();
+    $coursRepo  = new CoursRepositories();
+    $moduleRepo = new ModuleRepositories();
+    $leconRepo = new LeconRepositories();
+
+    $cours = $coursRepo->GetCoursByFormateur($id);
+    foreach ($cours as &$c) {
+        $c['modules'] = $moduleRepo->GetByCoursId2($c['id']);
+        foreach ($c['modules'] as &$m) {
+            $m['lecons'] = $leconRepo->GetByModuleId2($m['id']);
+        }
+    }
+
+    TemplateRender::render("/admin/controleQualite.php", [
+        "id" => $id,
+        "formateur" => $formateurRepo->GetById2($id),
+        "cours" => $cours
+    ]);
+});
+
+$adminRouter->get("/formateur/delete/:id", function(int $id){
+    $formateurRepo = new FormateurRepositories();
+    $formateurRepo->Delete($formateurRepo->GetById($id));
+    header("Location: /admin/gestionuser");
+    exit();
 });

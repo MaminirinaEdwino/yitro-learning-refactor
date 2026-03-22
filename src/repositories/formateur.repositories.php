@@ -202,7 +202,7 @@ class FormateurRepositories
         return $formtrs;
     }
 
-    public function UpdateStatus(int $id, int $statut, int $admin_id)
+    public function UpdateStatus(int $id, string $statut, int $admin_id)
     {
         $stmt = $this->database->getConnection()->prepare("UPDATE formateurs SET statut = ? WHERE id = ?");
         $stmt->execute([$statut, $id]);

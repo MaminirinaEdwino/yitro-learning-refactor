@@ -149,8 +149,8 @@ $admins = $params["admins"];
                                 <td><?= htmlspecialchars($formtr['statut']) ?></td>
                                 <td>
                                     <a href="/voir/formateur/<?= $formtr['id'] ?>" class="btn-action btn-view">Voir</a>
-                                    <a href="controle_qualite.php?id=<?= $formtr['id'] ?>" class="btn-action btn-quality">Contrôle Qualité</a>
-                                    <form method="POST" style="display:inline;">
+                                    <a href="/controle/qualite/<?= $formtr['id'] ?>" class="btn-action btn-quality">Contrôle Qualité</a>
+                                    <form method="POST" style="display:inline;" action="/formateur/update/status/<?= $formtr['id'] ?>">
                                         <input type="hidden" name="action" value="update_statut">
                                         <input type="hidden" name="id" value="<?= $formtr['id'] ?>">
                                         <select name="statut" onchange="this.form.submit()">
@@ -160,12 +160,12 @@ $admins = $params["admins"];
                                             <option value="partenaire" <?= $formtr['statut'] == 'partenaire' ? 'selected' : '' ?>>Partenaire</option>
                                         </select>
                                     </form>
-                                    <form method="POST" style="display:inline;">
+                                    <form method="POST" style="display:inline;" action="/send/code">
                                         <input type="hidden" name="action" value="send_code">
                                         <input type="hidden" name="id" value="<?= $formtr['id'] ?>">
                                         <button type="submit" class="btn-action btn-send-code">Envoyer le code</button>
                                     </form>
-                                    <a href="supprimer_formateur.php?id=<?= $formtr['id'] ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer ce formateur ?')">Supprimer</a>
+                                    <a href="/formateur/delete/<?= $formtr['id'] ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer ce formateur ?')">Supprimer</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -198,13 +198,13 @@ $admins = $params["admins"];
                                 <td><?= htmlspecialchars($admin['role']) ?></td>
                                 <td><?= $admin['actif'] ? 'Actif' : 'Inactif' ?></td>
                                 <td>
-                                    <a href="voir_utilisateurs.php?id=<?= $admin['id'] ?>" class="btn-action btn-view">Voir</a>
-                                    <form method="POST" style="display:inline;">
+                                    <a href="/voir/user/<?= $admin['id'] ?>" class="btn-action btn-view">Voir</a>
+                                    <form method="POST" style="display:inline;" action="/user/activate/<?= $admin['id'] ?>">
                                         <input type="hidden" name="action" value="toggle_active">
                                         <input type="hidden" name="id" value="<?= $admin['id'] ?>">
                                         <button type="submit" class="btn-action btn-toggle"><?= $admin['actif'] ? 'Désactiver' : 'Activer' ?></button>
                                     </form>
-                                    <a href="supprimer_utilisateur.php?id=<?= $admin['id'] ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer cet administrateur ?')">Supprimer</a>
+                                    <a href="/user/delete/<?= $admin['id'] ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer cet administrateur ?')">Supprimer</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -216,7 +216,7 @@ $admins = $params["admins"];
         <!-- Lien vers le journal d'activité -->
         <div class="gest--container">
             <h2 class="gest--title">Journal d'Activité</h2>
-            <a href="journal_activite.php" class="btn-action btn-view">Voir le Journal d'Activité</a>
+            <a href="/journal" class="btn-action btn-view">Voir le Journal d'Activité</a>
         </div>
     </div>
     <script>

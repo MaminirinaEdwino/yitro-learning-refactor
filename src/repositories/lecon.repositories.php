@@ -91,6 +91,14 @@ class LeconRepositories
         return $this->result;
     }
 
+    public function GetByModuleId2(int $moduleId): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM lecons WHERE module_id = ?");
+        $stmt->execute([$moduleId]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function DeleteByModuleId(int $moduleId)
     {
         $stmtLecons = $this->database->getConnection()->prepare("DELETE FROM lecons WHERE module_id = ?");

@@ -1,0 +1,144 @@
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 900px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-content h3 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: #01ae8f;
+}
+
+.modal .table--wrapper {
+    margin-bottom: 20px;
+}
+
+.modal .table th,
+.modal .table td {
+    padding: 12px;
+    vertical-align: top;
+}
+
+.lecons-list {
+    list-style-type: disc;
+    margin: 0;
+    padding-left: 20px;
+}
+
+.lecons-list li {
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.lecons-list .btn-action {
+    margin-left: 10px;
+}
+
+.no-data {
+    color: #6b7280;
+    font-style: italic;
+}
+
+/* Styles pour la modale des leçons */
+.lesson-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.lesson-modal-content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    text-align: center;
+}
+
+.lesson-modal-content h3 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.close-lesson-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-lesson-modal:hover {
+    color: #01ae8f;
+}
+
+.lesson-content video,
+.lesson-content audio,
+.lesson-content iframe {
+    width: 100%;
+    max-height: 500px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 10px;
+}
+
+.lesson-content audio {
+    max-height: 50px;
+}
+
+.lesson-content iframe {
+    height: 600px;
+}
+
+.lesson-content {
+    margin-top: 20px;
+}
