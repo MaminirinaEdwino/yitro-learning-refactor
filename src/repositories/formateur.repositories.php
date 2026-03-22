@@ -162,7 +162,7 @@ class FormateurRepositories
         $new_formateurs = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
         return $new_formateurs;
     }
-    
+
     public function GetFormateurId(): array
     {
         $stmt = $this->database->getConnection()->query("SELECT id FROM formateurs");
@@ -175,5 +175,35 @@ class FormateurRepositories
         $stmt = $this->database->getConnection()->query("SELECT COUNT(*) as count FROM formateurs");
         $formateurs_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
         return $formateurs_count;
+    }
+
+    public function GetForamteurGestionUser($search, $sort_column_formateurs, $order): array
+    {
+        $where = $search ? "WHERE nom_prenom LIKE ? OR email LIKE ?" : "";
+        $sql = "SELECT * FROM formateurs $where ORDER BY $sort_column_formateurs $order";
+        $stmtFormtr = $this->database->getConnection()->prepare($sql);
+        if ($search) {
+            $searchTerm = "%$search%";
+            $stmtFormtr->execute([$searchTerm, $searchTerm]);
+        } else {
+            $stmtFormtr->execute();
+        }
+        $formtrs = $stmtFormtr->fetchAll();
+        return $formtrs;
+    }
+
+    public function UpdateStatus(int $id, int $statut, int $admin_id)
+    {
+        $stmt = $this->database->getConnection()->prepare("UPDATE formateurs SET statut = ? WHERE id = ?");
+        $stmt->execute([$statut, $id]);
+        // Journaliser l'action
+        $stmt = $this->database->getConnection()->prepare("INSERT INTO journal_activite (admin_id, action, details) VALUES (?, ?, ?)");
+        $stmt->execute([$admin_id, 'Mise à jour statut formateur', "Formateur ID: $id, Statut: $statut"]);
+    }
+
+    public function UpdateCode(int $formateur_id, $code)
+    {
+        $stmt = $this->database->getConnection()->prepare("UPDATE formateurs SET code_entree = ? WHERE id = ?");
+        $stmt->execute([$code, $formateur_id]);
     }
 }

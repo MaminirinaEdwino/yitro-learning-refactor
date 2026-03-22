@@ -6,10 +6,10 @@
         </div>
         <ul class="menu" style="margin-top:-14px">
             <li class="active">
-                <a href="/admin/baskoffice"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
+                <a href="/admin/backoffice"><i class="fas fa-tachometer-alt"></i><span>Tableau de bord</span></a>
             </li>
             <li>
-                <a href="<?php echo To_relative_path('Espace/admin/gestion_utilisateurs/gestion_utilisateur.php')?>"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
+                <a href="/admin/gestionuser"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
             </li>
             <li>
                 <a href="<?php echo To_relative_path('Espace/admin/gestion_formations/gestion_formations.php')?>"><i class="fas fa-chart-line"></i><span>Gestion formations</span></a>

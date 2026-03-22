@@ -12,13 +12,25 @@ $userRouter->post("/user/deactivate", function () {
     $journalRepo = new JournalActiviteRepositories();
 
     $has_active_column = $userRepo->HasActiveCol();
-
-    
-
     if ($has_active_column) {
         $userRepo->DeactiveUser($user_id);
         $journalRepo->DeactivateUser($user_id);
     } 
     header("Location: /admin/backoffice");
     exit();
+});
+
+$userRouter->post("/user/activate/:id", function(int $id){
+    $userRepo = new UtilisateursRepositories();
+
+    $userRepo->ToggleActive($_SESSION['user_id'], $id);
+    header("Location: /admin/gestionuser");
+    exit();
+});
+
+$userRouter->get("/user/delete/:id", function(int $id){
+    $userRepo = new UtilisateursRepositories();
+    $user = $userRepo->GetById($id);
+    $userRepo->Delete($user);
+    header("Location: /admin/gestionuser");
 });

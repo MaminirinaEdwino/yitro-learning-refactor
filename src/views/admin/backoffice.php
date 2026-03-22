@@ -190,7 +190,7 @@ $data_inscriptions = array_values($inscriptions);
                                     <td><?= htmlspecialchars($activite['action']) ?></td>
                                     <td><?= htmlspecialchars($activite['details']) ?></td>
                                     <td>
-                                        <a href="gestion_utilisateurs/journal_activite.php" class="btn-action btn-view">
+                                        <a href="/journal" class="btn-action btn-view">
                                             <i class="fas fa-eye"></i> Voir
                                         </a>
                                     </td>

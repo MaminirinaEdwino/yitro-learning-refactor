@@ -1,10 +1,6 @@
 <?php
-require_once '../../config/db.php';
-
-$id = $_GET['id'];
-$stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE id = ?");
-$stmt->execute([$id]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$id = $params["id"];
+$user = $params["user"];
 ?>
 <!DOCTYPE html>
 <html lang="fr">

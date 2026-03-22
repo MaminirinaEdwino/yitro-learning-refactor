@@ -190,7 +190,7 @@ class UtilisateursRepositories
         return $admin;
     }
 
-    public function GetById(int $id): Quiz
+    public function GetById(int $id): Utilisateur
     {
         $result = [];
         $query = "SELECT * FROM utilisateurs WHERE id=:id";
@@ -198,7 +198,7 @@ class UtilisateursRepositories
         $stmt = $conn->prepare($query);
         $stmt->execute(["id" => $id]);
         $this->PushArray($stmt, $result);
-        return $result[0];
+        return $this->result[0];
     }
 
     public function Update(Utilisateur $utilisateur)
@@ -263,5 +263,42 @@ class UtilisateursRepositories
         $stmt = $this->database->getConnection()->query("SELECT COUNT(*) as count FROM utilisateurs WHERE role = 'apprenant'");
         $apprenants_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
         return $apprenants_count;
+    }
+
+    public function ToggleActive(int $admin_id, int $id){
+        $stmt = $this->database->getConnection()->prepare("UPDATE utilisateurs SET actif = !actif WHERE id = ?");
+        $stmt->execute([$id]);
+        $stmt = $this->database->getConnection()->prepare("INSERT INTO journal_activite (admin_id, action, details) VALUES (?, ?, ?)");
+        $stmt->execute([$admin_id, 'Toggle actif utilisateur', "Utilisateur ID: $id"]);
+    }
+
+    public function GetUserGestionUser($search, $sort_column_utilisateurs, $order): array
+    {
+        $where = $search ? "WHERE role = 'apprenant' AND (nom LIKE ? OR email LIKE ?)" : "WHERE role = 'apprenant'";
+        $sql = "SELECT * FROM utilisateurs $where ORDER BY $sort_column_utilisateurs $order";
+        $stmtUser = $this->database->getConnection()->prepare($sql);
+        if ($search) {
+            $searchTerm = "%$search%";
+            $stmtUser->execute([$searchTerm, $searchTerm]);
+        } else {
+            $stmtUser->execute();
+        }
+        $users = $stmtUser->fetchAll();
+        return $users;
+    }
+
+    public function GetAdminGestionUser($search, $sort_column_utilisateurs, $order): array
+    {
+        $where = $search ? "WHERE role IN ('admin', 'moderator') AND (nom LIKE ? OR email LIKE ?)" : "WHERE role IN ('admin', 'moderator')";
+        $sql = "SELECT * FROM utilisateurs $where ORDER BY $sort_column_utilisateurs $order";
+        $stmtAdmin = $this->database->getConnection()->prepare($sql);
+        if ($search) {
+            $searchTerm = "%$search%";
+            $stmtAdmin->execute([$searchTerm, $searchTerm]);
+        } else {
+            $stmtAdmin->execute();
+        }
+        $admins = $stmtAdmin->fetchAll();
+        return $admins;
     }
 }

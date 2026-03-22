@@ -21,10 +21,25 @@ class JournalActiviteRepositories
                 $donne["action"],
                 $donne["details"]
             );
-            $var->setCreatedAt($donne['created_at']);
+            $var->setCreatedAt(new DateTime($donne['created_at']));
             $var->setId($donne["id"]);
             array_push($result, $var);
         }
+    }
+
+    public function GetFilterLog($search, $sort, $order): array
+    {
+        $where = $search ? "WHERE j.action LIKE ? OR j.details LIKE ? OR u.nom LIKE ? OR j.created_at LIKE ?" : "";
+        $sql = "SELECT j.*, u.nom FROM journal_activite j JOIN utilisateurs u ON j.admin_id = u.id $where ORDER BY " . ($sort == 'nom' ? 'u.nom' : 'j.' . $sort) . " $order";
+        $stmt = $this->database->getConnection()->prepare($sql);
+        if ($search) {
+            $searchTerm = "%$search%";
+            $stmt->execute([$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+        } else {
+            $stmt->execute();
+        }
+        $activites = $stmt->fetchAll();
+        return $activites;
     }
 
     public function MarkRead()
