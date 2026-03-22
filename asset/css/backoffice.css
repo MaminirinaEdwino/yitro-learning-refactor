@@ -31,7 +31,8 @@
     gap: 10px;
 }
 
-.admin-card p, .admin-card ul {
+.admin-card p,
+.admin-card ul {
     font-size: 1rem;
     color: #333;
     line-height: 1.6;
@@ -121,7 +122,8 @@ table {
     margin-top: 10px;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;

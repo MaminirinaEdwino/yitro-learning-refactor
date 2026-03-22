@@ -118,6 +118,14 @@ class UtilisateursRepositories
         return $result;
     }
 
+    public function GetNewApprenant(): array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) as count FROM utilisateurs WHERE role = 'apprenant' AND created_at >= NOW() - INTERVAL 1 DAY");
+        $stmt->execute();
+        $new_apprenants = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        return $new_apprenants;
+    }
+
     public function GetForAuth(string $email): Utilisateur
     {
         $query = "SELECT * FROM utilisateurs WHERE email = :email";
@@ -127,8 +135,20 @@ class UtilisateursRepositories
             "email" => $email
         ]);
         $this->PushArray($stmt, null);
-        
+
         return $this->result[0];
+    }
+
+    public function GetForAuthAdmin(string $email): array
+    {
+        $query = "SELECT id, email, mot_de_passe, role FROM utilisateurs WHERE email = :email AND role = 'admin'";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute([
+            "email" => $email
+        ]);
+        $admin = $stmt->fetch();
+        return $admin;
     }
 
     public function GetById(int $id): Quiz
