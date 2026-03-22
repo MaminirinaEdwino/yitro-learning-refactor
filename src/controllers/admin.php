@@ -181,7 +181,7 @@ $adminRouter->post("/send/code", function () {
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'edwinomaminirina@gmail.com'; // Remplacez par votre adresse Gmail
-            $mail->Password = 'bocp ppde sogn lrdv'; // Remplacez par le mot de passe d'application
+            $mail->Password = ''; // Remplacez par le mot de passe d'application
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
