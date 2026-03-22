@@ -13,7 +13,7 @@ class JournalActivite {
         string $details
     )
     {
-        $this->$adminId = $adminId;
+        $this->adminId = $adminId;
         $this->action = $action;
         $this->details = $details;
     }

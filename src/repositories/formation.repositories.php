@@ -27,7 +27,7 @@ class FormationRepositories
     }
 
     public function Insert(Formation $formation) {
-        $query = "INSERT INTO formations (nom_formation) VALUES(:formation)";
+        $query = "INSERT INTO formations (nom_formation) VALUES(:nom_formation)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["nom_formation"=>$formation->getNom_formation()]);
@@ -79,6 +79,6 @@ class FormationRepositories
         ]);
         $result = [];
         $this->PushArray($stmt, $result);
-        return $result[0];
+        return $this->result[0];
     }
 }

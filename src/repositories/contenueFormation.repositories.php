@@ -93,4 +93,22 @@ class ContenueFormationRepositories
         return $sous_formations;
     }
 
+    public function GetSousFormation(): array
+    {
+        $sql_contenu = "SELECT cf.id_contenu, cf.sous_formation, f.nom_formation 
+                    FROM contenu_formations cf
+                    JOIN formations f ON cf.formation_id = f.id_formation
+                    ORDER BY f.nom_formation, cf.sous_formation";
+        $stmt_contenu = $this->database->getConnection()->query($sql_contenu);
+        $sous_formations = $stmt_contenu->fetchAll(PDO::FETCH_ASSOC);
+        return $sous_formations;
+    }
+
+    public function CountSousFormation($formation_id): int
+    {
+        $count_stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) FROM contenu_formations WHERE formation_id = ?");
+        $count_stmt->execute([$formation_id]);
+        $count = $count_stmt->fetchColumn();
+        return $count;
+    }
 }

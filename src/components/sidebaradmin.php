@@ -12,7 +12,7 @@
                 <a href="/admin/gestionuser"><i class="fas fa-user-cog"></i><span>Gestion utilisateur</span></a>
             </li>
             <li>
-                <a href="<?php echo To_relative_path('Espace/admin/gestion_formations/gestion_formations.php')?>"><i class="fas fa-chart-line"></i><span>Gestion formations</span></a>
+                <a href="/gestion/formation"><i class="fas fa-chart-line"></i><span>Gestion formations</span></a>
             </li>
             <li>
                 <a href="<?php echo To_relative_path('Espace/admin/gestion_forum.php')?>"><i class="fas fa-comments"></i><span>Forum</span></a>
