@@ -27,7 +27,7 @@ class QuizRepositories
         }
     }
 
-    public function Insert(Quiz $quiz)
+    public function Insert(Quiz $quiz): int
     {
         $query = "INSERT INTO quiz(module_id, titre, description, score_minimum) VALUES(:module_id, :titre, :description, :score_minimum)";
         $conn = $this->database->getConnection();
@@ -38,6 +38,7 @@ class QuizRepositories
             "description" => $quiz->getDescription(),
             "score_minimum" => $quiz->getScoreMinimum()
         ]);
+        return $conn->lastInsertId();
     }
 
     public function GetAll(): array
@@ -59,7 +60,7 @@ class QuizRepositories
         $stmt = $conn->prepare($query);
         $stmt->execute(["id" => $id]);
         $this->PushArray($stmt, $result);
-        return $result[0];
+        return $this->result[0];
     }
 
     public function Update(Quiz $quiz)
@@ -71,7 +72,8 @@ class QuizRepositories
             "module_id" => $quiz->getModuleId(),
             "titre" => $quiz->getTitre(),
             "description" => $quiz->getDescription(),
-            "score_minimum" => $quiz->getScoreMinimum()
+            "score_minimum" => $quiz->getScoreMinimum(),
+            "id"=>$quiz->getId()
         ]);
     }
 
@@ -103,6 +105,35 @@ class QuizRepositories
     WHERE q.id = ?
         ");
         $stmt->execute([$quiz_id]);
+        $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $quiz;
+    }
+
+    public function GetCoursQuizByFormateurId(int $formateurId): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+        SELECT q.id, q.titre, q.description, q.score_minimum, c.titre AS cours_titre, m.titre AS module_titre,
+            (SELECT COUNT(*) FROM questions WHERE quiz_id = q.id) AS nb_questions
+        FROM quiz q
+        JOIN modules m ON q.module_id = m.id
+        JOIN cours c ON m.cours_id = c.id
+        WHERE c.formateur_id = ?
+        ");
+        $stmt->execute([$formateurId]);
+        $quiz = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $quiz;
+    }
+
+    public function GetQuizByIdFormateurId(int $quizId, $formateurId): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+    SELECT q.*, m.cours_id, c.titre AS cours_titre, m.titre AS module_titre
+    FROM quiz q
+    JOIN modules m ON q.module_id = m.id
+    JOIN cours c ON m.cours_id = c.id
+    WHERE q.id = ? AND c.formateur_id = ?
+");
+        $stmt->execute([$quizId, $formateurId]);
         $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
         return $quiz;
     }

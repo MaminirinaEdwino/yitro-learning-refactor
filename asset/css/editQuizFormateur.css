@@ -1,0 +1,132 @@
+.main--content {
+    padding: 40px;
+    background: #f5f7fa;
+    min-height: 100vh;
+}
+
+h2 {
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 12px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-control:focus {
+    border-color: #01ae8f;
+    box-shadow: 0 0 8px rgba(1, 174, 143, 0.2);
+    outline: none;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.2s, background-color 0.3s;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    margin: 0 5px;
+}
+
+.btn-primary {
+    background-color: #01ae8f;
+    border: none;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #019074;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.question-container {
+    border: 1px solid #e9ecef;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.question-container h5 {
+    color: #2d3748;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.loading {
+    display: none;
+    font-size: 0.9em;
+    color: #4a5568;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.no-modules {
+    display: none;
+    font-size: 0.9em;
+    color: #dc3545;
+    margin-top: 5px;
+}
+
+.user--info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.trainer-name {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.remove-question {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: #dc3545;
+    font-size: 1.2em;
+}

@@ -47,3 +47,12 @@ $moduleRouter->get("/module/delete/:id", function (int $moduleId) {
     header("Location: /cours/formateur");
     exit;
 });
+
+$moduleRouter->get("/module/cours/:id", function (int $cours_id) {
+    $moduleRepo = new ModuleRepositories();
+    $modules = $moduleRepo->GetByCoursIdArray($cours_id);
+
+    // echo $modules[0]["id"];
+    header('Content-Type: application/json');
+    echo json_encode($modules);
+});

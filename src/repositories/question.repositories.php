@@ -30,7 +30,7 @@ class QuestionRepositories
 
     public function Insert(Question $question)
     {
-        $query = "INSERT INTO questions(quiz_id, texte, reponse_correcte, reponse_incorrecte_1,reponse_incorrecte_2, reponse_incorrecte_3) VALUES(:quiz_id, :texte, :reponse_correcte, :reponse_incorrecte_1, :reponse_incorrecte_2, reponse_incorrecte_3)";
+        $query = "INSERT INTO questions(quiz_id, texte, reponse_correcte, reponse_incorrecte_1,reponse_incorrecte_2, reponse_incorrecte_3) VALUES(:quiz_id, :texte, :reponse_correcte, :reponse_incorrecte_1, :reponse_incorrecte_2, :reponse_incorrecte_3)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -39,7 +39,7 @@ class QuestionRepositories
             "reponse_correcte" => $question->getReponseCorrecte(),
             "reponse_incorrecte_1" => $question->getReponseIncorrecte1(),
             "reponse_incorrecte_2" => $question->getReponseIncorrecte2(),
-            "reponse_incorrecte_1" => $question->getReponseIncorrecte3()
+            "reponse_incorrecte_3" => $question->getReponseIncorrecte3()
         ]);
     }
 
@@ -95,5 +95,10 @@ class QuestionRepositories
         $stmt->execute([$quiz_id]);
         $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $questions;
+    }
+    public function DeleteByQuiId(int $quizId)
+    {
+        $stmt = $this->database->getConnection()->prepare("DELETE FROM questions WHERE quiz_id = ?");
+        $stmt->execute([$quizId]);
     }
 }

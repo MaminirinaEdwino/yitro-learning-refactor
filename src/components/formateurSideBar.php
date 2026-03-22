@@ -14,7 +14,7 @@
             <a href="/espace/formateur/progression"><i class="fas fa-chart-line"></i><span>Progression des apprenants</span></a>
         </li>
         <li>
-            <a href="liste_quiz.php"><i class="fas fa-question-circle"></i><span>Gestion des quiz</span></a>
+            <a href="/quiz/formateur"><i class="fas fa-question-circle"></i><span>Gestion des quiz</span></a>
         </li>
         <li class="logout">
             <a href="/logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
