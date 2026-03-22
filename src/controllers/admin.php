@@ -247,3 +247,12 @@ $adminRouter->get("/voir/user/:id", function(int $id){
         "user"=>$userRepo->GetById($id)
     ]);
 });
+
+$adminRouter->get("/voir/formateur/:id", function(int $id){
+    $formateurRepo = new FormateurRepositories();
+
+    TemplateRender::render("/admin/voirFormateur.php", [
+        "id"=>$id,
+        "formateur"=>$formateurRepo->GetById2($id)
+    ]);
+});

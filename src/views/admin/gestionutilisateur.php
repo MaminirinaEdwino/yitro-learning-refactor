@@ -148,7 +148,7 @@ $admins = $params["admins"];
                                 <td><?= htmlspecialchars($formtr['email']) ?></td>
                                 <td><?= htmlspecialchars($formtr['statut']) ?></td>
                                 <td>
-                                    <a href="voir_formateurs.php?id=<?= $formtr['id'] ?>" class="btn-action btn-view">Voir</a>
+                                    <a href="/voir/formateur/<?= $formtr['id'] ?>" class="btn-action btn-view">Voir</a>
                                     <a href="controle_qualite.php?id=<?= $formtr['id'] ?>" class="btn-action btn-quality">Contrôle Qualité</a>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="action" value="update_statut">

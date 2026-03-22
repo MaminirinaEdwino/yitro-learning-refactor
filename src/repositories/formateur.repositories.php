@@ -102,7 +102,17 @@ class FormateurRepositories
 
         return $this->result[0];
     }
+    public function GetById2(int $id): array
+    {
+        $result = [];
+        $query = "SELECT * FROM formateurs WHERE id =:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id" => $id]);
+        $result = $stmt->fetch();
 
+        return $result;
+    }
     public function Delete(Formateur $formateur)
     {
         $query = "DELETE FROM formateurs WHERE id =:id";
