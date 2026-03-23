@@ -41,7 +41,7 @@ class FormationRepositories
     }
 
     public function Update(Formation $formation) {
-        $query = "UPDATE formations SET nom_formation =:nom_formation WHERE id=:id";
+        $query = "UPDATE formations SET nom_formation =:nom_formation WHERE id_formation=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([

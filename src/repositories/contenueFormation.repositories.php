@@ -15,7 +15,7 @@ class ContenueFormationRepositories
     {
         while ($donne = $stmt->fetch()) {
             $completion = new ContenuFormation($donne['formation_id'], $donne['sous_formation']);
-            $completion->setCreatedAt($donne['created_at']);
+            $completion->setCreatedAt(new DateTime($donne['created_at']));
             $completion->setIdContenuFormation($donne["id_contenu"]);
             array_push($result, $completion);
         }
@@ -56,25 +56,26 @@ class ContenueFormationRepositories
             $donne["formation_id"],
             $donne["sous_formation"]
         );
-        $result->setCreatedAt($donne["created_at"]);
+        $result->setCreatedAt(new DateTime($donne["created_at"]));
         $result->setIdContenuFormation($id);
         return $result;
     }
 
     public function Update(ContenuFormation $contenuFormation)
     {
-        $query = "UPDATE contenu_formations SET formation_id = :formation_id, sous_formation =:sous_formation";
+        $query = "UPDATE contenu_formations SET formation_id = :formation_id, sous_formation =:sous_formation WHERE id_contenu=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
             "formation_id" => $contenuFormation->getIdFormation(),
-            "sous_formation" => $contenuFormation->getSousFormation()
+            "sous_formation" => $contenuFormation->getSousFormation(),
+            "id"=>$contenuFormation->getIdContenuFormation()
         ]);
     }
 
     public function Delete(ContenuFormation $contenuFormation)
     {
-        $query = "DELETE FROM contenu_formations WHERE id =:id";
+        $query = "DELETE FROM contenu_formations WHERE id_contenu =:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -110,5 +111,17 @@ class ContenueFormationRepositories
         $count_stmt->execute([$formation_id]);
         $count = $count_stmt->fetchColumn();
         return $count;
+    }
+
+    public function GetContenuFormation(int $id_contenu): array
+    {
+        $sql = "SELECT cf.id_contenu, cf.sous_formation, f.nom_formation, f.id_formation as parent_id
+                FROM contenu_formations cf
+                JOIN formations f ON cf.formation_id = f.id_formation
+                WHERE cf.id_contenu = ?";
+        $stmt = $this->database->getConnection()->prepare($sql);
+        $stmt->execute([$id_contenu]);
+        $contenu_details = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $contenu_details;
     }
 }

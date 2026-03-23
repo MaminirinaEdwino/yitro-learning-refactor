@@ -107,11 +107,11 @@ $sous_formations = $params["sous_formations"];
                                     <td><?= htmlspecialchars($formation->getNom_formation()) ?></td>
                                     <td><?= $count ?></td>
                                     <td>
-                                        <a href="modifier_formation.php?id=<?= $formation->getId_formation() ?>" class="btn-action btn-edit">Modifier</a>
+                                        <a href="/formation/edit/<?= $formation->getId_formation() ?>" class="btn-action btn-edit">Modifier</a>
                                     
                                         <a href="/gestion/formation/<?= $formation->getId_formation() ?>" class="btn-action btn-view">Voir Toutes</a>
                                         
-                                        <a href="supprimer_formation.php?id=<?= $formation->getId_formation() ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer la formation <?= htmlspecialchars($formation->getNom_formation()) ?> et TOUTES ses sous-formations ?')">Supprimer</a>
+                                        <a href="/formation/delete/<?= $formation->getId_formation() ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer la formation <?= htmlspecialchars($formation->getNom_formation()) ?> et TOUTES ses sous-formations ?')">Supprimer</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

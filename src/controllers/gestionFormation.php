@@ -55,15 +55,75 @@ $gestionFormationRouter->post("/sousformation/new", function () {
     exit();
 });
 
-$gestionFormationRouter->get("/gestion/formation/:id", function (int $id)  {
+$gestionFormationRouter->get("/gestion/formation/:id", function (int $id) {
     $formationRepo = new FormationRepositories();
     $contenuFormationRepo = new ContenueFormationRepositories();
     $contenuFormation = $contenuFormationRepo->GetSousFormationAsJson($id);
     $formation_detials = $formationRepo->GetById($id);
 
     TemplateRender::render("/admin/voirDetailsFormation.php", [
-        "id"=>$id,
-        "formation_details"=>$formation_detials,
-        "sous_formations"=>$contenuFormation
+        "id" => $id,
+        "formation_details" => $formation_detials,
+        "sous_formations" => $contenuFormation
     ]);
+});
+
+$gestionFormationRouter->get("/formation/edit/:id", function (int $id_formation) {
+    $formationRepo = new FormationRepositories();
+
+    $formation = $formationRepo->GetById($id_formation);
+    TemplateRender::render("/admin/editFormation.php", ["formations" => $formation]);
+});
+
+$gestionFormationRouter->post("/formation/edit/:id", function (int $id_formation) {
+    $nouveau_nom = trim($_POST['nouveau_nom'] ?? '');
+    $formationRepo = new FormationRepositories();
+    $journalRepo = new JournalActiviteRepositories();
+
+    $formation = $formationRepo->GetById($id_formation);
+    $formation->setNom_formation($nouveau_nom);
+    $formationRepo->Update($formation);
+    $details = "Modification formation principale ID: " . $id_formation . " vers: " . $nouveau_nom;
+    $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Modification Formation', $details));
+    header("Location: /gestion/formation");
+    exit;
+});
+
+$gestionFormationRouter->get("/formation/delete/:id",  function (int $id_formation) {
+    $formationRepo = new FormationRepositories();
+    $journalRepo = new JournalActiviteRepositories();
+
+    $formation = $formationRepo->GetById($id_formation);
+    $formationRepo->Delete($formation);
+    $journalRepo->Insert(new JournalActivite($_SESSION['user_id'],  "Suppression Formation", "Suppression formaion " . $formation->getNom_formation()));
+    header("Location: /gestion/formation");
+});
+
+$gestionFormationRouter->get("/contenu/edit/:id", function(int $id_contenu){
+    $contenuFormationRepo = new ContenueFormationRepositories();
+
+    TemplateRender::render("/admin/editContenu.php", [
+        "contenu"=>$contenuFormationRepo->GetContenuFormation($id_contenu)
+    ]);
+});
+
+$gestionFormationRouter->post("/contenu/edit/:id", function (int $id_contenu) {
+    $nouveau_nom = trim($_POST['nouveau_nom'] ?? '');
+    $parent_id = $_POST['formation_parent_id'] ?? 0;
+    $contenuRepo = new ContenueFormationRepositories();
+    $journalRepo = new JournalActiviteRepositories();
+    $contenu = $contenuRepo->GetById($id_contenu);
+    $contenu->setSousFormation($nouveau_nom);
+    $contenuRepo->Update($contenu);
+    $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], "modification sous formation", "Modifiation du sous formation ".$nouveau_nom));
+    header("Location: /gestion/formation/".$parent_id);
+    exit();
+});
+
+$gestionFormationRouter->get("/contenu/delete/:id", function(int $id_contenu){
+    $contenuFormationRepo = new ContenueFormationRepositories();
+    $contenu = $contenuFormationRepo->GetById($id_contenu);
+    $contenuFormationRepo->Delete($contenu);
+    header("Location: /gestion/formation/".$contenu->getIdFormation());
+    exit();
 });

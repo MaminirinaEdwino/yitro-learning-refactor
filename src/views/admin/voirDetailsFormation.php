@@ -71,8 +71,8 @@ $sous_formations = $params["sous_formations"];
                                     <td><?= $contenu['id_contenu'] ?></td>
                                     <td><?= htmlspecialchars($contenu['sous_formation']) ?></td>
                                     <td>
-                                        <a href="modifier_contenu.php?id=<?= $contenu['id_contenu'] ?>" class="btn-action btn-edit">Modifier</a>
-                                        <a href="supprimer_contenu.php?id=<?= $contenu['id_contenu'] ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer cette sous-formation ?')">Supprimer</a>
+                                        <a href="/contenu/edit/<?= $contenu['id_contenu'] ?>" class="btn-action btn-edit">Modifier</a>
+                                        <a href="/contenu/delete/<?= $contenu['id_contenu'] ?>" class="btn-action btn-delete" onclick="return confirm('Supprimer cette sous-formation ?')">Supprimer</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
