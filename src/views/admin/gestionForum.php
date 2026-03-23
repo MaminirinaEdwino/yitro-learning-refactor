@@ -64,7 +64,7 @@ $forums = $params["forums"];
                                             <input type="hidden" name="forum_id" value="<?php echo $forum['id']; ?>">
                                             <button type="submit" class="btn-action btn-delete" onclick="return confirm('Voulez-vous vraiment supprimer ce forum ?')">Supprimer</button>
                                         </form>
-                                        <a href="voir_messages.php?forum_id=<?php echo $forum['id']; ?>" class="btn-action btn-view"><i class="fas fa-eye"></i> Voir les messages</a>
+                                        <a href="/gestion/forum/message/<?php echo $forum['id']; ?>" class="btn-action btn-view"><i class="fas fa-eye"></i> Voir les messages</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
