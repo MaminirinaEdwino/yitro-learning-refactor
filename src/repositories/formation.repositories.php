@@ -26,31 +26,35 @@ class FormationRepositories
         }
     }
 
-    public function Insert(Formation $formation) {
+    public function Insert(Formation $formation)
+    {
         $query = "INSERT INTO formations (nom_formation) VALUES(:nom_formation)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
-        $stmt->execute(["nom_formation"=>$formation->getNom_formation()]);
+        $stmt->execute(["nom_formation" => $formation->getNom_formation()]);
     }
 
-    public function Delete(Formation $formation) {
+    public function Delete(Formation $formation)
+    {
         $query = "DELETE FROM formations WHERE id_formation = :id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
-        $stmt->execute(["id"=>$formation->getId_formation()]);
+        $stmt->execute(["id" => $formation->getId_formation()]);
     }
 
-    public function Update(Formation $formation) {
+    public function Update(Formation $formation)
+    {
         $query = "UPDATE formations SET nom_formation =:nom_formation WHERE id_formation=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id"=>$formation->getId_formation(),
-            "nom_formation"=>$formation->getNom_formation()
+            "id" => $formation->getId_formation(),
+            "nom_formation" => $formation->getNom_formation()
         ]);
     }
 
-    public function GetAll(): array {
+    public function GetAll(): array
+    {
         $query = "SELECT * FROM formations ";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
@@ -60,7 +64,8 @@ class FormationRepositories
         return $this->result;
     }
 
-    public function GetAllByNom(): array {
+    public function GetAllByNom(): array
+    {
         $query = "SELECT * FROM formations ORDER BY nom_formation";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
@@ -70,15 +75,29 @@ class FormationRepositories
         return $this->result;
     }
 
-    public function GetById(int $id): Formation {
+    public function GetById(int $id): Formation
+    {
         $query = "SELECT * FROM formations WHERE id_formation =:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "id"=>$id
+            "id" => $id
         ]);
         $result = [];
         $this->PushArray($stmt, $result);
         return $this->result[0];
+    }
+
+    public function GetForGestionForum(): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+        SELECT f.*, c.titre AS cours_titre
+        FROM forum f
+        JOIN cours c ON f.cours_id = c.id
+        ORDER BY f.date_creation DESC
+        ");
+        $stmt->execute();
+        $forums = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $forums;
     }
 }

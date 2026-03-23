@@ -12,7 +12,7 @@ class ForumRepositories
     {
         $this->database = new Database();
     }
-    private function PushArray($stmt, $result)
+    private function PushArray($stmt, &$result)
     {
         while ($donne = $stmt->fetch()) {
             $forum = new Forum(
@@ -20,7 +20,7 @@ class ForumRepositories
                 $donne["titre"],
                 $donne["description"]
             );
-            $forum->setDateCreation($donne['date_creation']);
+            $forum->setDateCreation(new DateTime($donne['date_creation']));
             $forum->setId($donne["id"]);
             array_push($result, $forum);
         }
@@ -51,7 +51,7 @@ class ForumRepositories
 
     public function GetById(int $id): Forum
     {
-        $query = "SELECT * FROM forum ";
+        $query = "SELECT * FROM forum WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -64,13 +64,13 @@ class ForumRepositories
 
     public function Update(Forum $forum)
     {
-        $query = "UPDATE forum SET cours_id = :cours_id, titre = :titre, description=:description WHERE id=:id";
+        $query = "UPDATE forum SET titre = :titre, description=:description WHERE id=:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
-            "cours_id" => $forum->getId(),
             "titre" => $forum->getTitre(),
-            "description" => $forum->getDescription()
+            "description" => $forum->getDescription(),
+            "id"=>$forum->getId()
         ]);
     }
 

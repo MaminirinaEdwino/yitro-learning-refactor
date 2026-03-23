@@ -15,7 +15,7 @@
                 <a href="/gestion/formation"><i class="fas fa-chart-line"></i><span>Gestion formations</span></a>
             </li>
             <li>
-                <a href="<?php echo To_relative_path('Espace/admin/gestion_forum.php')?>"><i class="fas fa-comments"></i><span>Forum</span></a>
+                <a href="/gestion/forum"><i class="fas fa-comments"></i><span>Forum</span></a>
             </li>
             <li>
                 <a href="<?php echo To_relative_path('Espace/admin/progression_apprenant.php')?>"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
