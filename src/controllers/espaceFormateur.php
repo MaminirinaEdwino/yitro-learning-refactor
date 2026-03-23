@@ -73,6 +73,6 @@ $espaceFormateurRouter->get("/espace/formateur/progression", function () {
 
     TemplateRender::render("/espaceformateur/progressionApprenant.php", [
         "cours" => $cours,
-        "progression"=>$progression
+        "progression" => $progression
     ]);
 });

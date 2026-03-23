@@ -94,6 +94,17 @@ class InscriptionRepositories
         $is_enrolled = $stmt->fetch(PDO::FETCH_ASSOC) !== false;
         return $is_enrolled;
     }
+    public function GetProgressionApprenant(int $id): array {
+        $stmt = $this->database->getConnection()->prepare("
+        SELECT c.id AS cours_id, c.titre AS cours_titre, i.date_inscription
+        FROM inscriptions i
+        JOIN cours c ON i.cours_id = c.id
+        WHERE i.utilisateur_id = ? AND i.statut_paiement = 'paye'
+    ");
+        $stmt->execute([$id]);
+        $apprenant = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $apprenant;
+    }
 
     public function GetApprenantByCoursId(int $coursId): array
     {

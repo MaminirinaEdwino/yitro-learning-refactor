@@ -52,6 +52,19 @@ class ResultatQuizRepositories
         return $result;
     }
 
+    public function GetQuizReussis(int $apprenant, int $cours): int
+    {
+        $stmt = $this->database->getConnection()->prepare("
+            SELECT COUNT(*) AS quiz_reussis
+            FROM resultats_quiz rq
+            JOIN quiz q ON rq.quiz_id = q.id
+            JOIN modules m ON q.module_id = m.id
+            WHERE rq.utilisateur_id = ? AND m.cours_id = ? AND rq.score >= q.score_minimum
+        ");
+        $stmt->execute([$apprenant, $cours]);
+        $quiz_reussis = $stmt->fetchColumn();
+        return $quiz_reussis;
+    }
     public function GetById(int $id): Quiz
     {
         $result = [];

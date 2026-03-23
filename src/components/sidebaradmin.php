@@ -18,13 +18,13 @@
                 <a href="/gestion/forum"><i class="fas fa-comments"></i><span>Forum</span></a>
             </li>
             <li>
-                <a href="<?php echo To_relative_path('Espace/admin/progression_apprenant.php')?>"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
+                <a href="/admin/progression/apprenant"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
             </li>
             <li>
                 <a href="<?php echo To_relative_path('Espace/admin/espace-certificat.php')?>"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
             </li>
             <li class="logout">
-                <a href="<?php echo To_relative_path('authentification/logout.php')?>"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
+                <a href="/admin/progression/apprenant"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
             </li>
         </ul>
     </div>

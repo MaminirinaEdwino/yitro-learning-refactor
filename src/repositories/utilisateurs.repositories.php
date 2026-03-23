@@ -42,7 +42,18 @@ class UtilisateursRepositories
             array_push($this->result, $var);
         }
     }
-    
+    public function GetActiveUser(): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+    SELECT u.id, u.nom, u.email
+    FROM utilisateurs u
+    WHERE u.role = 'apprenant' AND u.actif = 1
+    ORDER BY u.nom ASC
+");
+        $stmt->execute();
+        $apprenants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $apprenants;
+    }
 
     public function Insert(Utilisateur $utilisateur)
     {
@@ -266,7 +277,8 @@ class UtilisateursRepositories
         return $apprenants_count;
     }
 
-    public function ToggleActive(int $admin_id, int $id){
+    public function ToggleActive(int $admin_id, int $id)
+    {
         $stmt = $this->database->getConnection()->prepare("UPDATE utilisateurs SET actif = !actif WHERE id = ?");
         $stmt->execute([$id]);
         $stmt = $this->database->getConnection()->prepare("INSERT INTO journal_activite (admin_id, action, details) VALUES (?, ?, ?)");

@@ -52,6 +52,19 @@ class QuizRepositories
         return $this->result;
     }
 
+    public function GetTotalQuiz($cours): int
+    {
+        $stmt = $this->database->getConnection()->prepare("
+            SELECT COUNT(*) AS total_quiz
+            FROM quiz q
+            JOIN modules m ON q.module_id = m.id
+            WHERE m.cours_id = ?
+        ");
+        $stmt->execute([$cours]);
+        $total_quiz = $stmt->fetchColumn();
+        return $total_quiz;
+    }
+
     public function GetById(int $id): Quiz
     {
         $result = [];
@@ -73,7 +86,7 @@ class QuizRepositories
             "titre" => $quiz->getTitre(),
             "description" => $quiz->getDescription(),
             "score_minimum" => $quiz->getScoreMinimum(),
-            "id"=>$quiz->getId()
+            "id" => $quiz->getId()
         ]);
     }
 

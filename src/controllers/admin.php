@@ -278,9 +278,53 @@ $adminRouter->get("/controle/qualite/:id", function (int $id) {
     ]);
 });
 
-$adminRouter->get("/formateur/delete/:id", function(int $id){
+$adminRouter->get("/formateur/delete/:id", function (int $id) {
     $formateurRepo = new FormateurRepositories();
     $formateurRepo->Delete($formateurRepo->GetById($id));
     header("Location: /admin/gestionuser");
     exit();
+});
+
+$adminRouter->get("/admin/progression/apprenant", function () {
+    $userRepo = new UtilisateursRepositories();
+    $inscriptionsRepo = new InscriptionRepositories();
+    $moduleRepo = new ModuleRepositories();
+    $completionRepo = new CompletionsRepositories();
+    $quizRepo = new QuizRepositories();
+    $resultatQuizRepo = new ResultatQuizRepositories();
+    $journalRepo = new JournalActiviteRepositories();
+    $apprenants = $userRepo->GetActiveUser();
+
+    // Récupérer les apprenants actifs
+
+
+    // Pour chaque apprenant, récupérer ses cours, progression des cours et des quiz
+    foreach ($apprenants as &$apprenant) {
+        $apprenant["cours"] = $inscriptionsRepo->GetProgressionApprenant($apprenant["id"]);
+
+
+        foreach ($apprenant['cours'] as &$cours) {
+            // Progression des cours (modules complétés)
+            $total_modules = $moduleRepo->GetTotalModule($cours['cours_id']);
+            $modules_completes = $completionRepo->GetCompleteModule($apprenant['id'], $cours['cours_id']);
+
+            $cours['progression_cours'] = $total_modules > 0 ? round(($modules_completes / $total_modules) * 100) : 0;
+            
+            $total_quiz = $quizRepo->GetTotalQuiz($cours['cours_id']);
+            // Progression des quiz (quiz réussis)
+            
+            $quiz_reussis = $resultatQuizRepo->GetQuizReussis($apprenant['id'], $cours['cours_id']);
+            
+
+            $cours['progression_quiz'] = $total_quiz > 0 ? round(($quiz_reussis / $total_quiz) * 100) : 0;
+        }
+    }
+    unset($apprenant, $cours);
+
+    // Enregistrer l'activité dans journal_activite
+    $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], "voir progression", "voir progression apprenant"));
+
+    TemplateRender::render("/admin/progressionApprenant.php", [
+        "apprenants"=>$apprenants
+    ]);
 });

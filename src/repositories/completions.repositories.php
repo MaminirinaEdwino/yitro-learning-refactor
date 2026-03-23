@@ -118,4 +118,16 @@ class CompletionsRepositories
         $stmtCompletions = $this->database->getConnection()->prepare("DELETE FROM completions WHERE module_id = ?");
         $stmtCompletions->execute([$module_id]);
     }
+
+    public function GetCompleteModule(int $apprenant, int $cours): int
+    {
+        $stmt = $this->database->getConnection()->prepare("
+            SELECT COUNT(*) AS modules_completes
+            FROM completions
+            WHERE utilisateur_id = ? AND cours_id = ?
+        ");
+        $stmt->execute([$apprenant, $cours]);
+        $modules_completes = $stmt->fetchColumn();
+        return $modules_completes;
+    }
 }

@@ -114,6 +114,14 @@ class ModuleRepositories
         return $modules;
     }
 
+    public function GetTotalModule(int $id): int
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) AS total_modules FROM modules WHERE cours_id = ?");
+        $stmt->execute([$id]);
+        $total_modules = $stmt->fetchColumn();
+        return $total_modules;
+    }
+
     public function GetModuletermine(int $userId, int $coursId)
     {
         $stmt = $this->database->getConnection()->prepare("
