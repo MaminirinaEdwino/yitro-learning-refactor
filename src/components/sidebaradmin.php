@@ -21,7 +21,7 @@
                 <a href="/admin/progression/apprenant"><i class="fas fa-chart-line"></i><span>Progression Apprenant</span></a>
             </li>
             <li>
-                <a href="<?php echo To_relative_path('Espace/admin/espace-certificat.php')?>"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
+                <a href="/espace/certificat"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
             </li>
             <li class="logout">
                 <a href="/admin/progression/apprenant"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>

@@ -1,0 +1,150 @@
+.main--content {
+    padding: 40px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f0 100%);
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.header--wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.header--title h2 {
+    color: #01ae8f;
+    font-weight: 600;
+    margin: 0;
+}
+
+.header--title span {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.card--wrapper {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    outline: none;
+    border-color: #01ae8f;
+    box-shadow: 0 0 5px rgba(1, 174, 143, 0.3);
+}
+
+.form-group button {
+    background: linear-gradient(45deg, #01ae8f, #008f75);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.form-group button:hover {
+    background: linear-gradient(45deg, #008f75, #01ae8f);
+}
+
+.message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.message.success {
+    background: #b7f0d3;
+    color: #27ae60;
+}
+
+.message.error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.download-link {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #01ae8f;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.download-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .main--content {
+        padding: 25px;
+    }
+
+    .card--wrapper {
+        padding: 15px;
+    }
+
+    .form-group select,
+    .form-group input,
+    .form-group button {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main--content {
+        padding: 15px;
+    }
+
+    .card--wrapper {
+        padding: 10px;
+    }
+
+    .form-group select,
+    .form-group input,
+    .form-group button {
+        font-size: 0.85rem;
+    }
+
+    .header--title h2 {
+        font-size: 1.2rem;
+    }
+
+    .header--title span {
+        font-size: 0.8rem;
+    }
+}

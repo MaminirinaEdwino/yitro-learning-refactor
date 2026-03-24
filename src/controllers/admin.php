@@ -328,3 +328,228 @@ $adminRouter->get("/admin/progression/apprenant", function () {
         "apprenants"=>$apprenants
     ]);
 });
+
+$adminRouter->get("/espace/certificat", function(){
+    $userRepo = new UtilisateursRepositories();
+    $apprenants = $userRepo->GetActiveUser();
+    TemplateRender::render("/admin/espacecertificat.php", [
+        "apprenants"=>$apprenants
+    ]);
+});
+
+$adminRouter->post("/espace/certificat", function(){
+    $apprenant_id = filter_input(INPUT_POST, 'apprenant_id', FILTER_VALIDATE_INT);
+    $cours_id = filter_input(INPUT_POST, 'cours_id', FILTER_VALIDATE_INT);
+    $titre_certificat = trim($_POST['titre_certificat'] ?? 'Certificat de Réussite');
+    $date_emission = trim($_POST['date_emission'] ?? date('Y-m-d'));
+    $userRepo = new UtilisateursRepositories();
+    $moduleRepo =new ModuleRepositories();
+    $completionRepo = new CompletionsRepositories();
+    $journalRepo = new JournalActiviteRepositories();
+    $admin_id = $_SESSION['user_id'];
+    $userRepo = new UtilisateursRepositories();
+    $apprenants = $userRepo->GetActiveUser();
+    $download_link = '';
+    $message = "";
+    // Validation des entrées
+    if (!$apprenant_id || !$cours_id) {
+        $message = "Erreur : Sélection d'apprenant ou de cours invalide.";
+    } else {
+        $info = $userRepo->GetInfoUserCertificat($apprenant_id, $cours_id);
+        if (!$info) {
+            $message = "Erreur : L'apprenant n'est pas inscrit à ce cours ou le paiement n'est pas validé.";
+        } else {
+            // Vérifier l'éligibilité (100% des modules complétés)
+            
+            $total_modules = $moduleRepo->GetTotalModule($cours_id);
+
+            $modules_completes = $completionRepo->GetCompleteModule($apprenant_id, $cours_id);
+
+            if ($total_modules > 0 && $modules_completes == $total_modules) {
+                // Échapper les caractères pour affichage
+                $nom_apprenant = htmlspecialchars($info['nom'], ENT_QUOTES, 'UTF-8');
+                $titre_cours = htmlspecialchars($info['titre'], ENT_QUOTES, 'UTF-8');
+                $titre_certificat = htmlspecialchars($titre_certificat, ENT_QUOTES, 'UTF-8');
+                $filename = "certificat_" . str_replace(' ', '_', $info['nom']) . "_" . str_replace(' ', '_', $info['titre']) . ".pdf";
+                $output_dir ='./Upload/certificats/';
+                $logo_path = './asset/images/lito.jpg';
+                $signature_path = './asset/images/signature.jpg'; // Chemin de la signature
+
+                // Vérifier et créer le dossier
+                if (!is_dir($output_dir)) {
+                    if (!mkdir($output_dir, 0777, true)) {
+                        $message = "Erreur : Impossible de créer le dossier certificats.";
+                        
+                        $journalRepo->Insert(new JournalActivite($admin_id, 'Erreur génération certificat', "Échec création dossier certificats"));
+                    }
+                }
+
+                // Tester l'écriture dans le dossier
+                $test_file = $output_dir . 'test.txt';
+                if (!file_put_contents($test_file, "Test d'écriture")) {
+                    $message = "Erreur : Impossible d'écrire dans le dossier certificats. Détails : " . json_encode(error_get_last());
+
+                    $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Erreur génération certificat', "Échec écriture dossier pour {$info['nom']} - {$info['titre']}: " . json_encode(error_get_last())));
+                } else {
+                    unlink($test_file); // Supprimer le fichier test
+
+                    // Vérifier le logo
+                    $logo_error = '';
+                    if (!file_exists($logo_path)) {
+                        $logo_error = "Logo introuvable : $logo_path";
+                    } elseif (!is_readable($logo_path)) {
+                        $logo_error = "Logo non lisible (permissions) : $logo_path";
+                    }
+
+                    // Vérifier la signature
+                    $signature_error = '';
+                    if (!file_exists($signature_path)) {
+                        $signature_error = "Signature introuvable : $signature_path";
+                    } elseif (!is_readable($signature_path)) {
+                        $signature_error = "Signature non lisible (permissions) : $signature_path";
+                    }
+
+                    // Initialiser TCPDF en paysage
+                    $pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+                    $pdf->SetCreator(PDF_CREATOR);
+                    $pdf->SetAuthor('Yitro Learning');
+                    $pdf->SetTitle($titre_certificat);
+                    $pdf->SetMargins(15, 15, 15);
+                    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+                    $pdf->AddPage();
+
+                    // Police Times pour un look élégant
+                    $pdf->SetFont('times', '', 12);
+
+                    // Bordure double
+                    $pdf->SetLineStyle(array('width' => 1, 'color' => array(1, 174, 143)));
+                    $pdf->Rect(15, 15, 267, 180);
+                    $pdf->SetLineStyle(array('width' => 0.5, 'color' => array(1, 174, 143)));
+                    $pdf->Rect(16, 16, 265, 178);
+
+                    // Rectangle interne subtil
+                    $pdf->SetLineStyle(array('width' => 0.2, 'color' => array(1, 174, 143)));
+                    $pdf->Rect(25, 30, 247, 140);
+
+                    // Filigrane (logo en transparence)
+                    if ($logo_error === '') {
+                        try {
+                            $pdf->SetAlpha(0.07);
+                            $pdf->Image($logo_path, 108.5, 65, 80, 0, '', '', 'T', false, 300, '', false, false, 0);
+                            $pdf->SetAlpha(1);
+                        } catch (Exception $e) {
+                            // Ignorer l'erreur du filigrane
+                        }
+                    }
+
+                    // Logo principal (centré en haut)
+                    if ($logo_error === '') {
+                        try {
+                            $pdf->Image($logo_path, 118.5, 15, 60, 0, '', '', 'T', false, 300, '', false, false, 0);
+                        } catch (Exception $e) {
+                            $logo_error = "Erreur TCPDF pour le logo : " . $e->getMessage();
+                        }
+                    }
+                    if ($logo_error !== '') {
+                        $pdf->SetXY(118.5, 15);
+                        $pdf->SetFont('times', 'B', 16);
+                        $pdf->Cell(0, 10, 'Yitro Learning Logo', 0, 1, 'C');
+                        
+                        $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Erreur génération certificat', $logo_error));
+                    }
+
+                    // Lignes décoratives autour du titre
+                    $pdf->SetLineStyle(array('width' => 0.3, 'color' => array(1, 174, 143)));
+                    $pdf->Line(40, 45, 257, 45);
+                    $pdf->Line(40, 55, 257, 55);
+
+                    // Contenu du certificat
+                    $pdf->SetY(50);
+                    $pdf->SetFont('times', 'B', 30);
+                    $pdf->SetTextColor(1, 174, 143);
+                    $pdf->Cell(0, 10, $titre_certificat, 0, 1, 'C');
+
+                    $pdf->SetY(60);
+                    $pdf->SetFont('times', '', 16);
+                    $pdf->SetTextColor(0, 0, 0);
+                    $pdf->Cell(0, 10, 'Ce certificat est décerné à', 0, 1, 'C');
+
+                    // Nom de l'apprenant (fixe, gère longs et courts)
+                    $pdf->SetY(70);
+                    $pdf->SetFont('times', 'B', 32);
+                    $pdf->SetTextColor(1, 174, 143);
+                    $pdf->MultiCell(240, 10, $nom_apprenant, 0, 'C', false, 1, 28.5, 70, true, 0, false, true, 10, 'M');
+
+                    // Ligne décorative
+                    $pdf->SetLineStyle(array('width' => 0.5, 'color' => array(1, 174, 143)));
+                    $pdf->Line(50, 85, 247, 85);
+
+                    $pdf->SetY(95);
+                    $pdf->SetFont('times', '', 16);
+                    $pdf->SetTextColor(0, 0, 0);
+                    $pdf->Cell(0, 10, 'pour avoir complété avec succès le cours', 0, 1, 'C');
+
+                    $pdf->SetY(105);
+                    $pdf->SetFont('times', 'B', 24);
+                    $pdf->Cell(0, 10, $titre_cours, 0, 1, 'C');
+
+                    $pdf->SetY(115);
+                    $pdf->SetFont('times', '', 16);
+                    $pdf->Cell(0, 10, 'Date d\'émission : ' . $date_emission, 0, 1, 'C');
+
+                    // Signature (image)
+                    if ($signature_error === '') {
+                        try {
+                            $pdf->Image($signature_path, 230, 160, 25, 0, '', '', 'T', false, 300, '', false, false, 0);
+                            // Rectangle de débogage temporaire
+                            $pdf->SetLineStyle(array('width' => 0.2, 'color' => array(255, 0, 0)));
+                            $pdf->Rect(230, 160, 25, 10, 'D');
+                        } catch (Exception $e) {
+                            $signature_error = "Erreur TCPDF pour la signature : " . $e->getMessage();
+                        }
+                    }
+                    if ($signature_error !== '') {
+                        $pdf->SetXY(230, 160);
+                        $pdf->SetFont('times', 'I', 14);
+                        $pdf->SetTextColor(0, 0, 0);
+                        $pdf->Cell(0, 10, 'Signature : Yitro Learning', 0, 1, 'R');
+                        $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Erreur génération certificat', $signature_error));
+                    }
+
+                    $pdf->SetY(170);
+                    $pdf->SetFont('times', 'B', 14);
+                    $pdf->SetTextColor(1, 174, 143);
+                    $pdf->Cell(0, 10, 'Yitro Learning', 0, 1, 'C');
+
+                    // Sauvegarder le PDF
+                    $pdf_file = $output_dir . $filename;
+                    try {
+                        $pdf->Output($pdf_file, 'F');
+                        $download_link = "./Upload/certificats/" . $filename;
+                        $message = "Certificat généré pour {$info['nom']} - {$info['titre']}.";
+                        
+                        $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Génération certificat', "Certificat pour {$info['nom']} - {$info['titre']}"));
+                    } catch (Exception $e) {
+                        $message = "Erreur : Impossible de sauvegarder le fichier PDF. Détails : " . $e->getMessage();
+                        
+                        $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Erreur génération certificat', "Échec sauvegarde PDF pour {$info['nom']} - {$info['titre']}: " . $e->getMessage()));
+                    }
+                }
+            } else {
+                $message = "Erreur : L'apprenant n'a pas complété tous les modules du cours.";
+            }
+        }
+    }
+    TemplateRender::render("/admin/espacecertificat.php", [
+        "message"=>$message,
+        "link"=>$download_link,
+        "apprenants"=>$apprenants
+    ]);
+});
+
+$adminRouter->get("/apprenants/cours/:id", function(int $id){
+    $inscriptionsRepo = new InscriptionRepositories();
+    $cours = $inscriptionsRepo->GetApprenantCours($id);
+    header('Content-Type: application/json');
+    echo json_encode($cours);
+});

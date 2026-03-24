@@ -55,6 +55,20 @@ class UtilisateursRepositories
         return $apprenants;
     }
 
+    public  function GetInfoUserCertificat(int $apprenant_id, int $cours_id): array
+    {
+        $stmt = $this->database->getConnection()->prepare("
+            SELECT u.nom, c.titre
+            FROM utilisateurs u
+            JOIN inscriptions i ON u.id = i.utilisateur_id
+            JOIN cours c ON i.cours_id = c.id
+            WHERE u.id = ? AND c.id = ? AND i.statut_paiement = 'paye'
+        ");
+        $stmt->execute([$apprenant_id, $cours_id]);
+        $info = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $info;
+    }
+
     public function Insert(Utilisateur $utilisateur)
     {
         $query = "INSERT INTO utilisateurs(
