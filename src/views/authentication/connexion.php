@@ -96,7 +96,7 @@
                 <ul>
                     <li>Utilisez l'e-mail fourni lors de votre candidature.</li>
                     <li>Problèmes de connexion ? Contactez <a href="mailto:formateur@yitro-consulting.com">formateur@yitro-consulting.com</a>.</li>
-                    <li>Envie de rejoindre notre équipe ? <a href="../page/formulaire-formateur.php">Postulez ici</a>.</li>
+                    <li>Envie de rejoindre notre équipe ? <a href="/signin/postuler">Postulez ici</a>.</li>
                 </ul>
             </div>
         </div>

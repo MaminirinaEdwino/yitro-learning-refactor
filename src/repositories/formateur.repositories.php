@@ -48,7 +48,7 @@ class FormateurRepositories
 
     public function Insert(Formateur $formateur)
     {
-        $query = "INSERT INTO formateurs(nom_prenom, email, telephone,ville_pays, linkedin, intitule_metier, experience_formation, detail_experience, cv, categories, autre_domaine, titre_cours, objectif, public_cible, detail_complementaire, formats, format_autres, duree_estimee, type_formation, motivation, valeurs, profil_public, statut) VALUES (:nom_prenom, :email, :telephone, :ville_pays, :linkedin, :intitule_metier, :experience_formation, :detail_experience, :cv, :categories, :autre_domaine, :titre_cours, :objectif, :public, :detail_complementaire, :formats, :format_autres, :duree_estimee, :type_formation, :motivation, :valeurs, :profil_public, :statut)";
+        $query = "INSERT INTO formateurs(nom_prenom, email, telephone,ville_pays, linkedin, intitule_metier, experience_formation, detail_experience, cv, categories, autre_domaine, titre_cours, objectif, public_cible, detail_complementaire, formats, format_autre, duree_estimee, type_formation, motivation, valeurs, profil_public, statut) VALUES (:nom_prenom, :email, :telephone, :ville_pays, :linkedin, :intitule_metier, :experience_formation, :detail_experience, :cv, :categories, :autre_domaine, :titre_cours, :objectif, :public, :detail_complementaire, :formats, :format_autres, :duree_estimee, :type_formation, :motivation, :valeurs, :profil_public, :statut)";
 
 
         $conn = $this->database->getConnection();
@@ -67,13 +67,13 @@ class FormateurRepositories
             "autre_domaine" => $formateur->getAutreDomain(),
             "titre_cours" => $formateur->getTitreCours(),
             "objectif" => $formateur->getObjectif(),
-            "public_cible" => $formateur->getPublicCible(),
+            "public" => $formateur->getPublicCible(),
             "detail_complementaire" => $formateur->getDetailComplementaire(),
             "formats" => $formateur->getFormats(),
-            "format_autre" => $formateur->getFormatAutres(),
+            "format_autres" => $formateur->getFormatAutres(),
             "duree_estimee" => $formateur->getDureeEstime(),
             "type_formation" => $formateur->getTypeFormation(),
-            "motivation" > $formateur->getMotivation(),
+            "motivation" => $formateur->getMotivation(),
             "valeurs" => $formateur->getValeur(),
             "profil_public" => $formateur->getProfilPublic(),
             "statut" => $formateur->getStatut()
@@ -101,6 +101,26 @@ class FormateurRepositories
         $this->PushArray($stmt, $result);
 
         return $this->result[0];
+    }
+
+    public function CheckCode($email, $entryCode): PDOStatement
+    {
+        $checkCode = $this->database->getConnection()->prepare("SELECT id FROM formateurs WHERE LOWER(email) = LOWER(?) AND code_entree = ?");
+        $checkCode->execute([$email, $entryCode]);
+        return $checkCode;
+    }
+
+    public function CheckFormateur($email): PDOStatement
+    {
+        $checkEmail = $this->database->getConnection()->prepare("SELECT id FROM formateurs WHERE email = ? AND password IS NOT NULL");
+        $checkEmail->execute([$email]);
+        return $checkEmail;
+    }
+
+    public function ResetCodeStmt(): PDOStatement
+    {
+        $stmt = $this->database->getConnection()->prepare("UPDATE formateurs SET nom_prenom = ?, password = ?, statut = 'en_attente', code_entree = NULL WHERE LOWER(email) = LOWER(?)");
+        return $stmt;
     }
     public function GetById2(int $id): array
     {
