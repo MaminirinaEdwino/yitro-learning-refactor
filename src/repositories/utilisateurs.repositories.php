@@ -69,7 +69,7 @@ class UtilisateursRepositories
         return $info;
     }
 
-    public function Insert(Utilisateur $utilisateur)
+    public function Insert(Utilisateur $utilisateur): bool
     {
         $query = "INSERT INTO utilisateurs(
         nom, 
@@ -111,7 +111,7 @@ class UtilisateursRepositories
         )";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
-        $stmt->execute([
+        return $stmt->execute([
             "nom" => $utilisateur->getNom(),
             "email" => $utilisateur->getEmail(),
             "mot_de_passe" => $utilisateur->getMdp(),
@@ -223,6 +223,16 @@ class UtilisateursRepositories
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["id" => $id]);
+        $this->PushArray($stmt, $result);
+        return $this->result[0];
+    }
+
+    public function GetbyEmail(string $email): array {
+         $result = [];
+        $query = "SELECT email FROM utilisateurs WHERE email=:id";
+        $conn = $this->database->getConnection();
+        $stmt = $conn->prepare($query);
+        $stmt->execute(["id" => $email]);
         $this->PushArray($stmt, $result);
         return $this->result[0];
     }

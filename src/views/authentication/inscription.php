@@ -41,7 +41,7 @@
                 <i class="fas fa-user-graduate"></i>
                 <h3>Devenir Apprenant</h3>
                 <p>Apprenez à votre rythme avec nos cours interactifs en technologie, programmation et bien plus encore.</p>
-                <a href="../page/inscription-apprenant.php" class="btn-choice">S'inscrire comme apprenant</a>
+                <a href="/signin/apprenant" class="btn-choice">S'inscrire comme apprenant</a>
             </div>
         </div>
     </section>

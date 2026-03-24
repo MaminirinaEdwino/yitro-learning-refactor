@@ -24,7 +24,7 @@
                 <a href="/espace/certificat"><i class="fas fa-certificate"></i><span>Certificat Apprenant</span></a>
             </li>
             <li class="logout">
-                <a href="/admin/progression/apprenant"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
+                <a href="/logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a>
             </li>
         </ul>
     </div>

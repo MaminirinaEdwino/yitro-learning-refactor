@@ -23,6 +23,7 @@ require_once "./src/controllers/journalactivite.php";
 require_once "./src/controllers/utilisateurs.php";
 require_once "./src/controllers/gestionFormation.php";
 require_once "./src/controllers/gestionForum.php";
+require_once "./src/controllers/signin.php";
 
 $request_uri = $_SERVER['REQUEST_URI'];
 
@@ -49,5 +50,6 @@ $router->includeRouter($journalRouter);
 $router->includeRouter($adminRouter);
 $router->includeRouter($gestionFormationRouter);
 $router->includeRouter($gestionForumRouter);
+$router->includeRouter($signinRouter);
 
 $router->dispatch($request_uri);

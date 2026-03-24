@@ -1,13 +1,11 @@
-<?php
-session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription réussie</title>
-    <link rel="stylesheet" href="../asset/css/styles.css">
+    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/styles.css">
     <style>
         #success-message {
             background-color: #dff0d8;
@@ -30,8 +28,8 @@ session_start();
         <div id="success-message">
             <h5>Bienvenue sur Yitro Learning !</h5>
             <p>Votre compte est activé. Vous pouvez maintenant explorer les cours, suivre vos premiers modules, et rejoindre notre communauté.</p>
-            <a href="../index.php" class="btn btn-success mt-2">Revenir à l'accueil</a>
-            <a href="../authentification/connexion.php" class="btn btn-outline-success mt-2 ms-2">Se connecter</a>
+            <a href="/" class="btn btn-success mt-2">Revenir à l'accueil</a>
+            <a href="/connexion" class="btn btn-outline-success mt-2 ms-2">Se connecter</a>
         </div>
     </div>
 </body>
