@@ -1,21 +1,21 @@
-
-
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitro Learning</title>
-    <link rel="stylesheet" href="../asset/css/styles/style.css">
-    <link rel="icon" href="../asset/images/Yitro_consulting.png" type="image/png">
-    <link rel="stylesheet" href="../asset/css/inscription-apprenant.css">
+    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/styles/style.css">
+    <link rel="icon" href="<?= URL_ROOT ?>asset/images/Yitro_consulting.png" type="image/png">
+    <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/inscription-apprenant.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <!-- Header -->
-    <?php require_once './src/components/header.php'?>
+    <?php require_once './src/components/header.php' ?>
 
     <!-- Section Hero -->
     <section class="heros">
@@ -28,6 +28,7 @@
     </section>
 
     <div class="container my-5">
+        <div id="step"></div>
         <form id="registrationForm" action="inscription-apprenant.php" method="POST" enctype="multipart/form-data">
             <!-- Informations de base -->
             <div class="form-section" id="section1">
@@ -189,10 +190,18 @@
                 <button type="submit" class="btn btn-primary">Créer mon compte</button>
             </div>
         </form>
+
+        <div style="display: flex; ">
+            <div></div>
+            <div id="step-btn">
+                
+            </div>
+
+        </div>
     </div>
 
     <!-- Footer -->
-    <?php require_once './src/components/footer.php'?>
+    <?php require_once './src/components/footer.php' ?>
 
     <script src="<?= URL_ROOT ?>asset/js/inscription-apprenant.js"></script>
     <script src="<?= URL_ROOT ?>asset/js/formStepHandler.js"></script>
@@ -203,7 +212,6 @@
         let isAnimating = false;
         let scrollTimeout = null;
 
-        // Fonction de debouncing pour limiter les appels pendant le défilement
         function handleScroll() {
             if (isAnimating) return; // Évite les interférences pendant l'animation
 
@@ -246,4 +254,5 @@
         });
     </script>
 </body>
+
 </html>
