@@ -48,8 +48,6 @@
 
     <!-- Footer -->
     <?php require_once './src/components/footer.php'?>
-
-    <!-- JavaScript -->
     <script src="<?= URL_ROOT ?>asset/js/inscription.js">
         
     </script>

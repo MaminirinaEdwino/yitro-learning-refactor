@@ -80,7 +80,7 @@ class UtilisateursRepositories
         pays,
         langue,
         objectifs,
-        autre_langues,
+        autre_langue,
         type_cours,
         niveau_formation,
         niveau_etude,
@@ -98,7 +98,7 @@ class UtilisateursRepositories
         :pays,
         :langue,
         :objectifs,
-        :autre_langues,
+        :autre_langue,
         :type_cours,
         :niveau_formation,
         :niveau_etude,
@@ -120,7 +120,7 @@ class UtilisateursRepositories
             "pays" => $utilisateur->getPays(),
             "langue" => $utilisateur->getLangue(),
             "objectifs" => $utilisateur->getObjectif(),
-            "autre_langues" => $utilisateur->getAutreLangue(),
+            "autre_langue" => $utilisateur->getAutreLangue(),
             "type_cours" => $utilisateur->getTypeCours(),
             "niveau_formation" => $utilisateur->getNiveauFormation(),
             "niveau_etude" => $utilisateur->getNiveauEtude(),
@@ -234,7 +234,7 @@ class UtilisateursRepositories
         $stmt = $conn->prepare($query);
         $stmt->execute(["id" => $email]);
         $this->PushArray($stmt, $result);
-        return $this->result[0];
+        return $this->result;
     }
 
     public function Update(Utilisateur $utilisateur)
@@ -248,7 +248,7 @@ class UtilisateursRepositories
         pays = :pays,
         langue = :langue,
         objectifs = :objectifs,
-        autre_langues = :autre_langue,
+        autre_langue = :autre_langue,
         type_cours = :type_cours,
         niveau_formation = :niveau_formation,
         niveau_etude = :nivea_etude,
@@ -270,7 +270,7 @@ class UtilisateursRepositories
             "pays" => $utilisateur->getPays(),
             "langue" => $utilisateur->getLangue(),
             "objectifs" => $utilisateur->getObjectif(),
-            "autre_langues" => $utilisateur->getAutreLangue(),
+            "autre_langue" => $utilisateur->getAutreLangue(),
             "type_cours" => $utilisateur->getTypeCours(),
             "niveau_formation" => $utilisateur->getNiveauFormation(),
             "niveau_etude" => $utilisateur->getNiveauEtude(),

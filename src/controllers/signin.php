@@ -98,7 +98,8 @@ $signinRouter->post("/signin/apprenant", function () {
         $charte,
         "apprenant"
     ))) {
-        echo "<script>window.location.href='merci.php';</script>";
+        header("Location: /merci");
+        exit();
     } else {
         error_log("Erreur SQL ");
         echo "<script>alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');</script>";
@@ -107,4 +108,9 @@ $signinRouter->post("/signin/apprenant", function () {
 
 $signinRouter->get("/merci", function(){
     TemplateRender::render("/signin/merci.php", null);
+});
+
+$signinRouter->get("/signin/formateur", function(){
+    
+    TemplateRender::render("/signin/formateur.php", null);
 });

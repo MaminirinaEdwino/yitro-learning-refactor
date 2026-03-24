@@ -27,7 +27,8 @@ function Suivant() {
 ${step > 1 ? `<button class="btn btn-primary" onclick="Precedent()"> < </button>` : ""}
 ${step < 6 ? `<button class="btn btn-primary" onclick="Suivant()">></button>` : ""}
 `
-window.location.replace("#step")
+        window.location.replace("#step")
+        checkvalue()
     }
 }
 function Precedent() {
@@ -42,6 +43,7 @@ function Precedent() {
 ${step > 1 ? `<button class="btn btn-primary" onclick="Precedent()"> < </button>` : ""}
 ${step < 6 ? `<button class="btn btn-primary" onclick="Suivant()">></button>` : ""}
 `
-window.location.replace("#step")
+        window.location.replace("#step")
+        checkvalue()
     }
 }
