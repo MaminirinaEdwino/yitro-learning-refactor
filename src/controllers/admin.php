@@ -225,7 +225,7 @@ $adminRouter->post("/send/code", function () {
                         <p style='color: #888;'>L'équipe Yitro Learning</p>
                     </div>
                 ";
-            $mail->AltBody = "Bonjour,\n\nVoici votre code d'inscription pour devenir formateur sur Yitro Learning : $code\n\nUtilisez ce code pour finaliser votre inscription sur https://yitro-learning.com/Page/inscription-formateur.php.\n\nMerci de rejoindre notre communauté !\nL'équipe Yitro Learning";
+            $mail->AltBody = "Bonjour,\n\nVoici votre code d'inscription pour devenir formateur sur Yitro Learning : $code\n\nUtilisez ce code pour finaliser votre inscription sur https://yitro-learning.com/signin/formateur\n\nMerci de rejoindre notre communauté !\nL'équipe Yitro Learning";
 
             $mail->send();
             $success_message = "Code envoyé avec succès à {$formateur->getEmail()}.";
