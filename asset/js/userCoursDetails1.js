@@ -69,7 +69,7 @@ document.getElementById('paymentForm')?.addEventListener('submit', function (e) 
         return;
     }
 
-    fetch('enroll_course.php', {
+    fetch('/enroll/cours', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
