@@ -45,7 +45,7 @@
         <div class="contact-card fade-in">
             <div class="contact-form">
                 <h2>Envoyez-nous un message</h2>
-                <form id="contactForm" action="submit-contact.php" method="POST">
+                <form id="contactForm" action="/apropos/contact" method="POST">
                     <div class="form-group">
                         <label for="nom" class="form-label">Nom complet *</label>
                         <input type="text" class="form-control" id="nom" name="nom" required>
