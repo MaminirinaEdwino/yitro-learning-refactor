@@ -158,39 +158,38 @@ document.querySelectorAll('.module-completion').forEach(checkbox => {
         const coursId = this.dataset.coursId;
         const isChecked = this.checked;
         const messageElement = this.closest('.lecon').querySelector('.completion-message');
-
-        fetch('complete_module.php', {
+        fetch('/module/complete/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: `module_id=${moduleId}&cours_id=${coursId}&is_checked=${isChecked}`
         })
-            .then(response => response.json())
-            .then(data => {
-                messageElement.style.display = 'block';
-                messageElement.className = 'completion-message';
-                if (data.success) {
-                    messageElement.classList.add('success');
-                    messageElement.textContent = data.message;
-                } else {
-                    messageElement.classList.add('error');
-                    messageElement.textContent = data.message;
-                    this.checked = !isChecked;
-                }
-                setTimeout(() => {
-                    messageElement.style.display = 'none';
-                }, 3000);
-            })
-            .catch(error => {
-                messageElement.style.display = 'block';
-                messageElement.classList.add('error');
-                messageElement.textContent = 'Erreur réseau : ' + error.message;
-                this.checked = !isChecked;
-                setTimeout(() => {
-                    messageElement.style.display = 'none';
-                }, 3000);
-            });
+            // .then(response => response.json())
+            // .then(data => {
+            //     messageElement.style.display = 'block';
+            //     messageElement.className = 'completion-message';
+            //     if (data.success) {
+            //         messageElement.classList.add('success');
+            //         messageElement.textContent = data.message;
+            //     } else {
+            //         messageElement.classList.add('error');
+            //         messageElement.textContent = data.message;
+            //         this.checked = !isChecked;
+            //     }
+            //     setTimeout(() => {
+            //         messageElement.style.display = 'none';
+            //     }, 3000);
+            // })
+            // .catch(error => {
+            //     messageElement.style.display = 'block';
+            //     messageElement.classList.add('error');
+            //     messageElement.textContent = 'Erreur réseau : ' + error.message;
+            //     this.checked = !isChecked;
+            //     setTimeout(() => {
+            //         messageElement.style.display = 'none';
+            //     }, 3000);
+            // });
     });
 });
 
