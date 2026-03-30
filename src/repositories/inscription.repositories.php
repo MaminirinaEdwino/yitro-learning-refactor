@@ -60,6 +60,12 @@ class InscriptionRepositories
         return $result[0];
     }
 
+    public function GetUserCoursInscription($utilisateur_id, $cours_id){
+        $stmt = $this->database->getConnection()->prepare("SELECT COUNT(*) FROM inscriptions WHERE utilisateur_id = ? AND cours_id = ? AND statut_paiement IN ('paye', 'en_attente')");
+        $stmt->execute([$utilisateur_id, $cours_id]);
+        $count = $stmt->fetchColumn();
+    }
+
     public function Update(Inscription $inscription)
     {
         $query = "UPDATE inscription SET utilisateur_id = :utilisateur_id, cours_id = :cours_id, statut_payement = :statut_payement WHERE id = :id";
