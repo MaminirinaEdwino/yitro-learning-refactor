@@ -149,7 +149,8 @@
         <div class="welcome-trainer-content">
             <h1>Devenez formateur chez Yitro Learning</h1>
             <p>Partagez votre passion et votre expertise avec une communauté mondiale d'apprenants. Rejoignez notre plateforme pour créer des formations impactantes et inspirer des milliers de personnes. Remplissez le formulaire ci-dessous pour commencer votre aventure !</p>
-            <a href="#formulaireYitro" class="cta-buttons">Proposer votre formation</a>
+            <a href="#formulaireYitro" class="cta-buttons">Proposer votre candidature</a>
+            <a href="/signin/formateur" class="cta-buttons">Vous avez reçu votre code</a>
         </div>
         <canvas id="welcome-animation"></canvas>
     </section>
