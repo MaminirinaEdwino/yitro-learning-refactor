@@ -51,6 +51,14 @@ class ModuleRepositories
         return $result;
     }
 
+    public function GetByIdCoursId($module_id, $cours_id):array
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT id FROM modules WHERE id = ? AND cours_id = ?");
+        $stmt->execute([$module_id, $cours_id]);
+        $module = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $module;
+    }
+
     public function GetById(int $id): Module
     {
         $query = "SELECT * FROM modules WHERE id=:id";
