@@ -19,6 +19,9 @@ require_once "./src/models/lecons.php";
 $coursRouter = new Router();
 
 $coursRouter->post("/cours/new",  function () {
+    if (!AuthChecker("formateur")) {
+        header("Location: /admin/login");
+    }
     $formateurId = $_SESSION['formateur_id'];
     $upload_dir =  './Uploads/cours/';
     $lecon_upload_dir = './Uploads/lecons/';
@@ -149,6 +152,9 @@ $coursRouter->post("/cours/new",  function () {
 });
 
 $coursRouter->get("/cours/new", function () {
+    if (!AuthChecker("formateur")) {
+        header("Location: /admin/login");
+    }
     $formationRepo = new FormationRepositories();
 
     $formations = $formationRepo->GetAllByNom();
@@ -158,6 +164,9 @@ $coursRouter->get("/cours/new", function () {
 });
 
 $coursRouter->get("/cours/edit/:id", function (int $coursId) {
+    if (!AuthChecker("formateur")) {
+        header("Location: /admin/login");
+    }
     $formateur_id = $_SESSION["formateur_id"];
     $coursRepo = new CoursRepositories();
     $formationRepo = new FormationRepositories();
@@ -177,7 +186,9 @@ $coursRouter->get("/cours/edit/:id", function (int $coursId) {
 });
 
 $coursRouter->post("/cours/edit/:id", function (int $coursId) {
-
+    if (!AuthChecker("formateur")) {
+        header("Location: /admin/login");
+    }
     $formateur_id = $_SESSION["formateur_id"];
     $coursRepo = new CoursRepositories();
 
@@ -254,6 +265,9 @@ $coursRouter->post("/cours/edit/:id", function (int $coursId) {
 });
 
 $coursRouter->get("/cours/formateur", function () {
+    if (!AuthChecker("formateur")) {
+        header("Location: /admin/login");
+    }
     $formateurId = $_SESSION["formateur_id"];
     $coursRepo = new CoursRepositories();
     $moduleRepo = new ModuleRepositories();
@@ -336,13 +350,16 @@ $coursRouter->get("/cours/apprenant/:id", function (int $coursId) {
 });
 
 $coursRouter->get("/cours/delete/:id", function (int $id) {
+    if (!AuthChecker("formateur")) {
+        header("Location: /admin/login");
+    }
     $inscriptionrepo = new InscriptionRepositories();
     $completionRepo = new CompletionsRepositories();
     $moduleRepo = new ModuleRepositories();
     $coursRepo = new CoursRepositories();
 
-    $cours= $coursRepo->GetById($id);
-    unlink("./Upload/cours/".$cours->getPhoto());
+    $cours = $coursRepo->GetById($id);
+    unlink("./Upload/cours/" . $cours->getPhoto());
 
     $inscriptionrepo->DeleteByCoursId($id);
     $completionRepo->DeleteByCoursId($id);
