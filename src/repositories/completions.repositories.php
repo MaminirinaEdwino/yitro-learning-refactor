@@ -35,6 +35,12 @@ class CompletionsRepositories
         ));
     }
 
+    public function DeleteByIdCoursUd($utilisateur_id, $module_id)
+    {
+        $stmt = $this->database->getConnection()->prepare("DELETE FROM completions WHERE utilisateur_id = ? AND module_id = ?");
+        $stmt->execute([$utilisateur_id, $module_id]);
+    }
+    
     public function GetAll(): array
     {
         $result = [];
