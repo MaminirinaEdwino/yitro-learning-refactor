@@ -4,6 +4,7 @@ require_once './vendor/PHPMailer/src/Exception.php';
 require_once './vendor/PHPMailer/src/PHPMailer.php';
 require_once './vendor/PHPMailer/src/SMTP.php';
 require_once "./src/utils/authChecker.php";
+require_once "./vendor/tcpdf/tcpdf.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -411,9 +412,9 @@ $adminRouter->post("/espace/certificat", function () {
                 $titre_cours = htmlspecialchars($info['titre'], ENT_QUOTES, 'UTF-8');
                 $titre_certificat = htmlspecialchars($titre_certificat, ENT_QUOTES, 'UTF-8');
                 $filename = "certificat_" . str_replace(' ', '_', $info['nom']) . "_" . str_replace(' ', '_', $info['titre']) . ".pdf";
-                $output_dir = './Upload/certificats/';
-                $logo_path = './asset/images/lito.jpg';
-                $signature_path = './asset/images/signature.jpg'; // Chemin de la signature
+                $output_dir = '/opt/lampp/htdocs/project/yitro-learning-refactor/Uploads/certificats/';
+                $logo_path = '/opt/lampp/htdocs/project/yitro-learning-refactor/asset/images/lito.jpg';
+                $signature_path = '/opt/lampp/htdocs/project/yitro-learning-refactor/asset/images/signature.jpg'; // Chemin de la signature
 
                 // Vérifier et créer le dossier
                 if (!is_dir($output_dir)) {
