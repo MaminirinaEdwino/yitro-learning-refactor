@@ -44,7 +44,7 @@ $authRouter->post("/auth", function () {
     // Validation de l'email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = "Adresse e-mail invalide.";
-        header("Location: connexion.php");
+        header("Location: /connexion");
         exit();
     }
 
@@ -55,7 +55,7 @@ $authRouter->post("/auth", function () {
         if (time() - $_SESSION['login_attempts'][$email]['time'] < $lockout_time) {
             $_SESSION['error'] = "Trop de tentatives de connexion. Veuillez réessayer dans "
                 . ceil(($lockout_time - (time() - $_SESSION['login_attempts'][$email]['time'])) / 60) . " minutes.";
-            header("Location: connexion.php");
+            header("Location: /connexion");
             exit();
         } else {
             // Réinitialiser les tentatives après le temps de verrouillage
