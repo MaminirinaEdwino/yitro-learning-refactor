@@ -3,7 +3,7 @@
 require_once './vendor/PHPMailer/src/Exception.php';
 require_once './vendor/PHPMailer/src/PHPMailer.php';
 require_once './vendor/PHPMailer/src/SMTP.php';
-
+require_once "./src/utils/authChecker.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -48,6 +48,9 @@ $adminRouter->post("/admin/login", function () {
 });
 
 $adminRouter->get("/admin/backoffice", function () {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $userRepo = new UtilisateursRepositories();
     $formateurRepo = new FormateurRepositories();
     $coursRepo = new CoursRepositories();
@@ -80,6 +83,9 @@ $adminRouter->get("/admin/backoffice", function () {
 });
 
 $adminRouter->post("/formateur/update/status/:id", function (int $id) {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $statut = $_POST['statut'];
     $formateurRepo = new FormateurRepositories();
 
@@ -89,6 +95,9 @@ $adminRouter->post("/formateur/update/status/:id", function (int $id) {
 });
 
 $adminRouter->get("/admin/gestionuser", function () {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $search = isset($_GET['search']) ? $_GET['search'] : '';
     $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
     $order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'DESC' : 'ASC';
@@ -120,6 +129,9 @@ $adminRouter->get("/admin/gestionuser", function () {
 
 
 $adminRouter->get("/export/csv", function () {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $search = isset($_GET['search']) ? $_GET['search'] : '';
     $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
     $order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'DESC' : 'ASC';
@@ -159,6 +171,9 @@ $adminRouter->get("/export/csv", function () {
 
 
 $adminRouter->post("/send/code", function () {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $formateur_id = $_POST['id'];
     // Générer un code unique
     $code = bin2hex(random_bytes(8)); // Code aléatoire de 16 caractères
@@ -231,6 +246,9 @@ $adminRouter->post("/send/code", function () {
 });
 
 $adminRouter->get("/suivi/apprenant/:id", function (int $id) {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $userRepo = new UtilisateursRepositories();
 
     TemplateRender::render("/admin/suiviApprenant.php", [
@@ -240,6 +258,9 @@ $adminRouter->get("/suivi/apprenant/:id", function (int $id) {
 });
 
 $adminRouter->get("/voir/user/:id", function (int $id) {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $userRepo = new UtilisateursRepositories();
 
     TemplateRender::render("/admin/voirApprenant.php", [
@@ -249,6 +270,9 @@ $adminRouter->get("/voir/user/:id", function (int $id) {
 });
 
 $adminRouter->get("/voir/formateur/:id", function (int $id) {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $formateurRepo = new FormateurRepositories();
 
     TemplateRender::render("/admin/voirFormateur.php", [
@@ -258,6 +282,9 @@ $adminRouter->get("/voir/formateur/:id", function (int $id) {
 });
 
 $adminRouter->get("/controle/qualite/:id", function (int $id) {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $formateurRepo = new FormateurRepositories();
     $coursRepo  = new CoursRepositories();
     $moduleRepo = new ModuleRepositories();
@@ -279,6 +306,9 @@ $adminRouter->get("/controle/qualite/:id", function (int $id) {
 });
 
 $adminRouter->get("/formateur/delete/:id", function (int $id) {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $formateurRepo = new FormateurRepositories();
     $formateurRepo->Delete($formateurRepo->GetById($id));
     header("Location: /admin/gestionuser");
@@ -286,6 +316,9 @@ $adminRouter->get("/formateur/delete/:id", function (int $id) {
 });
 
 $adminRouter->get("/admin/progression/apprenant", function () {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $userRepo = new UtilisateursRepositories();
     $inscriptionsRepo = new InscriptionRepositories();
     $moduleRepo = new ModuleRepositories();
@@ -330,6 +363,9 @@ $adminRouter->get("/admin/progression/apprenant", function () {
 });
 
 $adminRouter->get("/espace/certificat", function(){
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $userRepo = new UtilisateursRepositories();
     $apprenants = $userRepo->GetActiveUser();
     TemplateRender::render("/admin/espacecertificat.php", [
@@ -338,6 +374,9 @@ $adminRouter->get("/espace/certificat", function(){
 });
 
 $adminRouter->post("/espace/certificat", function(){
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $apprenant_id = filter_input(INPUT_POST, 'apprenant_id', FILTER_VALIDATE_INT);
     $cours_id = filter_input(INPUT_POST, 'cours_id', FILTER_VALIDATE_INT);
     $titre_certificat = trim($_POST['titre_certificat'] ?? 'Certificat de Réussite');
@@ -548,6 +587,9 @@ $adminRouter->post("/espace/certificat", function(){
 });
 
 $adminRouter->get("/apprenants/cours/:id", function(int $id){
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $inscriptionsRepo = new InscriptionRepositories();
     $cours = $inscriptionsRepo->GetApprenantCours($id);
     header('Content-Type: application/json');
