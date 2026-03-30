@@ -24,7 +24,7 @@
                 <p>La plateforme e-learning inclusive pour les talents formateurs.</p>
                 <div class="hero-buttons">
                     <a href="/formation/catalogue" class="btn-primary">Explorer les cours</a>
-                    <a href="page/devenir-formateur.php" class="btn-primary">Devenir formateur</a>
+                    <a href="/signin/formateur" class="btn-primary">Devenir formateur</a>
                     <a href="/apropos/decouvrir-yitro" class="btn-primary">Découvrir Yitro</a>
                 </div>
             </div>
@@ -36,7 +36,6 @@
         <div class="container">
             <h2 class="section-title">Formations en cours exclusifs</h2>
             <div class="featured-grid">
-                
                 <div class="training-card">
                     <div class="training-img">
                         <img src="asset/images/social-media-marketing-concept-marketing-with-applications.jpg" alt="Marketing Digital">
@@ -44,7 +43,7 @@
                     <div class="training-content">
                         <h3>Marketing Digital</h3>
                         <p>Apprenez à booster votre présence en ligne avec des stratégies digitales efficaces.</p>
-                        <a href="page/catalogue.php?formation_id=1" class="btn-learn">Accéder aux cours</a>
+                        <a href="/formation/catalogue" class="btn-learn">Accéder aux cours</a>
                     </div>
                 </div>
                 
@@ -55,7 +54,7 @@
                     <div class="training-content">
                         <h3>Développement personnel</h3>
                         <p>Apprenez à vous épanouir pleinement dans le développement personnel avec nos formations en ligne.</p>
-                        <a href="page/catalogue.php?formation_id=6" class="btn-learn">Accéder aux cours</a>
+                        <a href="/formation/catalogue" class="btn-learn">Accéder aux cours</a>
                     </div>
                 </div>
                 
@@ -66,7 +65,7 @@
                     <div class="training-content">
                         <h3>Finance & Investissements</h3>
                         <p>Maîtriser les bases financières et découvrez comment faire fructifier votre argent avec des stratégies d’investissement simples et efficaces.</p>
-                        <a href="page/catalogue.php?formation_id=5" class="btn-learn">Accéder aux cours</a>
+                        <a href="/formation/catalogue" class="btn-learn">Accéder aux cours</a>
                     </div>
                 </div>
                 

@@ -63,7 +63,7 @@ function loadSousFormations(formationId) {
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', '../Espace/formateur/get_sous_formations.php?formation_id=' + formationId, true);
+    xhr.open('GET', '/sousformation/' + formationId, true);
     xhr.onload = function () {
         if (xhr.status === 200) {
             try {
@@ -78,7 +78,7 @@ function loadSousFormations(formationId) {
                 contenuSelect.innerHTML = optionsHtml;
             } catch (e) {
                 contenuSelect.innerHTML = '<option value="">Erreur de données</option>';
-                console.error('Erreur de parsing JSON:', e);
+                // console.error('Erreur de parsing JSON:', e);
             }
         } else {
             contenuSelect.innerHTML = '<option value="">Erreur de chargement</option>';
