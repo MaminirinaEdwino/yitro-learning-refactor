@@ -27,7 +27,7 @@ class InscriptionRepositories
         }
     }
 
-    public function Insert(Inscription $inscription)
+    public function Insert(Inscription $inscription): int
     {
         $query = "INSERT INTO inscription (utilisateur_id, cours_id) VALUES(:utilisateur_id, :cours_id)";
         $conn = $this->database->getConnection();
@@ -36,6 +36,7 @@ class InscriptionRepositories
             "utilisateur_id" => $inscription->getUtilisateurId(),
             "cours_id" => $inscription->getCoursId()
         ]);
+        return $conn->lastInsertId();
     }
 
     public function GetAll(): array

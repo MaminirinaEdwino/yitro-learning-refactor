@@ -61,7 +61,7 @@ document.getElementById('paymentFormCard')?.addEventListener('submit', function 
     }
 
     // Envoyer la requête AJAX pour enregistrer l'inscription
-    fetch('enroll_course1.php', {
+    fetch('/enroll/cours', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -100,7 +100,7 @@ document.getElementById('paymentFormMvola')?.addEventListener('submit', function
     const prixCours = this.querySelector('input[name="prix_cours"]').value;
     const error = document.getElementById('mvolaError');
     const success = document.getElementById('mvolaSuccess');
-
+    console.log(mvolaNumber, coursId, prixCours)
     error.style.display = 'none';
     success.style.display = 'none';
 
@@ -111,7 +111,7 @@ document.getElementById('paymentFormMvola')?.addEventListener('submit', function
     }
 
     // Envoyer les données au script PHP de traitement Mvola
-    fetch('../../Backend/traiter_paiement_mvola.php', {
+    fetch('/enroll/cours', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -130,8 +130,6 @@ document.getElementById('paymentFormMvola')?.addEventListener('submit', function
         })
         .catch(error => {
             console.error('Erreur:', error);
-            error.textContent = 'Une erreur est survenue lors de la communication avec le serveur.';
-            error.style.display = 'block';
         });
 });
 
