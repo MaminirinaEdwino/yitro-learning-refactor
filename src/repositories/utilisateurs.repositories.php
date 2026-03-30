@@ -212,8 +212,9 @@ class UtilisateursRepositories
         $stmt->execute([
             "email" => $email
         ]);
-        $admin = $stmt->fetch();
-        return $admin;
+        $admin = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $admin[0];
     }
 
     public function GetById(int $id): Utilisateur

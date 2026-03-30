@@ -74,6 +74,7 @@ $authRouter->post("/auth", function () {
             $_SESSION['formateur_id'] = $formateur['id'];
             $_SESSION['formateur_email'] = $formateur['email'];
             $_SESSION['formateur_nom_prenom'] = $formateur['nom_prenom'];
+            $_SESSION['user_role'] = "formateur";
             $_SESSION['success'] = "Connexion réussie ! Bienvenue, " . $formateur['nom_prenom'] . ".";
             header("Location: /espace/formateur");
             exit();

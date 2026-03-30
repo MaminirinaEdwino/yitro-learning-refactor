@@ -30,9 +30,9 @@ $adminRouter->post("/admin/login", function () {
     } else {
 
         $result = $userRepo->GetForAuthAdmin($email);
-
         if ($result) {
             $user = $result;
+            echo $user["role"];
             if (password_verify($mot_de_passe, $user['mot_de_passe'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_role'] = $user['role'];
@@ -48,7 +48,7 @@ $adminRouter->post("/admin/login", function () {
 });
 
 $adminRouter->get("/admin/backoffice", function () {
-    if (!AuthChecker("admin")) {
+    if (AuthChecker("admin") == false) {
         header("Location: /admin/login");
     }
     $userRepo = new UtilisateursRepositories();
