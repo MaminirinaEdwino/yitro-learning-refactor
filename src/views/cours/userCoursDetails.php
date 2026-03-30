@@ -1,5 +1,5 @@
 <?php
-
+$cours_id = $params["cours_id"];
 $utilisateur_id = $_SESSION['user_id'];
 $cours = $params["cours"];
 $lecons = $params["lecons"];
@@ -31,7 +31,7 @@ $formateur = $params["formateur"];
             <div class="course-info">
                 <?php if ($cours->getPhoto()): ?>
                     <div class="course-image">
-                        <img src="../../Uploads/cours/<?php echo htmlspecialchars($cours->getPhoto()); ?>" alt="<?php echo htmlspecialchars($cours->getTitre()); ?>">
+                        <img src="/Uploads/cours/<?php echo htmlspecialchars($cours->getPhoto()); ?>" alt="<?php echo htmlspecialchars($cours->getTitre()); ?>">
                     </div>
                 <?php endif; ?>
                 <div class="course-text">
@@ -60,7 +60,7 @@ $formateur = $params["formateur"];
                                     $is_audio = in_array(strtolower($lecon->getFormat()), ['audio']);
                                     $is_pdf = in_array(strtolower($lecon->getFormat()), ['pdf']);
                                     
-                                    $filePath = "../../Uploads/lecons/" . rawurlencode($lecon->getFichier());
+                                    $filePath = "<?= URL_ROOT ?>Uploads/lecons/" . rawurlencode($lecon->getFichier());
                                    
                                     ?>
                    
@@ -81,7 +81,7 @@ $formateur = $params["formateur"];
                                     </div>
                                     <?php if ($index === count($lecons[$module->getId()]) - 1): ?>
                                         <div class="completion-checkbox">
-                                            <input type="checkbox" class="module-completion" data-module-id="<?php echo $module->getId(); ?>" data-cours-id="<?php echo $cours_id; ?>" <?php echo in_array($module->getId(), $completed_modules) ? 'checked' : ''; ?>>
+                                            <input type="checkbox" class="module-completion" data-module-id="<?php echo $module->getId(); ?>" data-cours-id="<?php echo $cours_id; ?>" <?php echo in_array($module->getId(), $completed_modules) ? 'checked' : ''; ?> onclick="">
                                             <label class="completion-label">Marquer comme terminé</label>
                                         </div>
                                         <p class="completion-message"></p>
@@ -152,7 +152,7 @@ $formateur = $params["formateur"];
                     <label for="card-holder"><i class="fas fa-user"></i> Nom du titulaire</label>
                     <input type="text" id="card-holder" name="card-holder" placeholder="Nom du titulaire" required>
                 </div>
-                <button type="submit">Payer <?php echo number_format($cours['prix'], 2); ?> €</button>
+                <button type="submit">Payer <?php echo number_format($cours->getPrix(), 2); ?> €</button>
                 <p class="error" id="cardError" style="display: none; color: red;"></p>
                 <p class="success" id="cardSuccess" style="display: none; color: green;"></p>
             </form>
@@ -162,9 +162,9 @@ $formateur = $params["formateur"];
                     <label for="mvola-number"><i class="fas fa-mobile-alt"></i> Numéro Mobile Money Mvola</label>
                     <input type="text" id="mvola-number" name="mvola_number" placeholder="26134..." required>
                     <input type="hidden" name="cours_id" value="<?php echo htmlspecialchars($cours_id); ?>">
-                    <input type="hidden" name="prix_cours" value="<?php echo htmlspecialchars($cours['prix']); ?>">
+                    <input type="hidden" name="prix_cours" value="<?php echo htmlspecialchars($cours->getPrix()); ?>">
                 </div>
-                <button type="submit">Payer <?php echo number_format($cours['prix'], 2); ?> €</button>
+                <button type="submit">Payer <?php echo number_format($cours->getPrix(), 2); ?> €</button>
                 <p class="error" id="mvolaError" style="display: none; color: red;"></p>
                 <p class="success" id="mvolaSuccess" style="display: none; color: green;"></p>
             </form>

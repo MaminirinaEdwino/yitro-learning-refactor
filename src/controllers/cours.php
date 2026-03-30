@@ -319,7 +319,7 @@ $coursRouter->get("/cours/apprenant/:id", function (int $coursId) {
 
     $cours = $coursRepo->GetById($coursId);
     if (!$cours) {
-        header("Location: espace_apprenant.php");
+        header("Location: /espace/apprenant");
         exit();
     }
     $isEnrolled = $inscriptionrepo->GetEnrolledCours($userId, $coursId);
@@ -345,7 +345,8 @@ $coursRouter->get("/cours/apprenant/:id", function (int $coursId) {
         "completed_quizzes" => $completed_quizzes,
         "quiz" => $quiz,
         "lecons" => $lecons,
-        "modules" => $modules
+        "modules" => $modules,
+        "cours_id"=>$coursId
     ]);
 });
 
