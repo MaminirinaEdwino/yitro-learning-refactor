@@ -14,10 +14,8 @@ class Router
     public function includeRouter(Router $router){
         foreach ($router->routes as $method=>$content) {
             foreach ($router->routes[$method] as $pattern => $action) {
-                // echo $method;
                 $this->routes[$method][$pattern] = $action;
             }
-            // echo $content;
         }
     }   
 
