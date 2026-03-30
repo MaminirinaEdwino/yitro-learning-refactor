@@ -4,6 +4,7 @@ require_once './vendor/PHPMailer/src/Exception.php';
 require_once './vendor/PHPMailer/src/PHPMailer.php';
 require_once './vendor/PHPMailer/src/SMTP.php';
 require_once "./src/utils/authChecker.php";
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -32,7 +33,6 @@ $adminRouter->post("/admin/login", function () {
         $result = $userRepo->GetForAuthAdmin($email);
         if ($result) {
             $user = $result;
-            echo $user["role"];
             if (password_verify($mot_de_passe, $user['mot_de_passe'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_role'] = $user['role'];
@@ -40,6 +40,7 @@ $adminRouter->post("/admin/login", function () {
                 exit();
             } else {
                 $_SESSION['error'] = "Mot de passe incorrect.";
+                header("Location: /admin/login");
             }
         } else {
             $_SESSION['error'] = "Aucun compte administrateur trouvé avec cet email.";
@@ -342,12 +343,12 @@ $adminRouter->get("/admin/progression/apprenant", function () {
             $modules_completes = $completionRepo->GetCompleteModule($apprenant['id'], $cours['cours_id']);
 
             $cours['progression_cours'] = $total_modules > 0 ? round(($modules_completes / $total_modules) * 100) : 0;
-            
+
             $total_quiz = $quizRepo->GetTotalQuiz($cours['cours_id']);
             // Progression des quiz (quiz réussis)
-            
+
             $quiz_reussis = $resultatQuizRepo->GetQuizReussis($apprenant['id'], $cours['cours_id']);
-            
+
 
             $cours['progression_quiz'] = $total_quiz > 0 ? round(($quiz_reussis / $total_quiz) * 100) : 0;
         }
@@ -358,22 +359,22 @@ $adminRouter->get("/admin/progression/apprenant", function () {
     $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], "voir progression", "voir progression apprenant"));
 
     TemplateRender::render("/admin/progressionApprenant.php", [
-        "apprenants"=>$apprenants
+        "apprenants" => $apprenants
     ]);
 });
 
-$adminRouter->get("/espace/certificat", function(){
+$adminRouter->get("/espace/certificat", function () {
     if (!AuthChecker("admin")) {
         header("Location: /admin/login");
     }
     $userRepo = new UtilisateursRepositories();
     $apprenants = $userRepo->GetActiveUser();
     TemplateRender::render("/admin/espacecertificat.php", [
-        "apprenants"=>$apprenants
+        "apprenants" => $apprenants
     ]);
 });
 
-$adminRouter->post("/espace/certificat", function(){
+$adminRouter->post("/espace/certificat", function () {
     if (!AuthChecker("admin")) {
         header("Location: /admin/login");
     }
@@ -382,7 +383,7 @@ $adminRouter->post("/espace/certificat", function(){
     $titre_certificat = trim($_POST['titre_certificat'] ?? 'Certificat de Réussite');
     $date_emission = trim($_POST['date_emission'] ?? date('Y-m-d'));
     $userRepo = new UtilisateursRepositories();
-    $moduleRepo =new ModuleRepositories();
+    $moduleRepo = new ModuleRepositories();
     $completionRepo = new CompletionsRepositories();
     $journalRepo = new JournalActiviteRepositories();
     $admin_id = $_SESSION['user_id'];
@@ -399,7 +400,7 @@ $adminRouter->post("/espace/certificat", function(){
             $message = "Erreur : L'apprenant n'est pas inscrit à ce cours ou le paiement n'est pas validé.";
         } else {
             // Vérifier l'éligibilité (100% des modules complétés)
-            
+
             $total_modules = $moduleRepo->GetTotalModule($cours_id);
 
             $modules_completes = $completionRepo->GetCompleteModule($apprenant_id, $cours_id);
@@ -410,7 +411,7 @@ $adminRouter->post("/espace/certificat", function(){
                 $titre_cours = htmlspecialchars($info['titre'], ENT_QUOTES, 'UTF-8');
                 $titre_certificat = htmlspecialchars($titre_certificat, ENT_QUOTES, 'UTF-8');
                 $filename = "certificat_" . str_replace(' ', '_', $info['nom']) . "_" . str_replace(' ', '_', $info['titre']) . ".pdf";
-                $output_dir ='./Upload/certificats/';
+                $output_dir = './Upload/certificats/';
                 $logo_path = './asset/images/lito.jpg';
                 $signature_path = './asset/images/signature.jpg'; // Chemin de la signature
 
@@ -418,7 +419,7 @@ $adminRouter->post("/espace/certificat", function(){
                 if (!is_dir($output_dir)) {
                     if (!mkdir($output_dir, 0777, true)) {
                         $message = "Erreur : Impossible de créer le dossier certificats.";
-                        
+
                         $journalRepo->Insert(new JournalActivite($admin_id, 'Erreur génération certificat', "Échec création dossier certificats"));
                     }
                 }
@@ -493,7 +494,7 @@ $adminRouter->post("/espace/certificat", function(){
                         $pdf->SetXY(118.5, 15);
                         $pdf->SetFont('times', 'B', 16);
                         $pdf->Cell(0, 10, 'Yitro Learning Logo', 0, 1, 'C');
-                        
+
                         $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Erreur génération certificat', $logo_error));
                     }
 
@@ -566,11 +567,11 @@ $adminRouter->post("/espace/certificat", function(){
                         $pdf->Output($pdf_file, 'F');
                         $download_link = "./Upload/certificats/" . $filename;
                         $message = "Certificat généré pour {$info['nom']} - {$info['titre']}.";
-                        
+
                         $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Génération certificat', "Certificat pour {$info['nom']} - {$info['titre']}"));
                     } catch (Exception $e) {
                         $message = "Erreur : Impossible de sauvegarder le fichier PDF. Détails : " . $e->getMessage();
-                        
+
                         $journalRepo->Insert(new JournalActivite($_SESSION['user_id'], 'Erreur génération certificat', "Échec sauvegarde PDF pour {$info['nom']} - {$info['titre']}: " . $e->getMessage()));
                     }
                 }
@@ -580,13 +581,13 @@ $adminRouter->post("/espace/certificat", function(){
         }
     }
     TemplateRender::render("/admin/espacecertificat.php", [
-        "message"=>$message,
-        "link"=>$download_link,
-        "apprenants"=>$apprenants
+        "message" => $message,
+        "link" => $download_link,
+        "apprenants" => $apprenants
     ]);
 });
 
-$adminRouter->get("/apprenants/cours/:id", function(int $id){
+$adminRouter->get("/apprenants/cours/:id", function (int $id) {
     if (!AuthChecker("admin")) {
         header("Location: /admin/login");
     }

@@ -12,6 +12,7 @@ require_once "./src/repositories/journalActivite.repositories.php";
 require_once "./src/models/journalActivite.php";
 require_once "./src/models/contenu_formation.php";
 require_once "./src/models/formation.php";
+require_once "./src/utils/authChecker.php";
 
 $gestionFormationRouter = new Router();
 
@@ -56,6 +57,9 @@ $gestionFormationRouter->post("/sousformation/new", function () {
 });
 
 $gestionFormationRouter->get("/gestion/formation/:id", function (int $id) {
+    if (!AuthChecker('admin')) {
+        header("Location: /admin/login");
+    }
     $formationRepo = new FormationRepositories();
     $contenuFormationRepo = new ContenueFormationRepositories();
     $contenuFormation = $contenuFormationRepo->GetSousFormationAsJson($id);

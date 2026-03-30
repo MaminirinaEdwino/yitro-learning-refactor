@@ -9,11 +9,17 @@ require_once "./src/repositories/post.repositories.php";
 
 $gestionForumRouter = new Router();
 $gestionForumRouter->get("/gestion/forum", function () {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $forumRepo = new FormationRepositories();
     TemplateRender::render("/admin/gestionForum.php", ["forums" => $forumRepo->GetForGestionForum()]);
 });
 
 $gestionForumRouter->post("/forum/delete/:id", function (int $forum_id) {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $forumRepo = new ForumRepositories();
     $forum = $forumRepo->GetById($forum_id);
     $forumRepo->Delete($forum);
@@ -26,6 +32,9 @@ $gestionForumRouter->post("/forum/delete/:id", function (int $forum_id) {
 });
 
 $gestionForumRouter->post("/forum/edit/", function () {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $forum_id = $_POST["forum_id"];
     $titre = trim($_POST['titre']);
     $description = trim($_POST['description']);
@@ -44,6 +53,9 @@ $gestionForumRouter->post("/forum/edit/", function () {
 
 
 $gestionForumRouter->get("/gestion/forum/message/:id", function (int $forum_id) {
+    if (!AuthChecker("admin")) {
+        header("Location: /admin/login");
+    }
     $forumRepo = new ForumRepositories();
     $forum = $forumRepo->GetFromForumCours($forum_id);
 
