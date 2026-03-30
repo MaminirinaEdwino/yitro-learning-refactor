@@ -53,7 +53,12 @@
                     <button type="submit" class="btn-primary">Se connecter</button>
                 </form>
             </div>
-            <div class="connexion-guide">
+            
+        </div>
+
+        <!-- Formulaire Formateur -->
+        <div class="connexion-card fade-in">
+           <div class="connexion-guide">
                 <h3>Guide pour les Apprenants</h3>
                 <p>Connectez-vous pour accéder à vos cours, suivre votre progression et obtenir vos certificats.</p>
                 <ul>
@@ -61,34 +66,6 @@
                     <li>Si vous avez oublié votre mot de passe, contactez-nous à <a href="mailto:support@yitro-consulting.com">support@yitro-consulting.com</a>.</li>
                     <li>Pas encore inscrit ? <a href="inscription.php">Créez un compte</a>.</li>
                 </ul>
-            </div>
-        </div>
-
-        <!-- Formulaire Formateur -->
-        <div class="connexion-card fade-in">
-            <div class="connexion-form">
-                <h2>Connexion Formateur</h2>
-                <?php
-                if (isset($_SESSION['error'])) {
-                    echo '<p class="error">' . htmlspecialchars($_SESSION['error']) . '</p>';
-                    unset($_SESSION['error']);
-                }
-                if (isset($_SESSION['success'])) {
-                    echo '<p class="success">' . htmlspecialchars($_SESSION['success']) . '</p>';
-                    unset($_SESSION['success']);
-                }
-                ?>
-                <form id="formateurForm" action="connexion-formateur.php" method="POST">
-                    <div class="form-group">
-                        <label for="emailFormateur" class="form-label">Adresse e-mail *</label>
-                        <input type="email" class="form-control" id="emailFormateur" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordFormateur" class="form-label">Mot de passe *</label>
-                        <input type="password" class="form-control" id="passwordFormateur" name="password" minlength="8" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Se connecter</button>
-                </form>
             </div>
             <div class="connexion-guide">
                 <h3>Guide pour les Formateurs</h3>
