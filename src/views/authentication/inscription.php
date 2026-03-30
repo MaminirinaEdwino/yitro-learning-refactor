@@ -34,7 +34,7 @@
                 <i class="fas fa-chalkboard-teacher"></i>
                 <h3>Devenir Formateur</h3>
                 <p>Partagez votre expertise avec des milliers d'apprenants et inspirez la prochaine génération de professionnels.</p>
-                <a href="../page/inscription-formateur.php" class="btn-choice">S'inscrire comme formateur</a>
+                <a href="/signin/postuler" class="btn-choice">S'inscrire comme formateur</a>
             </div>
             <!-- Carte Apprenant -->
             <div class="choice-card fade-in">

@@ -64,7 +64,7 @@
                 <ul>
                     <li>Utilisez l'e-mail et le mot de passe de votre inscription.</li>
                     <li>Si vous avez oublié votre mot de passe, contactez-nous à <a href="mailto:support@yitro-consulting.com">support@yitro-consulting.com</a>.</li>
-                    <li>Pas encore inscrit ? <a href="inscription.php">Créez un compte</a>.</li>
+                    <li>Pas encore inscrit ? <a href="/signin/apprenant">Créez un compte</a>.</li>
                 </ul>
             </div>
             <div class="connexion-guide">
