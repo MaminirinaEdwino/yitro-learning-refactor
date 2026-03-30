@@ -60,7 +60,7 @@ $formateur = $params["formateur"];
                                     $is_audio = in_array(strtolower($lecon->getFormat()), ['audio']);
                                     $is_pdf = in_array(strtolower($lecon->getFormat()), ['pdf']);
                                     
-                                    $filePath = "<?= URL_ROOT ?>Uploads/lecons/" . rawurlencode($lecon->getFichier());
+                                    $filePath = URL_ROOT."Uploads/lecons/" . rawurlencode($lecon->getFichier());
                                    
                                     ?>
                    
