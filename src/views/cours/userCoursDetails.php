@@ -117,7 +117,11 @@ $formateur = $params["formateur"];
                 <?php endforeach; ?>
             <?php endif; ?>
             <?php if (!$can_access): ?>
-                <a href="#" class="btn-enroll" onclick="openPaymentModal()">S'inscrire au cours</a>
+                <?php if ($waiting): ?>
+                    <a href="#" class="btn-enroll" >En attente de validation</a>
+                <?php else: ?>
+                    <a href="#" class="btn-enroll" onclick="openPaymentModal()">S'inscrire au cours</a>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </section>
@@ -140,14 +144,14 @@ $formateur = $params["formateur"];
                 <input type="hidden" name="cours_id" value="<?= $cours->getId() ?>">
                 <div class="form-group">
                     <label for="card-number">Methode de payement</label>
-                    
+
                     <input type="text" name="method_payement" id="" list="choice_list" placeholder="mvola ou virement bancaire">
-                    <datalist id="choice_list" >
+                    <datalist id="choice_list">
                         <option value="Virement bancaire">virement bancaire</option>
                         <option value="Mvola">Mvola</option>
                     </datalist>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="card-holder">Réference du payement</label>
                     <input type="text" id="card-holder" name="references_payement" placeholder="Réference du payement" required>
