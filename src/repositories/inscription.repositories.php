@@ -105,6 +105,14 @@ class InscriptionRepositories
         $is_enrolled = $stmt->fetch(PDO::FETCH_ASSOC) !== false;
         return $is_enrolled;
     }
+
+    public function GetWaitingCours(int $utilisateurId, $coursId): bool
+    {
+        $stmt = $this->database->getConnection()->prepare("SELECT * FROM inscriptions WHERE utilisateur_id = ? AND cours_id = ? AND statut_paiement = 'en_attente'");
+        $stmt->execute([$utilisateurId, $coursId]);
+        $is_enrolled = $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+        return $is_enrolled;
+    }
     public function GetProgressionApprenant(int $id): array
     {
         $stmt = $this->database->getConnection()->prepare("
