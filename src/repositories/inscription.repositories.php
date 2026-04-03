@@ -19,7 +19,9 @@ class InscriptionRepositories
             $var = new Inscription(
                 $donne["utilisateur_id"],
                 $donne["cours_id"],
-                $donne["statut_payement"]
+                $donne["statut_payement"],
+                $donne["references_payement"],
+                $donne["method_payement"]
             );
             $var->setDateInscription($donne['date_inscription']);
             $var->setId($donne["id"]);
@@ -29,12 +31,14 @@ class InscriptionRepositories
 
     public function Insert(Inscription $inscription): int
     {
-        $query = "INSERT INTO inscription (utilisateur_id, cours_id) VALUES(:utilisateur_id, :cours_id)";
+        $query = "INSERT INTO inscription (utilisateur_id, cours_id, references_payement) VALUES(:utilisateur_id, :cours_id, :references_payement, :method_payement)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
             "utilisateur_id" => $inscription->getUtilisateurId(),
-            "cours_id" => $inscription->getCoursId()
+            "cours_id" => $inscription->getCoursId(),
+            "references_payement"=>$inscription->getReferencePayement(),
+            "method_payement"=>$inscription->getMethodPayement()
         ]);
         return $conn->lastInsertId();
     }
