@@ -6,18 +6,35 @@ class Inscription {
     private int $coursId;
     private DateTime $dateInscription;
     private string $statutPayement;
+    private string $reference_payement;
+    private string $method_payement;
 
     public function __construct(
         int $utilisateurId,
         int $coursId, 
-        string $statutPayement
+        string $statutPayement,
+        string $reference_payement,
+        string $method_payement
     )
     {
         $this->utilisateurId = $utilisateurId;
         $this->coursId = $coursId;
         $this->statutPayement = $statutPayement;
+        $this->reference_payement = $reference_payement;
+        $this->method_payement = $method_payement;
     }
-
+    public function getReferencePayement(): string {
+        return $this->reference_payement;
+    }
+    public function setReferencePayement(string $reference_payement){
+        $this->reference_payement = $reference_payement;
+    }
+    public function getMethodPayement(): string {
+        return $this->method_payement;
+    }
+    public function setMethodPayement(string $method_payement){
+        $this->method_payement = $method_payement;
+    }
     public function getId(): int {
         return $this->id;
     }
