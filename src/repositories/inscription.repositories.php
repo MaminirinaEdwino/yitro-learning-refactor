@@ -57,13 +57,13 @@ class InscriptionRepositories
 
     public function GetById(int $id): Inscription
     {
-        $query = "SELECT * FROM inscription WHERE id =:id";
+        $query = "SELECT * FROM inscriptions WHERE id =:id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["id" => $id]);
         $result = [];
         $this->PushArray($stmt, $result);
-        return $result[0];
+        return $this->result[0];
     }
 
     public function GetUserCoursInscription($utilisateur_id, $cours_id){
@@ -74,7 +74,7 @@ class InscriptionRepositories
 
     public function Update(Inscription $inscription)
     {
-        $query = "UPDATE inscription SET utilisateur_id = :utilisateur_id, cours_id = :cours_id, statut_payement = :statut_payement WHERE id = :id";
+        $query = "UPDATE inscriptions SET utilisateur_id = :utilisateur_id, cours_id = :cours_id, statut_paiement = :statut_payement WHERE id = :id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([
@@ -93,7 +93,7 @@ class InscriptionRepositories
 
     public function Delete(Inscription $inscription)
     {
-        $query = "DELETE FROM inscription WHERE id = :id";
+        $query = "DELETE FROM inscriptions WHERE id = :id";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute(["id" => $inscription->getId()]);

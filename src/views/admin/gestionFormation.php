@@ -122,7 +122,7 @@ $inscriptions = $params["inscriptions"];
                                     <td><?= $inscription->getStatutPayement() ?></td>
                                     <td>
                                         <?php if ($inscription->getStatutPayement() == "en_attente"): ?>
-                                            <a href="" class="btn-action btn-edit">Valider</a>
+                                            <a href="/valid/inscription/<?= $inscription->getId() ?>" class="btn-action btn-edit">Valider</a>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

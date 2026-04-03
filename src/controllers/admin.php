@@ -21,6 +21,17 @@ $adminRouter->get("/admin/login", function () {
     TemplateRender::render("/admin/login.php", null);
 });
 
+$adminRouter->get("/valid/inscription/:id", function(int $id){
+    if (!AuthChecker("admin")) {
+        header("Location: /connexion");   
+    }
+    $inscriptionsRepo = new InscriptionRepositories();
+    $inscription = $inscriptionsRepo->GetById($id);
+    $inscription->setStatutPayement("paye");
+    $inscriptionsRepo->Update($inscription);
+    header("Location: /gestion/formation");
+});
+
 $adminRouter->post("/admin/login", function () {
     $userRepo = new UtilisateursRepositories();
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
