@@ -110,8 +110,8 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `cours`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cours` (
-  `id` int NOT NULL AUTO_INCREMENT,
+ `cours` (
+  `id` int NCREATE TABLEOT NULL AUTO_INCREMENT,
   `formateur_id` int NOT NULL,
   `formation_id` int NOT NULL,
   `contenu_formation_id` int NOT NULL,
