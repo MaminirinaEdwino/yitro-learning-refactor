@@ -15,15 +15,16 @@ class InscriptionRepositories
 
     private function PushArray($stmt, $result)
     {
+        $this->result = [];
         while ($donne = $stmt->fetch()) {
             $var = new Inscription(
                 $donne["utilisateur_id"],
                 $donne["cours_id"],
-                $donne["statut_payement"],
+                $donne["statut_paiement"],
                 $donne["references_payement"],
                 $donne["method_payement"]
             );
-            $var->setDateInscription($donne['date_inscription']);
+            $var->setDateInscription(new DateTime($donne['date_inscription']));
             $var->setId($donne["id"]);
             array_push($this->result, $var);
         }
@@ -45,13 +46,13 @@ class InscriptionRepositories
 
     public function GetAll(): array
     {
-        $query = "SELECT * FROM inscription";
+        $query = "SELECT * FROM inscriptions ORDER BY date_inscription DESC";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $result = [];
         $this->PushArray($stmt, $result);
-        return $result;
+        return $this->result;
     }
 
     public function GetById(int $id): Inscription

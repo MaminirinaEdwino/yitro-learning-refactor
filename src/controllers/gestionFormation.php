@@ -19,13 +19,15 @@ $gestionFormationRouter = new Router();
 $gestionFormationRouter->get("/gestion/formation", function () {
     $formationRepo = new FormationRepositories();
     $contenuFormationRepo = new ContenueFormationRepositories();
-
+    $inscriptionRepo = new InscriptionRepositories();
     $formations = $formationRepo->GetAllByNom();
     $contenuFormation = $contenuFormationRepo->GetSousFormation();
+    $inscription = $inscriptionRepo->GetAll();
 
     TemplateRender::render("/admin/gestionFormation.php", [
         "formations" => $formations,
-        "sous_formations" => $contenuFormation
+        "sous_formations" => $contenuFormation,
+        "inscriptions"=>$inscription
     ]);
 });
 

@@ -5,7 +5,7 @@
             <a href="/espace/apprenant" class="logo-text">SK Yitro Learning</a>
         </div>
         <ul class="nav-list">
-            <li><a href="/formation/catalogue">Catalogues</a></li>
+            <!-- <li><a href="/formation/catalogue">Catalogues</a></li> -->
             <li><a href="/espace/apprenant/progression">Ma progression</a></li>
             <li><a href="/espace/apprenant/cours">Mes Cours</a></li>
 
