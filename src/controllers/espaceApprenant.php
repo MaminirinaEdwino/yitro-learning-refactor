@@ -48,7 +48,7 @@ $espaceApprenantRouter->get("/espace/apprenant/cours", function () {
 
 $espaceApprenantRouter->post("/enroll/cours", function () {
     $inscriptionRepo = new InscriptionRepositories();
-    header('Content-Type: application/json');
+    // header('Content-Type: application/json');
     $utilisateur_id = $_SESSION['user_id'];
     $cours_id = $_POST['cours_id'] ?? null;
     $reference = $_POST['references_payement'];
@@ -62,6 +62,7 @@ $espaceApprenantRouter->post("/enroll/cours", function () {
     }
 
     $inscriptionRepo->Insert(new Inscription($utilisateur_id, $cours_id, "en_attente", $reference, $method));
-    echo json_encode(['success' => true, 'message' => 'Inscription réussie !']);
+    // echo json_encode(['success' => true, 'message' => 'Inscription réussie !']);
+    header("Location: /cours/apprenant/".$cours_id);
 });
 

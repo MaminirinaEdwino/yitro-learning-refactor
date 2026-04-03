@@ -38,6 +38,7 @@ document.getElementById('mvolaBtn').addEventListener('click', function () {
 });
 
 // Ancien code pour la validation et l'envoi du formulaire de carte bancaire
+/*
 document.getElementById('paymentFormCard')?.addEventListener('submit', function (e) {
     e.preventDefault();
     const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
@@ -132,6 +133,7 @@ document.getElementById('paymentFormMvola')?.addEventListener('submit', function
             console.error('Erreur:', error);
         });
 });
+*/
 
 // Ancien code pour le formatage du numéro de carte
 document.getElementById('card-number')?.addEventListener('input', function (e) {

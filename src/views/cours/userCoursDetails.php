@@ -14,6 +14,7 @@ $formateur = $params["formateur"];
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +24,9 @@ $formateur = $params["formateur"];
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= URL_ROOT ?>asset/css/userCoursDetails.css">
 </head>
+
 <body>
-    <?php require_once './src/components/headerapprenant.php'?>
+    <?php require_once './src/components/headerapprenant.php' ?>
 
     <section class="course-details<?php echo $can_access ? ' course-free' : ''; ?>">
         <div class="container">
@@ -42,7 +44,7 @@ $formateur = $params["formateur"];
                         <p class="formateur">Formateur : <?php echo htmlspecialchars($formateur->getNomPrenom()); ?></p>
                     <?php endif; ?>
                 </div>
-            </div>  
+            </div>
             <h2>Modules et Leçons</h2>
             <?php if (empty($modules)): ?>
                 <p>Aucun module disponible pour ce cours.</p>
@@ -59,11 +61,11 @@ $formateur = $params["formateur"];
                                     $is_video = in_array(strtolower($lecon->getFormat()), ['video']);
                                     $is_audio = in_array(strtolower($lecon->getFormat()), ['audio']);
                                     $is_pdf = in_array(strtolower($lecon->getFormat()), ['pdf']);
-                                    
-                                    $filePath = URL_ROOT."Uploads/lecons/" . rawurlencode($lecon->getFichier());
-                                   
+
+                                    $filePath = URL_ROOT . "Uploads/lecons/" . rawurlencode($lecon->getFichier());
+
                                     ?>
-                   
+
                                     <div class="lesson-content">
                                         <?php if ($is_video): ?>
                                             <video controls width="600">
@@ -123,41 +125,38 @@ $formateur = $params["formateur"];
         <div class="modal-content">
             <span class="close" onclick="closePaymentModal()">×</span>
             <h3><i class="fas fa-credit-card"></i> Paiement du cours</h3>
-            
-            <div class="payment-options" style="display: flex; gap: 10px; margin-bottom: 20px;">
+
+            <!-- <div class="payment-options" style="display: flex; gap: 10px; margin-bottom: 20px;">
                 <button type="button" class="payment-btn active" id="cardBtn" style="border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; background-color: #9b8227; color: white;">
                     <i class="fas fa-credit-card"></i> Carte bancaire
                 </button>
                 <button type="button" class="payment-btn" id="mvolaBtn" style="border: 1px solid #9b8227; padding: 10px 20px; border-radius: 8px; cursor: pointer; background-color: white; color: #9b8227;">
                     <i class="fas fa-mobile-alt"></i> Mobile Money Mvola
                 </button>
-            </div>
+            </div> -->
 
-            <form id="paymentFormCard" class="payment-form">
+            <form id="paymentFormCard" class="payment-form" action="/enroll/cours" method="post">
+                <input type="hidden" name="cours_id" value="<?= $cours->getId() ?>">
                 <div class="form-group">
-                    <label for="card-number"><i class="fas fa-credit-card"></i> Numéro de carte</label>
-                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    <label for="card-number">Methode de payement</label>
+                    
+                    <input type="text" name="method_payement" id="" list="choice_list" placeholder="mvola ou virement bancaire">
+                    <datalist id="choice_list" >
+                        <option value="Virement bancaire">virement bancaire</option>
+                        <option value="Mvola">Mvola</option>
+                    </datalist>
                 </div>
-                <div class="card-details">
-                    <div class="form-group">
-                        <label for="expiry-date"><i class="fas fa-calendar"></i> Date d'expiration</label>
-                        <input type="text" id="expiry-date" placeholder="MM/AA" maxlength="5" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cvv"><i class="fas fa-lock"></i> CVV</label>
-                        <input type="text" id="cvv" placeholder="123" maxlength="4" required>
-                    </div>
-                </div>
+                
                 <div class="form-group">
-                    <label for="card-holder"><i class="fas fa-user"></i> Nom du titulaire</label>
-                    <input type="text" id="card-holder" name="card-holder" placeholder="Nom du titulaire" required>
+                    <label for="card-holder">Réference du payement</label>
+                    <input type="text" id="card-holder" name="references_payement" placeholder="Réference du payement" required>
                 </div>
                 <button type="submit">Payer <?php echo number_format($cours->getPrix(), 2); ?> €</button>
                 <p class="error" id="cardError" style="display: none; color: red;"></p>
                 <p class="success" id="cardSuccess" style="display: none; color: green;"></p>
             </form>
 
-            <form id="paymentFormMvola" class="payment-form" style="display: none;">
+            <!-- <form id="paymentFormMvola" class="payment-form" style="display: none;">
                 <div class="form-group">
                     <label for="mvola-number"><i class="fas fa-mobile-alt"></i> Numéro Mobile Money Mvola</label>
                     <input type="text" id="mvola-number" name="mvola_number" placeholder="26134..." required>
@@ -167,13 +166,14 @@ $formateur = $params["formateur"];
                 <button type="submit">Payer <?php echo number_format($cours->getPrix(), 2); ?> €</button>
                 <p class="error" id="mvolaError" style="display: none; color: red;"></p>
                 <p class="success" id="mvolaSuccess" style="display: none; color: green;"></p>
-            </form>
-            
-        </div>
-    </div>   
+            </form> -->
 
-    <?php require_once './src/components/footer.php'?>
+        </div>
+    </div>
+
+    <?php require_once './src/components/footer.php' ?>
 
     <script src="<?= URL_ROOT ?>asset/js/userCoursDetails.js"></script>
 </body>
+
 </html>

@@ -31,7 +31,7 @@ class InscriptionRepositories
 
     public function Insert(Inscription $inscription): int
     {
-        $query = "INSERT INTO inscription (utilisateur_id, cours_id, references_payement) VALUES(:utilisateur_id, :cours_id, :references_payement, :method_payement)";
+        $query = "INSERT INTO inscriptions (utilisateur_id, cours_id, references_payement, method_payement) VALUES(:utilisateur_id, :cours_id, :references_payement, :method_payement)";
         $conn = $this->database->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([

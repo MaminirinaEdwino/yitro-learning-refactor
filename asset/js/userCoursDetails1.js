@@ -10,6 +10,7 @@ function closePaymentModal() {
 }
 
 // Gestion du formulaire de paiement
+/*
 document.getElementById('paymentForm')?.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -102,7 +103,7 @@ document.getElementById('paymentForm')?.addEventListener('submit', function (e) 
             errorMessage.textContent = 'Une erreur de connexion est survenue. Veuillez réessayer.';
             errorMessage.style.display = 'block';
         });
-});
+});*/
 
 // Formatage du numéro de carte
 document.getElementById('card-number')?.addEventListener('input', function (e) {
