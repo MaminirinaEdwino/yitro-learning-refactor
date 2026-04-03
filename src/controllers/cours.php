@@ -323,6 +323,7 @@ $coursRouter->get("/cours/apprenant/:id", function (int $coursId) {
         exit();
     }
     $isEnrolled = $inscriptionrepo->GetEnrolledCours($userId, $coursId);
+    $isWaiting = $inscriptionrepo->GetWaitingCours($userId, $coursId);
     $formateur = $formateurRepo->GetById($cours->getIdFormateur());
     $modules = $moduleRepo->GetByCoursId($cours->getId());
     $completedModule = $completionRepo->GetByCoursUserId($coursId, $userId);
@@ -338,6 +339,7 @@ $coursRouter->get("/cours/apprenant/:id", function (int $coursId) {
     $can_access = $is_free || $isEnrolled;
     TemplateRender::render("/cours/userCoursDetails.php", [
         "is_free" => $is_free,
+        "waiting" =>$isWaiting,
         "can_access" => $can_access,
         "cours" => $cours,
         "formateur" => $formateur,

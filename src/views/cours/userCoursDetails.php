@@ -9,6 +9,7 @@ $quiz = $params["quiz"];
 $completed_quizzes = $params["completed_quizzes"];
 $is_free = $params["is_free"];
 $can_access = $params["can_access"];
+$waiting = $params["waiting"];
 $formateur = $params["formateur"];
 ?>
 
